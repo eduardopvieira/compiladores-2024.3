@@ -2,13 +2,13 @@ import re
 
 #codigo manual:
 def codManual():
-    codigo_manual = "EquivalentTo: Person and (purchasedPizza some Pizza) and"
-    result = lexer(codigo_manual);
+    codigo_manual = "and (hasCaloricContent some xsd:integer[>= 400])"
+    result = lexer(codigo_manual)
     print(result)
 
 #Ler arquivo:
-
 def lerArquivo():
+
     arquivo = open('codigo.txt', 'r')
     codigo = arquivo.readlines()
 
@@ -23,10 +23,10 @@ TOKENS = [
     ("NOME_INDIVIDUO", r"([A-Z][a-z]+)+[0-9]"), # Eduardo1, MikaelJohnatan2
     ("PALAVRA_RESERVADA", r"([A-Z][a-z]+)+:"), #EquivalentTo: e palavras com :' 
     ("CLASSE", r"([A-Z][a-z]+[_]?)+"), # Pizza, Pizza_Margherita, PizzaMargherita, Pizza_Margherita_
+    ("TIPO_DE_DADO", r"[a-z]+:[a-z]+([A-z][a-z]+)*"), #owl:algo
     ("PROPRIEDADE", r"has([A-Z][a-z]+)+|is([A-Z][a-z]+)+Of|[a-z]+"), # hasAbcDe, isAbcDeOf, abc
-    ("TIPO_DE_DADO", r"[a-z]+: ?[a-z]+"), #owl: algo
     ("ESPACO_BRANCO", r"\s"),
-    ("CARACTERE_ESPECIAL", r"[ \[ \] { } ( ) , < > ] ="), #[ , ], (), ><
+    ("CARACTERE_ESPECIAL", r"[{}\[\]()<>.,=]{1,2}")
 
 ]
 
@@ -45,7 +45,7 @@ def lexer(input):
                 input = input[len(lexema):]  # vai avançando o codigo
                 break
         if not match:            
-            print("deu ruim")
+            print("erro em '{input:10}'")
             break
     return tokens
 

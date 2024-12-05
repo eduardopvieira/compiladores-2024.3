@@ -1,5 +1,23 @@
 import re
 
+#codigo manual:
+def codManual():
+    codigo_manual = "EquivalentTo: Person and (purchasedPizza some Pizza) and"
+    result = lexer(codigo_manual);
+    print(result)
+
+#Ler arquivo:
+
+def lerArquivo():
+    arquivo = open('codigo.txt', 'r')
+    codigo = arquivo.readlines()
+
+    for linha in codigo:
+        result = lexer(linha)
+        print(result)
+
+    arquivo.close()
+
 TOKENS = [
 
     ("NOME_INDIVIDUO", r"([A-Z][a-z]+)+[0-9]"), # Eduardo1, MikaelJohnatan2
@@ -8,7 +26,7 @@ TOKENS = [
     ("PROPRIEDADE", r"has([A-Z][a-z]+)+|is([A-Z][a-z]+)+Of|[a-z]+"), # hasAbcDe, isAbcDeOf, abc
     ("TIPO_DE_DADO", r"[a-z]+: ?[a-z]+"), #owl: algo
     ("ESPACO_BRANCO", r"\s"),
-    ("CARACTERE_ESPECIAL", r"[ \[ \] { } ( ) , < > ]"), #[ , ], (), ><
+    ("CARACTERE_ESPECIAL", r"[ \[ \] { } ( ) , < > ] ="), #[ , ], (), ><
 
 ]
 
@@ -26,16 +44,10 @@ def lexer(input):
                     tokens.append((token_nome, lexema))
                 input = input[len(lexema):]  # vai avançando o codigo
                 break
-        if not match:
-            
+        if not match:            
             print("deu ruim")
-            #raise SyntaxError(f"Token inválido: '{input_code[0]}' em '{input_code}'")
             break
     return tokens
 
-# USAR:
-#arquivo = open('codigo.txt')
-#codigo = arquivo.read
-code = "EquivalentTo: Person and (purchasedPizza some Pizza) and"
-result = lexer(code)
-print(result)
+
+codManual()

@@ -2,14 +2,11 @@ import re
 from tabela_de_simbolos import TabelaDeSimbolos
 
 #Ler cod manual (fins de debug):
-# def codManual():
-#     tabela = TabelaDeSimbolos()
-#     codigo_manual = "EquivalentTo: Person and (purchasedPizza some Pizza) and Person"
-#     result = lexer(codigo_manual, tabela)
-#     print(result)
-#     tabela.registrarResultado()
-
-
+def codManual(codigo_manual: str):
+    tabela = TabelaDeSimbolos()
+    lexer(codigo_manual, tabela)
+    tabela.registrarResultado()
+    tabela.visualizarDados()
     
 #Ler arquivo:
 def lerArquivo():
@@ -28,7 +25,7 @@ TOKENS = [
     ("CLASSE", r"([A-Z][a-z]+[_]?)+"),                      # Pizza, Pizza_Margherita, PizzaMargherita
     ("NAMESPACE", r"[a-z]{3,4}:"),
     ("TIPO", r"integer|real|short|token|long|float|double|char|boolean|byte|void|string"),  # tipos de dados
-    ("PROPRIEDADE", r"has([A-Z][a-z]+)+|is([A-Z][a-z]+)+Of|[a-z]+|[a-z]([A-z][a-z]+)*"),  # hasAbcDe, isAbcDeOf, abc, abCdeFgh,  # hasAbcDe, isAbcDeOf, abc
+    ("PROPRIEDADE", r"has([A-Z][a-z]+)+|is([A-Z][a-z]+)+Of|[a-z]+([A-z][a-z]+)*"),  # hasAbcDe, isAbcDeOf, abc, abCdeFgh,  # hasAbcDe, isAbcDeOf, abc
     ("ESPACO_BRANCO", r"\s"),                               # espaços em branco
     ("CARACTERE_ESPECIAL", r"[{}\[\]().,\"']|[<>=\"]{1,2}"),    # caracteres especiais
     ("CARDINALIDADE", r"[0-9]+")                            # numeros
@@ -52,4 +49,4 @@ def lexer(input, tabela: TabelaDeSimbolos):
             break
 
 lerArquivo()
-#codManual()
+#codManual("xsd:integer some Pizza")

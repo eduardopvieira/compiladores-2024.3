@@ -19,14 +19,14 @@ def lerArquivo():
     tabela.registrarResultado()
 
 TOKENS = [
-    ("NOME_INDIVIDUO", r"([A-Z][a-z]+)+[0-9]+"),  # Eduardo1, MikaelJohnatan2
-    ("PALAVRA_RESERVADA", r"([A-Z][a-z]+)+:"),   # EquivalentTo: e palavras com :
-    ("CLASSE", r"([A-Z][a-z]+[_]?)+"),           # Pizza, Pizza_Margherita, PizzaMargherita
-    ("TIPO_DE_DADO", r"[a-z]+:[a-z]+([A-Z][a-z]+)*"),  # owl:algo
+    ("NOME_INDIVIDUO", r"([A-Z][a-z]+)+[0-9]+"),        # Eduardo1, MikaelJohnatan2
+    ("PALAVRA_RESERVADA", r"([A-Z][a-z]+)+:"),          # EquivalentTo: e palavras com :
+    ("CLASSE", r"([A-Z][a-z]+[_]?)+"),                  # Pizza, Pizza_Margherita, PizzaMargherita
+    ("TIPO_DE_DADO", r"[a-z]+:[a-z]+([A-Z][a-z]+)*"),   # owl:algo
     ("PROPRIEDADE", r"has([A-Z][a-z]+)+|is([A-Z][a-z]+)+Of|[a-z]+"),  # hasAbcDe, isAbcDeOf, abc
-    ("ESPACO_BRANCO", r"\s"),                    # espaços em branco
-    ("CARACTERE_ESPECIAL", r"[{}\[\]()<>.,=]{1,2}"),  # caracteres especiais
-    ("CARDINALIDADE", r"[0-9]+")
+    ("ESPACO_BRANCO", r"\s"),                           # espaços em branco
+    ("CARACTERE_ESPECIAL", r"[{}\[\]()<>.,=]{1,2}"),    # caracteres especiais
+    ("CARDINALIDADE", r"[0-9]+")                        # numeros
 ]
 
 

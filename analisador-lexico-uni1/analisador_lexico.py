@@ -20,16 +20,19 @@ def lerArquivo():
     for linha in codigo:
         lexer(linha, tabela)
     tabela.registrarResultado()
+    tabela.visualizarDados()
 
 TOKENS = [
     ("NOME_INDIVIDUO", r"([A-Z][a-z]+)+[0-9]+"),            # Eduardo1, MikaelJohnatan2
     ("PALAVRA_RESERVADA", r"([A-Z][a-z]+)+:|some|all|value|min|exactly|that|max|not|and|or"), # EquivalentTo:, palavras com : e palavras reservadas
     ("CLASSE", r"([A-Z][a-z]+[_]?)+"),                      # Pizza, Pizza_Margherita, PizzaMargherita
-    ("TIPO_DE_DADO", r"[a-z]+:[a-z]+([A-Z][a-z]+)*"),       # owl:alguma coisa...
-    ("PROPRIEDADE", r"has([A-Z][a-z]+)+|is([A-Z][a-z]+)+Of|[a-z]+|[a-z]([A-z][a-z]+)+"),  # hasAbcDe, isAbcDeOf, abc, abCdeFgh,  # hasAbcDe, isAbcDeOf, abc
+    ("NAMESPACE", r"[a-z]{3,4}:"),
+    ("TIPO", r"integer|real|short|token|long|float|double|char|boolean|byte|void|string"),  # tipos de dados
+    ("PROPRIEDADE", r"has([A-Z][a-z]+)+|is([A-Z][a-z]+)+Of|[a-z]+|[a-z]([A-z][a-z]+)*"),  # hasAbcDe, isAbcDeOf, abc, abCdeFgh,  # hasAbcDe, isAbcDeOf, abc
     ("ESPACO_BRANCO", r"\s"),                               # espaços em branco
     ("CARACTERE_ESPECIAL", r"[{}\[\]().,\"']|[<>=\"]{1,2}"),    # caracteres especiais
     ("CARDINALIDADE", r"[0-9]+")                            # numeros
+    #("TIPO_DE_DADO", r"[a-z]{3,4}:[a-z]+([A-Z][a-z]+)*"),       # owl:alguma coisa...
 ]
 
 def lexer(input, tabela: TabelaDeSimbolos):

@@ -14,14 +14,27 @@ class TabelaDeSimbolos:
 
     def adicionar_simbolo(self, identificador, tipo):
         if identificador in self.tabela:
-            # Incrementa a quantidade se já existir
             tipo_existente, quantidade = self.tabela[identificador]
             self.tabela[identificador] = (tipo_existente, quantidade + 1)
         else:
-            # Cria a entrada com quantidade inicial de 1
             self.tabela[identificador] = (tipo, 1)
 
     def registrarResultado(self, nome_arquivo='resultado_analise.txt'):
         with open(nome_arquivo, 'w') as arquivo:
             for identificador, (tipo, quantidade) in self.tabela.items():
                 arquivo.write(f"['{identificador}' : '{tipo}', quantidade: {quantidade}]\n")
+
+    def visualizarDados(self, nome_arquivo='visualizacao_dados.txt'):
+        with open(nome_arquivo, 'w') as arquivo:
+            arquivo.write(f"\nCLASSES:\n")
+            for identificador, (tipo, quantidade) in self.tabela.items():
+                if tipo == "CLASSE":
+                    arquivo.write(f"['{identificador}' : , quantidade: {quantidade}]\n")
+            arquivo.write(f"\nINDIVIDUOS:\n")
+            for identificador, (tipo, quantidade) in self.tabela.items():
+                if tipo == "NOME_INDIVIDUO":
+                    arquivo.write(f"['{identificador}' : , quantidade: {quantidade}]\n")
+            arquivo.write(f"\nPROPRIEDADES:\n")
+            for identificador, (tipo, quantidade) in self.tabela.items():
+                if tipo == "PROPRIEDADE":
+                    arquivo.write(f"['{identificador}' : , quantidade: {quantidade}]\n")

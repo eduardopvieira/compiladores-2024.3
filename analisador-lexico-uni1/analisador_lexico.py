@@ -2,12 +2,15 @@ import re
 from tabela_de_simbolos import TabelaDeSimbolos
 
 #Ler cod manual (fins de debug):
-def codManual():
-    tabela = TabelaDeSimbolos()
-    codigo_manual = "EquivalentTo: Person and (purchasedPizza some Pizza) and Person"
-    result = lexer(codigo_manual, tabela)
-    print(result)
-    tabela.registrarResultado()
+# def codManual():
+#     tabela = TabelaDeSimbolos()
+#     codigo_manual = "EquivalentTo: Person and (purchasedPizza some Pizza) and Person"
+#     result = lexer(codigo_manual, tabela)
+#     print(result)
+#     tabela.registrarResultado()
+
+
+    
 #Ler arquivo:
 def lerArquivo():
     tabela = TabelaDeSimbolos()
@@ -19,16 +22,15 @@ def lerArquivo():
     tabela.registrarResultado()
 
 TOKENS = [
-    ("NOME_INDIVIDUO", r"([A-Z][a-z]+)+[0-9]+"),        # Eduardo1, MikaelJohnatan2
-    ("PALAVRA_RESERVADA", r"([A-Z][a-z]+)+:"),          # EquivalentTo: e palavras com :
-    ("CLASSE", r"([A-Z][a-z]+[_]?)+"),                  # Pizza, Pizza_Margherita, PizzaMargherita
-    ("TIPO_DE_DADO", r"[a-z]+:[a-z]+([A-Z][a-z]+)*"),   # owl:algo
-    ("PROPRIEDADE", r"has([A-Z][a-z]+)+|is([A-Z][a-z]+)+Of|[a-z]+"),  # hasAbcDe, isAbcDeOf, abc
-    ("ESPACO_BRANCO", r"\s"),                           # espaços em branco
-    ("CARACTERE_ESPECIAL", r"[{}\[\]()<>.,=]{1,2}"),    # caracteres especiais
-    ("CARDINALIDADE", r"[0-9]+")                        # numeros
+    ("NOME_INDIVIDUO", r"([A-Z][a-z]+)+[0-9]+"),            # Eduardo1, MikaelJohnatan2
+    ("PALAVRA_RESERVADA", r"([A-Z][a-z]+)+:|some|all|value|min|exactly|that|max|not|and|or"), # EquivalentTo:, palavras com : e palavras reservadas
+    ("CLASSE", r"([A-Z][a-z]+[_]?)+"),                      # Pizza, Pizza_Margherita, PizzaMargherita
+    ("TIPO_DE_DADO", r"[a-z]+:[a-z]+([A-Z][a-z]+)*"),       # owl:alguma coisa...
+    ("PROPRIEDADE", r"has([A-Z][a-z]+)+|is([A-Z][a-z]+)+Of|[a-z]+|[a-z]([A-z][a-z]+)+"),  # hasAbcDe, isAbcDeOf, abc, abCdeFgh,  # hasAbcDe, isAbcDeOf, abc
+    ("ESPACO_BRANCO", r"\s"),                               # espaços em branco
+    ("CARACTERE_ESPECIAL", r"[{}\[\]().,\"']|[<>=\"]{1,2}"),    # caracteres especiais
+    ("CARDINALIDADE", r"[0-9]+")                            # numeros
 ]
-
 
 def lexer(input, tabela: TabelaDeSimbolos):
     while input:
@@ -45,7 +47,6 @@ def lexer(input, tabela: TabelaDeSimbolos):
         if not match:
             print(f"Erro léxico: token não reconhecido perto de '{input[:10]}'")
             break
-    tabela.printarTabela()
 
 lerArquivo()
 #codManual()

@@ -15,7 +15,6 @@ def lerArquivo():
         codigo = arquivo.readlines()
 
     for linha in codigo:
-        contador += 1
         lexer(linha, tabela)
     tabela.registrarResultado()
 
@@ -48,5 +47,5 @@ def lexer(input, tabela: TabelaDeSimbolos):
             break
     tabela.printarTabela()
 
-#lerArquivo()
-codManual()
+lerArquivo()
+#codManual()

@@ -27,14 +27,24 @@ class TabelaDeSimbolos:
     def visualizarDados(self, nome_arquivo='visualizacao_dados.txt'):
         with open(nome_arquivo, 'w') as arquivo:
             arquivo.write(f"\nCLASSES:\n")
+            total = 0
             for identificador, (tipo, quantidade) in self.tabela.items():
                 if tipo == "CLASSE":
                     arquivo.write(f"['{identificador}' : , quantidade: {quantidade}]\n")
+                    total += quantidade
+            arquivo.write(f"\nTOTAL DE CLASSES: {total}\n")
+            total = 0        
             arquivo.write(f"\nINDIVIDUOS:\n")
             for identificador, (tipo, quantidade) in self.tabela.items():
                 if tipo == "NOME_INDIVIDUO":
                     arquivo.write(f"['{identificador}' : , quantidade: {quantidade}]\n")
+                    total += quantidade
+            arquivo.write(f"\nTOTAL DE INDIVIDUOS: {total}\n")
+            total = 0      
             arquivo.write(f"\nPROPRIEDADES:\n")
             for identificador, (tipo, quantidade) in self.tabela.items():
                 if tipo == "PROPRIEDADE":
                     arquivo.write(f"['{identificador}' : , quantidade: {quantidade}]\n")
+                    total += quantidade
+            arquivo.write(f"\nTOTAL DE PROPRIEDADES: {total}\n")
+            total = 0      

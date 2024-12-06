@@ -25,4 +25,3 @@ class TabelaDeSimbolos:
         with open(nome_arquivo, 'w') as arquivo:
             for identificador, (tipo, quantidade) in self.tabela.items():
                 arquivo.write(f"['{identificador}' : '{tipo}', quantidade: {quantidade}]\n")
-                print('registrado com sucesso')

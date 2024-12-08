@@ -3,10 +3,9 @@ from tabela_de_simbolos import TabelaDeSimbolos
 
 #Ler cod manual (fins de debug):
 def codManual(codigo_manual: str):
-    tabela = TabelaDeSimbolos()
-    lexer(codigo_manual, tabela)
-    tabela.registrarResultado()
-    tabela.visualizarDados()
+    tabela_manual = TabelaDeSimbolos()
+    lexer(codigo_manual, tabela_manual)
+    tabela_manual.printarTabela()
     
 #Ler arquivo:
 def lerArquivo():
@@ -23,13 +22,12 @@ TOKENS = [
     ("NOME_INDIVIDUO", r"([A-Z][a-z]+)+[0-9]+"),            # Eduardo1, MikaelJohnatan2
     ("PALAVRA_RESERVADA", r"([A-Z][a-z]+)+:|some|all|value|min|exactly|that|max|not|and|or"), # EquivalentTo:, palavras com : e palavras reservadas
     ("CLASSE", r"([A-Z][a-z]+[_]?)+"),                      # Pizza, Pizza_Margherita, PizzaMargherita
-    ("NAMESPACE", r"[a-z]{3,4}:"),
+    ("NAMESPACE", r"[a-z]{3,4}:"),                          # rdf:, owl:, rdfs:
     ("TIPO", r"integer|real|short|token|long|float|double|char|boolean|byte|void|string"),  # tipos de dados
     ("PROPRIEDADE", r"has([A-Z][a-z]+)+|is([A-Z][a-z]+)+Of|[a-z]+([A-z][a-z]+)*"),  # hasAbcDe, isAbcDeOf, abc, abCdeFgh,  # hasAbcDe, isAbcDeOf, abc
     ("ESPACO_BRANCO", r"\s"),                               # espaços em branco
     ("CARACTERE_ESPECIAL", r"[{}\[\]().,\"']|[<>=\"]{1,2}"),    # caracteres especiais
     ("CARDINALIDADE", r"[0-9]+")                            # numeros
-    #("TIPO_DE_DADO", r"[a-z]{3,4}:[a-z]+([A-Z][a-z]+)*"),       # owl:alguma coisa...
 ]
 
 def lexer(input, tabela: TabelaDeSimbolos):
@@ -48,5 +46,7 @@ def lexer(input, tabela: TabelaDeSimbolos):
             print(f"Erro léxico: token não reconhecido perto de '{input[:10]}'")
             break
 
+#Chamada de funções: (descomentar a que deseja usar)
+
 lerArquivo()
-#codManual("xsd:integer some Pizza")
+#codManual("Class:teste1 Class:teste2 Class:teste3")

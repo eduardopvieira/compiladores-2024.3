@@ -1,13 +1,13 @@
 import re
 from tabela_de_simbolos import TabelaDeSimbolos
 
-#Ler cod manual (fins de debug):
+#Ler cod manualmente (fins de debug):
 def codManual(codigo_manual: str):
     tabela_manual = TabelaDeSimbolos()
     lexer(codigo_manual, tabela_manual)
     tabela_manual.printarTabela()
     
-#Ler arquivo:
+#Ler arquivo de codigo:
 def lerArquivo():
     tabela = TabelaDeSimbolos()
     with open('codigo.txt', 'r') as arquivo:
@@ -23,7 +23,7 @@ TOKENS = [
     ("PALAVRA_RESERVADA", r"([A-Z][a-z]+)+:|some|all|value|min|exactly|that|max|not|and|or"), # EquivalentTo:, palavras com : e palavras reservadas
     ("CLASSE", r"([A-Z][a-z]+[_]?)+"),                      # Pizza, Pizza_Margherita, PizzaMargherita
     ("NAMESPACE", r"[a-z]{3,4}:"),                          # rdf:, owl:, rdfs:
-    ("TIPO", r"integer|real|short|token|long|float|double|char|boolean|byte|void|string"),  # tipos de dados
+    ("TIPO", r"rational|real|langString|PlainLiteral|XMLLiteral|Literal|anyURI|base64Binary|boolean|byte|dateTime|dateTimeStamp|decimal|double|float|hexBinary|int|integer|language|long|Name|NCName|negativeInteger|NMTOKEN|nonNegativeInteger|nonPositiveInteger|normalizedString|positiveInteger|short|string|token|unsignedByte|unsignedInt|unsignedLong|unsignedShort"),  # tipos de dados
     ("PROPRIEDADE", r"has([A-Z][a-z]+)+|is([A-Z][a-z]+)+Of|[a-z]+([A-z][a-z]+)*"),  # hasAbcDe, isAbcDeOf, abc, abCdeFgh,  # hasAbcDe, isAbcDeOf, abc
     ("ESPACO_BRANCO", r"\s"),                               # espaços em branco
     ("CARACTERE_ESPECIAL", r"[{}\[\]().,\"']|[<>=\"]{1,2}"),    # caracteres especiais

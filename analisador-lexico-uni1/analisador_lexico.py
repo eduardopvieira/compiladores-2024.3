@@ -55,6 +55,7 @@ def main():
     opcao = input()
     if opcao == "1":
         lerArquivo()
+        print("Resultado salvo nos arquivos 'resultado_analise.txt e 'visualizacao_dados.txt'")
     elif opcao == "2":
         print("Digite o código:")
         codigo = input()

@@ -30,6 +30,7 @@ TOKENS = [
     ("CARDINALIDADE", r"[0-9]+")                            # numeros
 ]
 
+#Função principal
 def lexer(input, tabela: TabelaDeSimbolos):
     while input:
         match = None
@@ -46,7 +47,7 @@ def lexer(input, tabela: TabelaDeSimbolos):
             print(f"Erro léxico: token não reconhecido perto de '{input[:10]}'")
             break
 
-
+#main com interface
 def main():
     print("Escolha uma opção:")
     print("1 - Ler código do arquivo 'codigo.txt'")

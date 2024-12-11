@@ -4,6 +4,7 @@ class TabelaDeSimbolos:
         self.tabela = {}  # <-- DICIONARIO ONDE É GUARDADO O IDENTIFICADOR E O TIPO
         self.prev = prev  # <-- PONTEIRO PARA A TABELA ANTERIOR (nenhuma no momento)
 
+    #apenas printando a tabela para fins de debug
     def printarTabela(self):
         print("Tabela de Símbolos Atual:")
         if not self.tabela:
@@ -12,6 +13,7 @@ class TabelaDeSimbolos:
             for identificador, tipo in self.tabela.items():
                 print(f" [\'{identificador}\' : \'{tipo}\']")
 
+    #adicionando simbolo na tabeal
     def adicionar_simbolo(self, identificador, tipo):
         if identificador in self.tabela:
             tipo_existente, quantidade = self.tabela[identificador]
@@ -19,11 +21,14 @@ class TabelaDeSimbolos:
         else:
             self.tabela[identificador] = (tipo, 1)
 
+    #registrando palavras e tokens
     def registrarResultado(self, nome_arquivo='resultado_analise.txt'):
         with open(nome_arquivo, 'w') as arquivo:
             for identificador, (tipo, quantidade) in self.tabela.items():
                 arquivo.write(f"['{identificador}' : '{tipo}', quantidade: {quantidade}]\n")
 
+
+    #contagem de tokens
     def visualizarDados(self, nome_arquivo='visualizacao_dados.txt'):
         with open(nome_arquivo, 'w') as arquivo:
             total_classes = 0

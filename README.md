@@ -7,9 +7,10 @@ Esse projeto faz parte da disciplina de Compiladores da Universidade Federal Rur
 `sudo apt update`
 `sudo apt install python3`
 
-### - Para sistemas Windows, é necessário ir na página oficial do Python (python.org) e baixar o instalador.
+### - Para sistemas Windows, é necessário ir na [página oficial do Python](python.org) e baixar o instalador.
 
 ## Visual Studio Code
+Link para instalação: [Clique aqui](https://code.visualstudio.com/)
 ### Extensões necessárias:
 - Python (Microsoft)
 - Pylance (Microsoft)

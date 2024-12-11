@@ -20,7 +20,7 @@ def lerArquivo():
 
 TOKENS = [
     ("NOME_INDIVIDUO", r"([A-Z][a-z]+)+[0-9]+"),            # Eduardo1, MikaelJohnatan2
-    ("PALAVRA_RESERVADA", r"([A-Z][a-z]+)+:|[Ss][Oo][Mm][Ee]|[Aa][Ll][Ll]|[Vv][Aa][Ll][Uu][Ee]|[Mm][Ii][Nn]|[Ee][Xx][Aa][Cc][Tt][Ll][Yy]|[Tt][Hh][Aa][Tt]|[Mm][Aa][Xx]|[Nn][Oo][Tt]|[Aa][Nn][Dd]|[Oo][Rr]"), # EquivalentTo:, palavras com : e palavras reservadas
+    ("PALAVRA_RESERVADA", r"[Ss][Oo][Mm][Ee]|[Aa][Ll][Ll]|[Vv][Aa][Ll][Uu][Ee]|[Mm][Ii][Nn]|[Ee][Xx][Aa][Cc][Tt][Ll][Yy]|[Tt][Hh][Aa][Tt]|[Mm][Aa][Xx]|[Nn][Oo][Tt]|[Aa][Nn][Dd]|[Oo][Rr]|Class:|EquivalentTo:|Individuals:|SubClassOf:|DisjointClasses|DisjointWith:"), # EquivalentTo:, palavras com : e palavras reservadas
     ("CLASSE", r"([A-Z][a-z]+[_]?)+"),                      # Pizza, Pizza_Margherita, PizzaMargherita
     ("NAMESPACE", r"[a-z]{3,4}:"),                          # rdf:, owl:, rdfs:
     ("TIPO", r"rational|real|langString|PlainLiteral|XMLLiteral|Literal|anyURI|base64Binary|boolean|byte|dateTime|dateTimeStamp|decimal|double|float|hexBinary|integer|int|language|long|Name|NCName|negativeInteger|NMTOKEN|nonNegativeInteger|nonPositiveInteger|normalizedString|positiveInteger|short|string|token|unsignedByte|unsignedInt|unsignedLong|unsignedShort"),  # tipos de dados

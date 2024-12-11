@@ -14,16 +14,16 @@ A tabela de símbolos foi implementada como um dicionário que guarda o lexema e
 
 ### - Para sistemas Windows, é necessário ir na [página oficial do Python](www.python.org) e baixar o instalador.
 
-# Clonando o repositório
-É necessário criar uma pasta nova, abrir o terminal no diretorio da pasta criada e rodar o código:
-`git clone https://github.com/eduardopvieira/compiladores-2024.3.git`
-
 ## Visual Studio Code
 Link para instalação: [Clique aqui](https://code.visualstudio.com/)
 ### Extensões necessárias:
 - Python (Microsoft)
 - Pylance (Microsoft)
 - Python Debugger (Microsoft)
+
+# Clonando o repositório
+É necessário criar uma pasta nova, abrir o terminal no diretorio da pasta criada e rodar o código:
+`git clone https://github.com/eduardopvieira/compiladores-2024.3.git`
 
 # Como utilizar:
 Para o usuário, apenas 2 arquivos são importantes:

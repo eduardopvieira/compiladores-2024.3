@@ -34,7 +34,7 @@ class TabelaDeSimbolos:
             total_namespace = 0
             total_caracteres_especiais = 0
             total_cardinalidades = 0
-            for (tipo, quantidade) in self.tabela.items():
+            for identificador, (tipo, quantidade) in self.tabela.items():
                 if tipo == "CLASSE":
                     total_classes += quantidade
                 elif tipo == "NOME_INDIVIDUO":
@@ -51,6 +51,7 @@ class TabelaDeSimbolos:
                     total_caracteres_especiais += quantidade
                 elif tipo == "CARDINALIDADE":
                     total_cardinalidades += quantidade
+            
             arquivo.write(f"\nTOTAL DE CLASSES: {total_classes}\n")
             arquivo.write(f"TOTAL DE INDIVIDUOS: {total_individuos}\n")
             arquivo.write(f"TOTAL DE PROPRIEDADES: {total_propriedades}\n")
@@ -60,3 +61,5 @@ class TabelaDeSimbolos:
             arquivo.write(f"TOTAL DE CARACTERES ESPECIAIS: {total_caracteres_especiais}\n")
             arquivo.write(f"TOTAL DE CARDINALIDADES: {total_cardinalidades}\n")
             
+
+    

@@ -26,25 +26,37 @@ class TabelaDeSimbolos:
 
     def visualizarDados(self, nome_arquivo='visualizacao_dados.txt'):
         with open(nome_arquivo, 'w') as arquivo:
-            arquivo.write(f"\nCLASSES:\n")
-            total = 0
-            for identificador, (tipo, quantidade) in self.tabela.items():
+            total_classes = 0
+            total_individuos = 0
+            total_propriedades = 0
+            total_tipos_de_dados = 0
+            total_palavras_reservadas = 0
+            total_namespace = 0
+            total_caracteres_especiais = 0
+            total_cardinalidades = 0
+            for (tipo, quantidade) in self.tabela.items():
                 if tipo == "CLASSE":
-                    arquivo.write(f"['{identificador}' : , quantidade: {quantidade}]\n")
-                    total += quantidade
-            arquivo.write(f"\nTOTAL DE CLASSES: {total}\n")
-            total = 0        
-            arquivo.write(f"\nINDIVIDUOS:\n")
-            for identificador, (tipo, quantidade) in self.tabela.items():
-                if tipo == "NOME_INDIVIDUO":
-                    arquivo.write(f"['{identificador}' : , quantidade: {quantidade}]\n")
-                    total += quantidade
-            arquivo.write(f"\nTOTAL DE INDIVIDUOS: {total}\n")
-            total = 0      
-            arquivo.write(f"\nPROPRIEDADES:\n")
-            for identificador, (tipo, quantidade) in self.tabela.items():
-                if tipo == "PROPRIEDADE":
-                    arquivo.write(f"['{identificador}' : , quantidade: {quantidade}]\n")
-                    total += quantidade
-            arquivo.write(f"\nTOTAL DE PROPRIEDADES: {total}\n")
-            total = 0      
+                    total_classes += quantidade
+                elif tipo == "NOME_INDIVIDUO":
+                    total_individuos += quantidade
+                elif tipo == "PROPRIEDADE":
+                    total_propriedades += quantidade
+                elif tipo == "TIPO":
+                    total_tipos_de_dados += quantidade
+                elif tipo == "PALAVRA_RESERVADA":
+                    total_palavras_reservadas += quantidade
+                elif tipo == "NAMESPACE":
+                    total_namespace += quantidade
+                elif tipo == "CARACTERE_ESPECIAL":
+                    total_caracteres_especiais += quantidade
+                elif tipo == "CARDINALIDADE":
+                    total_cardinalidades += quantidade
+            arquivo.write(f"\nTOTAL DE CLASSES: {total_classes}\n")
+            arquivo.write(f"TOTAL DE INDIVIDUOS: {total_individuos}\n")
+            arquivo.write(f"TOTAL DE PROPRIEDADES: {total_propriedades}\n")
+            arquivo.write(f"TOTAL DE TIPOS DE DADOS: {total_tipos_de_dados}\n")
+            arquivo.write(f"TOTAL DE PALAVRAS RESERVADAS: {total_palavras_reservadas}\n")
+            arquivo.write(f"TOTAL DE NAMESPACE: {total_namespace}\n")
+            arquivo.write(f"TOTAL DE CARACTERES ESPECIAIS: {total_caracteres_especiais}\n")
+            arquivo.write(f"TOTAL DE CARDINALIDADES: {total_cardinalidades}\n")
+            

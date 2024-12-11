@@ -11,9 +11,9 @@ Esse projeto faz parte da disciplina de Compiladores da Universidade Federal Rur
 
 ## Visual Studio Code
 ### Extensões necessárias:
-Python (Microsoft)
-Pylance (Microsoft)
-Python Debugger (Microsoft)
+- Python (Microsoft)
+- Pylance (Microsoft)
+- Python Debugger (Microsoft)
 
 # Como utilizar:
 Para o usuário, apenas 2 arquivos são importantes:

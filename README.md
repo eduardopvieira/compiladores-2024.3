@@ -7,9 +7,10 @@ Esse projeto faz parte da disciplina de Compiladores da Universidade Federal Rur
 `sudo apt update`
 `sudo apt install python3`
 
-### - Para sistemas Windows, é necessário ir na página oficial do Python (python.org) e baixar o instalador.
+### - Para sistemas Windows, é necessário ir na [página oficial do Python](www.python.org) e baixar o instalador.
 
 ## Visual Studio Code
+Link para instalação: [Clique aqui](https://code.visualstudio.com/)
 ### Extensões necessárias:
 - Python (Microsoft)
 - Pylance (Microsoft)
@@ -23,4 +24,4 @@ Para o usuário, apenas 2 arquivos são importantes:
 
 
 # Resultados:
-Após feito o procedimento, caso tenha escolhido escrever o código manualmente, o resultado aparecerá apenas no terminal e não será salvo em nenhum arquivo. Caso o código tenha sido lido diretamente do 'codigo.txt', o resultado será escrito nos arquivos 'resultado_analise.txt' e 'visualizacao_dados.txt'. Este primeiro tem por tarefa mostrar em qual expressão regular cada palavra no código se enquadrou e dizer quantas vezes aquela palavra apareceu. O segundo mostra quais foram as classes, individuos e propriedades encontrados e qual o total de cada tipo.
+Após feito o procedimento, caso tenha escolhido para escrever o código manualmente, o resultado aparecerá apenas no terminal e não será salvo em nenhum arquivo. Caso o código tenha sido lido diretamente do 'codigo.txt', o resultado será escrito nos arquivos 'resultado_analise.txt' e 'visualizacao_dados.txt'. Este primeiro tem por tarefa mostrar em qual expressão regular cada palavra no código se enquadrou e dizer quantas vezes aquela palavra apareceu. O segundo mostra quais foram as classes, individuos e propriedades encontrados e qual o total de cada tipo.

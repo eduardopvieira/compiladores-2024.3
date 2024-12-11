@@ -2,15 +2,15 @@
 Esse projeto faz parte da disciplina de Compiladores da Universidade Federal Rural do Semi-Árido (UFERSA), e nele foi implementado uma versão inicial de um analisador léxico para a linguagem OWL utilizando Python.
 
 # Requisitos
-##Python 3
-###- Em sistemas baseados em Debian, os seguintes comandos devem ser escritos no terminal:
+## Python 3
+### - Em sistemas baseados em Debian, os seguintes comandos devem ser escritos no terminal:
 `sudo apt update`
 `sudo apt install python3`
 
 - Para sistemas Windows, é necessário ir na página oficial do Python (python.org) e baixar o instalador.
 
-##Visual Studio Code
-###Extensões:
+## Visual Studio Code
+### Extensões:
 Python (Microsoft)
 Pylance (Microsoft)
 Python Debugger (Microsoft)

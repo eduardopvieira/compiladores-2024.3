@@ -14,7 +14,7 @@ class TabelaDeSimbolos:
         for simbolo in self.simbolos:
             print(simbolo)
 
-# Tokens
+# Tokens 
 tokens = [
     "NOME_INDIVIDUO",
     "PALAVRA_RESERVADA",
@@ -28,7 +28,7 @@ tokens = [
 
 # Regras de expressão regular para os tokens
 t_NOME_INDIVIDUO = r'([A-Z][a-z]+)+[0-9]+'
-t_PALAVRA_RESERVADA = r'[Ss][Oo][Mm][Ee]|[Aa][Ll][Ll]|[Vv][Aa][Ll][Uu][Ee]|[Mm][Ii][Nn]|[Ee][Xx][Aa][Cc][Tt][Ll][Yy]|[Tt][Hh][Aa][Tt]|[Mm][Aa][Xx]|[Nn][Oo][Tt]|[Aa][Nn][Dd]|[Oo][Rr]|Class:|EquivalentTo:|Individuals:|SubClassOf:|DisjointClasses|DisjointWith:'
+t_PALAVRA_RESERVADA = r'[Ss][Oo][Mm][Ee]|[Aa][Ll][Ll]|[Vv][Aa][Ll][Uu][Ee]|[Mm][Ii][Nn]|[Ee][Xx][Aa][Cc][Tt][Ll][Yy]|[Tt][Hh][Aa][Tt]|[Mm][Aa][Xx]|[Nn][Oo][Tt]|[Aa][Nn][Dd]|[Oo][Rr]|Class:|EquivalentTo:|Individuals:|SubClassOf:|DisjointClasses|DisjointWith:|and|some'
 t_CLASSE = r'([A-Z][a-z]+[_]?)+'
 t_NAMESPACE = r'[a-z]{3,4}:'
 t_TIPO = r'rational|real|langString|PlainLiteral|XMLLiteral|Literal|anyURI|base64Binary|boolean|byte|dateTime|dateTimeStamp|decimal|double|float|hexBinary|integer|int|language|long|Name|NCName|negativeInteger|NMTOKEN|nonNegativeInteger|nonPositiveInteger|normalizedString|positiveInteger|short|string|token|unsignedByte|unsignedInt|unsignedLong|unsignedShort'
@@ -57,16 +57,19 @@ def p_programa(p):
 
 # Classe Primitiva
 def p_declaracao_classe_primitiva(p):
-    """declaracao_classe : PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes disjunto individuos"""
+    """declaracao_classe : PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA  restricoes disjunto individuos"""
     pass
 
 def p_restricoes(p):
     """restricoes : PROPRIEDADE PALAVRA_RESERVADA CLASSE
-                  | restricoes_composta"""
+                  | restricoes_composta
+                  | CARDINALIDADE
+                  | CARACTERE_ESPECIAL"""
     pass
 
 def p_restricoes_composta(p):
-    """restricoes_composta : restricoes CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE"""
+    """restricoes_composta : restricoes CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE
+                           | restricoes CARACTERE_ESPECIAL PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE"""
     pass
 
 def p_disjunto(p):

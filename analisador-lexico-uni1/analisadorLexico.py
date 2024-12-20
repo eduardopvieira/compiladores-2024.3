@@ -1,36 +1,20 @@
 import ply.lex as lex
 import ply.yacc as yacc
-from tabela_de_simbolos import TabelaDeSimbolos
 
-#https://www.dabeaz.com/ply/ply.html#ply_nn22
-# Regras sintáticas
-def p_programa(p):
-    """programa : declaracoes"""
-    pass
+# Classe substituta para TabelaDeSimbolos
+class TabelaDeSimbolos:
+    def __init__(self):
+        self.simbolos = []
 
-def p_declaracoes(p):
-    """declaracoes : declaracao
-                   | declaracoes declaracao"""
-    pass
+    def adicionar_simbolo(self, lexema, tipo):
+        self.simbolos.append((lexema, tipo))
 
-def p_declaracao(p):
-    """declaracao : NOME_INDIVIDUO ':' CLASSE
-                  | CLASSE '{' declaracoes '}'
-                  | PALAVRA_RESERVADA NOME_INDIVIDUO
-                  | NAMESPACE CLASSE"""
-    pass
+    def exibir(self):
+        print("Tabela de Símbolos:")
+        for simbolo in self.simbolos:
+            print(simbolo)
 
-# Erro sintático
-def p_error(p):
-    if p:
-        print(f"Erro sintático: token inesperado '{p.value}', linha {p.lineno}")
-    else:
-        print("Erro sintático: fim inesperado da entrada.")
-
-# Construindo o analisador sintático
-parser = yacc.yacc()
-
-# Definição dos tokens
+# Tokens
 tokens = [
     "NOME_INDIVIDUO",
     "PALAVRA_RESERVADA",
@@ -52,24 +36,98 @@ t_PROPRIEDADE = r'has([A-Z][a-z]+)+|is([A-Z][a-z]+)+Of|[a-z]+([A-Z][a-z]+)*'
 t_CARACTERE_ESPECIAL = r'[{}\[\]().,\"\']|[<>="]{1,2}'
 t_CARDINALIDADE = r'[0-9]+'
 
-# Ignorar espaços em branco
-t_ignore = ' \t\n'
+
+# Ignora os espaços em branco e tabulações
+t_ignore = ' \t\n\r'
 
 def t_error(t):
-    print(f"Erro léxico: token não reconhecido perto de '{t.value[:10]}'")
+    erro = f"Erro léxico: token não reconhecido perto de '{t.value[:10]}'\n"
+    print(erro)
+    with open("erros_lexicos.txt", "a") as log_file:
+        log_file.write(erro)
     t.lexer.skip(1)
 
-# Construindo o analisador léxico
-lexer = lex.lex()
+# Instancia do analisador léxico
+lexer = lex.lex(errorlog=lex.NullLogger())
 
-def executar_analisador(codigo, tabela):
-    """Executa o analisador sintático sobre o código fornecido."""
-    result = parser.parse(codigo, lexer=lexer)
+# Regras sintáticas
+def p_programa(p):
+    """programa : declaracao_classe"""
+    pass
+
+# Classe Primitiva
+def p_declaracao_classe_primitiva(p):
+    """declaracao_classe : PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes disjunto individuos"""
+    pass
+
+def p_restricoes(p):
+    """restricoes : PROPRIEDADE PALAVRA_RESERVADA CLASSE
+                  | restricoes_composta"""
+    pass
+
+def p_restricoes_composta(p):
+    """restricoes_composta : restricoes CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE"""
+    pass
+
+def p_disjunto(p):
+    """disjunto : PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CLASSE
+                | """
+    pass
+
+def p_individuos(p):
+    """individuos : PALAVRA_RESERVADA NOME_INDIVIDUO
+                  | individuos CARACTERE_ESPECIAL NOME_INDIVIDUO"""
+    pass
+
+# Classe Definida
+def p_declaracao_classe_definida(p):
+    """declaracao_classe : PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_def"""
+    pass
+
+def p_restricoes_def(p):
+    """restricoes_def : CLASSE PALAVRA_RESERVADA restricoes
+                      | restricoes_composta CARACTERE_ESPECIAL restricoes"""
+    pass
+
+# Classe Enumerada
+def p_declaracao_classe_enumerada(p):
+    """declaracao_classe : PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL lista_individuos CARACTERE_ESPECIAL"""
+    pass
+
+def p_lista_individuos(p):
+    """lista_individuos : NOME_INDIVIDUO
+                         | lista_individuos CARACTERE_ESPECIAL NOME_INDIVIDUO"""
+    pass
+
+# Classe Coberta
+def p_declaracao_classe_coberta(p):
+    """declaracao_classe : PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL lista_classes"""
+    pass
+
+def p_lista_classes(p):
+    """lista_classes : CLASSE
+                      | lista_classes PALAVRA_RESERVADA CLASSE"""
+    pass
+
+# Erro sintático
+def p_error(p):
+    if p:
+        print(f"Erro sintático: token inesperado '{p.value}', linha {p.lineno}")
+    else:
+        print("Erro sintático: fim inesperado da entrada.")
+
+# Construir o analisador sintático
+parser = yacc.yacc()
+
+def executar_analisador(codigo):
     lexer.input(codigo)
-    for token in lexer:
-        tabela.adicionar_simbolo(token.value, token.type)
-    tabela.printarTabela()
+    result = parser.parse(codigo, lexer=lexer)
+    if result is None:
+        print("Análise sintática concluída com sucesso.")
+    else:
+        print("Erros encontrados na análise sintática.")
 
+# Função principal
 def main():
     print("Escolha uma opção:")
     print("1 - Ler código do arquivo 'codigo.txt'")
@@ -77,18 +135,18 @@ def main():
     print("3 - Sair")
     opcao = input()
 
-    tabela = TabelaDeSimbolos()
-
     if opcao == "1":
-        with open('codigo.txt', 'r') as arquivo:
-            codigo = arquivo.read()
-        executar_analisador(codigo, tabela)
-        print("Resultado salvo nos arquivos 'resultado_analise.txt' e 'visualizacao_dados.txt'")
+        try:
+            with open('codigo.txt', 'r') as arquivo:
+                codigo = arquivo.read()
+            executar_analisador(codigo)
+        except FileNotFoundError:
+            print("Erro: O arquivo 'codigo.txt' não foi encontrado.")
 
     elif opcao == "2":
         print("Digite o código:")
         codigo = input()
-        executar_analisador(codigo, tabela)
+        executar_analisador(codigo)
 
     elif opcao == "3":
         exit()

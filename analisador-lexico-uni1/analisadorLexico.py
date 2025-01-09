@@ -1,19 +1,6 @@
 import ply.lex as lex
 import ply.yacc as yacc
 
-# Classe substituta para TabelaDeSimbolos
-class TabelaDeSimbolos:
-    def __init__(self):
-        self.simbolos = []
-
-    def adicionar_simbolo(self, lexema, tipo):
-        self.simbolos.append((lexema, tipo))
-
-    def exibir(self):
-        print("Tabela de Símbolos:")
-        for simbolo in self.simbolos:
-            print(simbolo)
-
 # Tokens 
 tokens = [
     "NOME_INDIVIDUO",
@@ -27,17 +14,14 @@ tokens = [
 ]
 
 # Regras de expressão regular para os tokens
+t_NAMESPACE = r'[a-z][a-z][a-z]:|[a-z][a-z][a-z][a-z]:'
 t_NOME_INDIVIDUO = r'([A-Z][a-z]+)+[0-9]+'
-t_PALAVRA_RESERVADA = r'[Ss][Oo][Mm][Ee]|[Aa][Ll][Ll]|[Vv][Aa][Ll][Uu][Ee]|[Mm][Ii][Nn]|[Ee][Xx][Aa][Cc][Tt][Ll][Yy]|[Tt][Hh][Aa][Tt]|[Mm][Aa][Xx]|[Nn][Oo][Tt]|[Aa][Nn][Dd]|[Oo][Rr]|Class:|EquivalentTo:|Individuals:|SubClassOf:|DisjointClasses|DisjointWith:|and|some'
+t_PALAVRA_RESERVADA = r'[Ss][Oo][Mm][Ee]|[Aa][Ll][Ll]|[Vv][Aa][Ll][Uu][Ee]|[Mm][Ii][Nn]|[Ee][Xx][Aa][Cc][Tt][Ll][Yy]|[Tt][Hh][Aa][Tt]|[Mm][Aa][Xx]|[Nn][Oo][Tt]|[Aa][Nn][Dd]|[Oo][Rr]|Class:|EquivalentTo:|Individuals:|SubClassOf:|DisjointClasses:|DisjointWith:|and|some'
 t_CLASSE = r'([A-Z][a-z]+[_]?)+'
-t_NAMESPACE = r'[a-z]{3,4}:'
-t_TIPO = r'rational|real|langString|PlainLiteral|XMLLiteral|Literal|anyURI|base64Binary|boolean|byte|dateTime|dateTimeStamp|decimal|double|float|hexBinary|integer|int|language|long|Name|NCName|negativeInteger|NMTOKEN|nonNegativeInteger|nonPositiveInteger|normalizedString|positiveInteger|short|string|token|unsignedByte|unsignedInt|unsignedLong|unsignedShort'
+t_TIPO = r'integer|real|langString|PlainLiteral|XMLLiteral|Literal|anyURI|base64Binary|boolean|byte|dateTime|dateTimeStamp|decimal|double|float|hexBinary|rational|int|language|long|Name|NCName|negativeInteger|NMTOKEN|nonNegativeInteger|nonPositiveInteger|normalizedString|positiveInteger|short|string|token|unsignedByte|unsignedInt|unsignedLong|unsignedShort'
 t_PROPRIEDADE = r'has([A-Z][a-z]+)+|is([A-Z][a-z]+)+Of|[a-z]+([A-Z][a-z]+)*'
 t_CARACTERE_ESPECIAL = r'[{}\[\]().,\"\']|[<>="]{1,2}'
 t_CARDINALIDADE = r'[0-9]+'
-
-
-# Ignora os espaços em branco e tabulações
 t_ignore = ' \t\n\r'
 
 def t_error(t):
@@ -56,68 +40,115 @@ def p_programa(p):
     pass
 
 # Classe Primitiva
-def p_declaracao_classe_primitiva(p):
-    """declaracao_classe : PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA  restricoes disjunto individuos"""
-    pass
+def p_classe_primitiva(p):
+    """declaracao_classe : PALAVRA_RESERVADA CLASSE obrigatorio_subclassof caso_disjointclasses caso_individuals"""
+    p[0] = {
+        "palavra_reservada": p[1],
+        "classe": p[2],
+        "subclassof": p[3],
+        "disjoint_classes": p[4],
+        "individuals": p[5]
+    }
 
-def p_restricoes(p):
-    """restricoes : PROPRIEDADE PALAVRA_RESERVADA CLASSE
-                  | restricoes_composta
-                  | CARDINALIDADE
-                  | CARACTERE_ESPECIAL"""
-    pass
+def p_obrigatorio_subclassof(p):
+    """obrigatorio_subclassof : PALAVRA_RESERVADA PROPRIEDADE PALAVRA_RESERVADA CLASSE
+                       | PALAVRA_RESERVADA PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO
+                       | PALAVRA_RESERVADA PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO CARACTERE_ESPECIAL outra_propriedade
+                       | PALAVRA_RESERVADA PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL outra_propriedade"""
+    if len(p) == 5:
+        p[0] = ("SubClassOf", p[2], p[4])
+    elif len(p) == 6:
+        p[0] = ("SubClassOf", p[2], (p[4], p[5]))
+    else:
+        p[0] = ("SubClassOf", p[2], p[4], p[6])
 
-def p_restricoes_composta(p):
-    """restricoes_composta : restricoes CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE
-                           | restricoes CARACTERE_ESPECIAL PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE"""
-    pass
 
-def p_disjunto(p):
-    """disjunto : PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CLASSE
-                | """
-    pass
+def p_outra_propriedade(p):
+    """outra_propriedade : PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL outra_propriedade
+                         | PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO CARACTERE_ESPECIAL outra_propriedade
+                         | PROPRIEDADE PALAVRA_RESERVADA CLASSE
+                         | PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO"""
+    if len(p) == 4:
+        p[0] = [{"propriedade": p[1], "classe": p[3]}]
+    elif len(p) == 5:
+        p[0] = [{"propriedade": p[1], "tipo": p[4]}]
+    else:
+        p[0] = [{"propriedade": p[1], "classe": p[3], "outra_propriedade": p[5]}]
 
-def p_individuos(p):
-    """individuos : PALAVRA_RESERVADA NOME_INDIVIDUO
-                  | individuos CARACTERE_ESPECIAL NOME_INDIVIDUO"""
-    pass
+def p_caso_disjointclasses(p):
+    """caso_disjointclasses : PALAVRA_RESERVADA CLASSE
+                            | PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL outra_classe"""
+    if len(p) == 3:
+        p[0] = [p[2]]
+    else:
+        p[0] = [p[2]] + p[4]
 
-# Classe Definida
-def p_declaracao_classe_definida(p):
-    """declaracao_classe : PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_def"""
-    pass
+def p_outra_classe(p):
+    """outra_classe : CLASSE
+                    | CLASSE CARACTERE_ESPECIAL outra_classe"""
+    if len(p) == 2:
+        p[0] = [p[1]]
+    else:
+        p[0] = [p[1]] + p[3]
 
-def p_restricoes_def(p):
-    """restricoes_def : CLASSE PALAVRA_RESERVADA restricoes
-                      | restricoes_composta CARACTERE_ESPECIAL restricoes"""
-    pass
+def p_caso_individuals(p):
+    """caso_individuals : PALAVRA_RESERVADA NOME_INDIVIDUO
+                        | PALAVRA_RESERVADA NOME_INDIVIDUO CARACTERE_ESPECIAL outro_individuo"""
+    if len(p) == 3:
+        p[0] = [p[2]]
+    else:
+        p[0] = [p[2]] + p[4]
 
-# Classe Enumerada
-def p_declaracao_classe_enumerada(p):
-    """declaracao_classe : PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL lista_individuos CARACTERE_ESPECIAL"""
-    pass
+def p_outro_individuo(p):
+    """outro_individuo : NOME_INDIVIDUO
+                       | NOME_INDIVIDUO CARACTERE_ESPECIAL outro_individuo"""
+    if len(p) == 2:
+        p[0] = [p[1]]
+    else:
+        p[0] = [p[1]] + p[3]
 
-def p_lista_individuos(p):
-    """lista_individuos : NOME_INDIVIDUO
-                         | lista_individuos CARACTERE_ESPECIAL NOME_INDIVIDUO"""
-    pass
+# Função de erro
+def p_error(p):
+    print(f"Erro de sintaxe em '{p.value}'" if p else "Erro de sintaxe inesperado.")
 
-# Classe Coberta
-def p_declaracao_classe_coberta(p):
-    """declaracao_classe : PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL lista_classes"""
-    pass
+# # Classe Enumerada
+# def p_declaracao_classe_enumerada(p):
+#     """declaracao_classe : PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL lista_individuos CARACTERE_ESPECIAL"""
+#     pass
 
-def p_lista_classes(p):
-    """lista_classes : CLASSE
-                      | lista_classes PALAVRA_RESERVADA CLASSE"""
-    pass
+# def p_lista_individuos(p):
+#     """lista_individuos : NOME_INDIVIDUO
+#                          | lista_individuos CARACTERE_ESPECIAL NOME_INDIVIDUO"""
+#     pass
 
-# Erro sintático
+# # Classe Coberta
+# def p_declaracao_classe_coberta(p):
+#     """declaracao_classe : PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL lista_classes"""
+#     pass
+
+# def p_lista_classes(p):
+#     """lista_classes : CLASSE
+#                       | lista_classes PALAVRA_RESERVADA CLASSE"""
+#     pass
+
+
 def p_error(p):
     if p:
-        print(f"Erro sintático: token inesperado '{p.value}', linha {p.lineno}")
+        print(f"Erro sintático: token inesperado '{p.value}' de tipo '{p.type}'")
+        with open("token_log.txt", "a") as log:
+            log.write(f"Erro sintático: token inesperado '{p.value}' de tipo '{p.type}'\n")
     else:
-        print("Erro sintático: fim inesperado da entrada.")
+        print("Erro sintático: fim inesperado do arquivo.")
+        with open("token_log.txt", "a") as log:
+            log.write("Erro sintático: fim inesperado do arquivo.\n")
+
+
+
+def log_token(token):
+    with open("token_log.txt", "a") as log:
+        log.write(f"{token.type}: {token.value}\n")
+
+
 
 # Construir o analisador sintático
 parser = yacc.yacc()
@@ -129,6 +160,8 @@ def executar_analisador(codigo):
         print("Análise sintática concluída com sucesso.")
     else:
         print("Erros encontrados na análise sintática.")
+
+
 
 # Função principal
 def main():

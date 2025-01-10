@@ -19,21 +19,23 @@ Rule 9     outra_propriedade -> PROPRIEDADE PALAVRA_RESERVADA CLASSE
 Rule 10    outra_propriedade -> PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO
 Rule 11    caso_disjointclasses -> PALAVRA_RESERVADA CLASSE
 Rule 12    caso_disjointclasses -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL outra_classe
-Rule 13    outra_classe -> CLASSE
-Rule 14    outra_classe -> CLASSE CARACTERE_ESPECIAL outra_classe
-Rule 15    caso_individuals -> PALAVRA_RESERVADA NOME_INDIVIDUO
-Rule 16    caso_individuals -> PALAVRA_RESERVADA NOME_INDIVIDUO CARACTERE_ESPECIAL outro_individuo
-Rule 17    outro_individuo -> NOME_INDIVIDUO
-Rule 18    outro_individuo -> NOME_INDIVIDUO CARACTERE_ESPECIAL outro_individuo
+Rule 13    caso_disjointclasses -> <empty>
+Rule 14    outra_classe -> CLASSE
+Rule 15    outra_classe -> CLASSE CARACTERE_ESPECIAL outra_classe
+Rule 16    caso_individuals -> PALAVRA_RESERVADA NOME_INDIVIDUO
+Rule 17    caso_individuals -> PALAVRA_RESERVADA NOME_INDIVIDUO CARACTERE_ESPECIAL outro_individuo
+Rule 18    caso_individuals -> <empty>
+Rule 19    outro_individuo -> NOME_INDIVIDUO
+Rule 20    outro_individuo -> NOME_INDIVIDUO CARACTERE_ESPECIAL outro_individuo
 
 Terminals, with rules where they appear
 
-CARACTERE_ESPECIAL   : 5 6 7 8 12 14 16 18
+CARACTERE_ESPECIAL   : 5 6 7 8 12 15 17 20
 CARDINALIDADE        : 
-CLASSE               : 2 3 6 7 9 11 12 13 14
+CLASSE               : 2 3 6 7 9 11 12 14 15
 NAMESPACE            : 4 5 8 10
-NOME_INDIVIDUO       : 15 16 17 18
-PALAVRA_RESERVADA    : 2 3 3 4 4 5 5 6 6 7 8 9 10 11 12 15 16
+NOME_INDIVIDUO       : 16 17 19 20
+PALAVRA_RESERVADA    : 2 3 3 4 4 5 5 6 6 7 8 9 10 11 12 16 17
 PROPRIEDADE          : 3 4 5 6 7 8 9 10
 TIPO                 : 4 5 8 10
 error                : 
@@ -44,9 +46,9 @@ caso_disjointclasses : 2
 caso_individuals     : 2
 declaracao_classe    : 1
 obrigatorio_subclassof : 2
-outra_classe         : 12 14
+outra_classe         : 12 15
 outra_propriedade    : 5 6 7 8
-outro_individuo      : 16 18
+outro_individuo      : 17 20
 programa             : 0
 
 Parsing method: LALR
@@ -109,8 +111,13 @@ state 6
     (2) declaracao_classe -> PALAVRA_RESERVADA CLASSE obrigatorio_subclassof . caso_disjointclasses caso_individuals
     (11) caso_disjointclasses -> . PALAVRA_RESERVADA CLASSE
     (12) caso_disjointclasses -> . PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL outra_classe
+    (13) caso_disjointclasses -> .
 
+  ! shift/reduce conflict for PALAVRA_RESERVADA resolved as shift
     PALAVRA_RESERVADA shift and go to state 8
+    $end            reduce using rule 13 (caso_disjointclasses -> .)
+
+  ! PALAVRA_RESERVADA [ reduce using rule 13 (caso_disjointclasses -> .) ]
 
     caso_disjointclasses           shift and go to state 9
 
@@ -135,10 +142,12 @@ state 8
 state 9
 
     (2) declaracao_classe -> PALAVRA_RESERVADA CLASSE obrigatorio_subclassof caso_disjointclasses . caso_individuals
-    (15) caso_individuals -> . PALAVRA_RESERVADA NOME_INDIVIDUO
-    (16) caso_individuals -> . PALAVRA_RESERVADA NOME_INDIVIDUO CARACTERE_ESPECIAL outro_individuo
+    (16) caso_individuals -> . PALAVRA_RESERVADA NOME_INDIVIDUO
+    (17) caso_individuals -> . PALAVRA_RESERVADA NOME_INDIVIDUO CARACTERE_ESPECIAL outro_individuo
+    (18) caso_individuals -> .
 
     PALAVRA_RESERVADA shift and go to state 12
+    $end            reduce using rule 18 (caso_individuals -> .)
 
     caso_individuals               shift and go to state 13
 
@@ -159,13 +168,14 @@ state 11
     (12) caso_disjointclasses -> PALAVRA_RESERVADA CLASSE . CARACTERE_ESPECIAL outra_classe
 
     PALAVRA_RESERVADA reduce using rule 11 (caso_disjointclasses -> PALAVRA_RESERVADA CLASSE .)
+    $end            reduce using rule 11 (caso_disjointclasses -> PALAVRA_RESERVADA CLASSE .)
     CARACTERE_ESPECIAL shift and go to state 16
 
 
 state 12
 
-    (15) caso_individuals -> PALAVRA_RESERVADA . NOME_INDIVIDUO
-    (16) caso_individuals -> PALAVRA_RESERVADA . NOME_INDIVIDUO CARACTERE_ESPECIAL outro_individuo
+    (16) caso_individuals -> PALAVRA_RESERVADA . NOME_INDIVIDUO
+    (17) caso_individuals -> PALAVRA_RESERVADA . NOME_INDIVIDUO CARACTERE_ESPECIAL outro_individuo
 
     NOME_INDIVIDUO  shift and go to state 17
 
@@ -183,6 +193,7 @@ state 14
     (6) obrigatorio_subclassof -> PALAVRA_RESERVADA PROPRIEDADE PALAVRA_RESERVADA CLASSE . CARACTERE_ESPECIAL outra_propriedade
 
     PALAVRA_RESERVADA reduce using rule 3 (obrigatorio_subclassof -> PALAVRA_RESERVADA PROPRIEDADE PALAVRA_RESERVADA CLASSE .)
+    $end            reduce using rule 3 (obrigatorio_subclassof -> PALAVRA_RESERVADA PROPRIEDADE PALAVRA_RESERVADA CLASSE .)
     CARACTERE_ESPECIAL shift and go to state 18
 
 
@@ -197,8 +208,8 @@ state 15
 state 16
 
     (12) caso_disjointclasses -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL . outra_classe
-    (13) outra_classe -> . CLASSE
-    (14) outra_classe -> . CLASSE CARACTERE_ESPECIAL outra_classe
+    (14) outra_classe -> . CLASSE
+    (15) outra_classe -> . CLASSE CARACTERE_ESPECIAL outra_classe
 
     CLASSE          shift and go to state 20
 
@@ -206,10 +217,10 @@ state 16
 
 state 17
 
-    (15) caso_individuals -> PALAVRA_RESERVADA NOME_INDIVIDUO .
-    (16) caso_individuals -> PALAVRA_RESERVADA NOME_INDIVIDUO . CARACTERE_ESPECIAL outro_individuo
+    (16) caso_individuals -> PALAVRA_RESERVADA NOME_INDIVIDUO .
+    (17) caso_individuals -> PALAVRA_RESERVADA NOME_INDIVIDUO . CARACTERE_ESPECIAL outro_individuo
 
-    $end            reduce using rule 15 (caso_individuals -> PALAVRA_RESERVADA NOME_INDIVIDUO .)
+    $end            reduce using rule 16 (caso_individuals -> PALAVRA_RESERVADA NOME_INDIVIDUO .)
     CARACTERE_ESPECIAL shift and go to state 22
 
 
@@ -231,15 +242,17 @@ state 19
     (5) obrigatorio_subclassof -> PALAVRA_RESERVADA PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO . CARACTERE_ESPECIAL outra_propriedade
 
     PALAVRA_RESERVADA reduce using rule 4 (obrigatorio_subclassof -> PALAVRA_RESERVADA PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO .)
+    $end            reduce using rule 4 (obrigatorio_subclassof -> PALAVRA_RESERVADA PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO .)
     CARACTERE_ESPECIAL shift and go to state 25
 
 
 state 20
 
-    (13) outra_classe -> CLASSE .
-    (14) outra_classe -> CLASSE . CARACTERE_ESPECIAL outra_classe
+    (14) outra_classe -> CLASSE .
+    (15) outra_classe -> CLASSE . CARACTERE_ESPECIAL outra_classe
 
-    PALAVRA_RESERVADA reduce using rule 13 (outra_classe -> CLASSE .)
+    PALAVRA_RESERVADA reduce using rule 14 (outra_classe -> CLASSE .)
+    $end            reduce using rule 14 (outra_classe -> CLASSE .)
     CARACTERE_ESPECIAL shift and go to state 26
 
 
@@ -248,13 +261,14 @@ state 21
     (12) caso_disjointclasses -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL outra_classe .
 
     PALAVRA_RESERVADA reduce using rule 12 (caso_disjointclasses -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL outra_classe .)
+    $end            reduce using rule 12 (caso_disjointclasses -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL outra_classe .)
 
 
 state 22
 
-    (16) caso_individuals -> PALAVRA_RESERVADA NOME_INDIVIDUO CARACTERE_ESPECIAL . outro_individuo
-    (17) outro_individuo -> . NOME_INDIVIDUO
-    (18) outro_individuo -> . NOME_INDIVIDUO CARACTERE_ESPECIAL outro_individuo
+    (17) caso_individuals -> PALAVRA_RESERVADA NOME_INDIVIDUO CARACTERE_ESPECIAL . outro_individuo
+    (19) outro_individuo -> . NOME_INDIVIDUO
+    (20) outro_individuo -> . NOME_INDIVIDUO CARACTERE_ESPECIAL outro_individuo
 
     NOME_INDIVIDUO  shift and go to state 27
 
@@ -275,6 +289,7 @@ state 24
     (6) obrigatorio_subclassof -> PALAVRA_RESERVADA PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL outra_propriedade .
 
     PALAVRA_RESERVADA reduce using rule 6 (obrigatorio_subclassof -> PALAVRA_RESERVADA PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL outra_propriedade .)
+    $end            reduce using rule 6 (obrigatorio_subclassof -> PALAVRA_RESERVADA PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL outra_propriedade .)
 
 
 state 25
@@ -291,9 +306,9 @@ state 25
 
 state 26
 
-    (14) outra_classe -> CLASSE CARACTERE_ESPECIAL . outra_classe
-    (13) outra_classe -> . CLASSE
-    (14) outra_classe -> . CLASSE CARACTERE_ESPECIAL outra_classe
+    (15) outra_classe -> CLASSE CARACTERE_ESPECIAL . outra_classe
+    (14) outra_classe -> . CLASSE
+    (15) outra_classe -> . CLASSE CARACTERE_ESPECIAL outra_classe
 
     CLASSE          shift and go to state 20
 
@@ -301,18 +316,18 @@ state 26
 
 state 27
 
-    (17) outro_individuo -> NOME_INDIVIDUO .
-    (18) outro_individuo -> NOME_INDIVIDUO . CARACTERE_ESPECIAL outro_individuo
+    (19) outro_individuo -> NOME_INDIVIDUO .
+    (20) outro_individuo -> NOME_INDIVIDUO . CARACTERE_ESPECIAL outro_individuo
 
-    $end            reduce using rule 17 (outro_individuo -> NOME_INDIVIDUO .)
+    $end            reduce using rule 19 (outro_individuo -> NOME_INDIVIDUO .)
     CARACTERE_ESPECIAL shift and go to state 32
 
 
 state 28
 
-    (16) caso_individuals -> PALAVRA_RESERVADA NOME_INDIVIDUO CARACTERE_ESPECIAL outro_individuo .
+    (17) caso_individuals -> PALAVRA_RESERVADA NOME_INDIVIDUO CARACTERE_ESPECIAL outro_individuo .
 
-    $end            reduce using rule 16 (caso_individuals -> PALAVRA_RESERVADA NOME_INDIVIDUO CARACTERE_ESPECIAL outro_individuo .)
+    $end            reduce using rule 17 (caso_individuals -> PALAVRA_RESERVADA NOME_INDIVIDUO CARACTERE_ESPECIAL outro_individuo .)
 
 
 state 29
@@ -331,20 +346,22 @@ state 30
     (5) obrigatorio_subclassof -> PALAVRA_RESERVADA PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO CARACTERE_ESPECIAL outra_propriedade .
 
     PALAVRA_RESERVADA reduce using rule 5 (obrigatorio_subclassof -> PALAVRA_RESERVADA PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO CARACTERE_ESPECIAL outra_propriedade .)
+    $end            reduce using rule 5 (obrigatorio_subclassof -> PALAVRA_RESERVADA PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO CARACTERE_ESPECIAL outra_propriedade .)
 
 
 state 31
 
-    (14) outra_classe -> CLASSE CARACTERE_ESPECIAL outra_classe .
+    (15) outra_classe -> CLASSE CARACTERE_ESPECIAL outra_classe .
 
-    PALAVRA_RESERVADA reduce using rule 14 (outra_classe -> CLASSE CARACTERE_ESPECIAL outra_classe .)
+    PALAVRA_RESERVADA reduce using rule 15 (outra_classe -> CLASSE CARACTERE_ESPECIAL outra_classe .)
+    $end            reduce using rule 15 (outra_classe -> CLASSE CARACTERE_ESPECIAL outra_classe .)
 
 
 state 32
 
-    (18) outro_individuo -> NOME_INDIVIDUO CARACTERE_ESPECIAL . outro_individuo
-    (17) outro_individuo -> . NOME_INDIVIDUO
-    (18) outro_individuo -> . NOME_INDIVIDUO CARACTERE_ESPECIAL outro_individuo
+    (20) outro_individuo -> NOME_INDIVIDUO CARACTERE_ESPECIAL . outro_individuo
+    (19) outro_individuo -> . NOME_INDIVIDUO
+    (20) outro_individuo -> . NOME_INDIVIDUO CARACTERE_ESPECIAL outro_individuo
 
     NOME_INDIVIDUO  shift and go to state 27
 
@@ -357,6 +374,7 @@ state 33
 
     CARACTERE_ESPECIAL shift and go to state 36
     PALAVRA_RESERVADA reduce using rule 9 (outra_propriedade -> PROPRIEDADE PALAVRA_RESERVADA CLASSE .)
+    $end            reduce using rule 9 (outra_propriedade -> PROPRIEDADE PALAVRA_RESERVADA CLASSE .)
 
 
 state 34
@@ -369,9 +387,9 @@ state 34
 
 state 35
 
-    (18) outro_individuo -> NOME_INDIVIDUO CARACTERE_ESPECIAL outro_individuo .
+    (20) outro_individuo -> NOME_INDIVIDUO CARACTERE_ESPECIAL outro_individuo .
 
-    $end            reduce using rule 18 (outro_individuo -> NOME_INDIVIDUO CARACTERE_ESPECIAL outro_individuo .)
+    $end            reduce using rule 20 (outro_individuo -> NOME_INDIVIDUO CARACTERE_ESPECIAL outro_individuo .)
 
 
 state 36
@@ -393,6 +411,7 @@ state 37
 
     CARACTERE_ESPECIAL shift and go to state 39
     PALAVRA_RESERVADA reduce using rule 10 (outra_propriedade -> PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO .)
+    $end            reduce using rule 10 (outra_propriedade -> PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO .)
 
 
 state 38
@@ -400,6 +419,7 @@ state 38
     (7) outra_propriedade -> PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL outra_propriedade .
 
     PALAVRA_RESERVADA reduce using rule 7 (outra_propriedade -> PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL outra_propriedade .)
+    $end            reduce using rule 7 (outra_propriedade -> PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL outra_propriedade .)
 
 
 state 39
@@ -419,4 +439,9 @@ state 40
     (8) outra_propriedade -> PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO CARACTERE_ESPECIAL outra_propriedade .
 
     PALAVRA_RESERVADA reduce using rule 8 (outra_propriedade -> PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO CARACTERE_ESPECIAL outra_propriedade .)
+    $end            reduce using rule 8 (outra_propriedade -> PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO CARACTERE_ESPECIAL outra_propriedade .)
 
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for PALAVRA_RESERVADA in state 6 resolved as shift

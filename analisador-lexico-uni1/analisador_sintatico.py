@@ -9,6 +9,10 @@ tokens = [
     "NAMESPACE",
     "TIPO",
     "PROPRIEDADE",
+    "ABRE_PARENTESE",
+    "FECHA_PARENTESE",
+    "ABRE_CHAVE",
+    "FECHA_CHAVE",
     "CARACTERE_ESPECIAL",
     "CARDINALIDADE",
 ]
@@ -20,7 +24,11 @@ t_PALAVRA_RESERVADA = r'[Ss][Oo][Mm][Ee]|[Aa][Ll][Ll]|[Vv][Aa][Ll][Uu][Ee]|[Mm][
 t_CLASSE = r'([A-Z][a-z]+[_]?)+'
 t_TIPO = r'integer|real|langString|PlainLiteral|XMLLiteral|Literal|anyURI|base64Binary|boolean|byte|dateTime|dateTimeStamp|decimal|double|float|hexBinary|rational|int|language|long|Name|NCName|negativeInteger|NMTOKEN|nonNegativeInteger|nonPositiveInteger|normalizedString|positiveInteger|short|string|token|unsignedByte|unsignedInt|unsignedLong|unsignedShort'
 t_PROPRIEDADE = r'has([A-Z][a-z]+)+|is([A-Z][a-z]+)+Of|[a-z]+([A-Z][a-z]+)*'
-t_CARACTERE_ESPECIAL = r'[{}\[\]().,\"\']|[<>="]{1,2}'
+t_ABRE_CHAVE = r'{'
+t_FECHA_CHAVE = r'}'
+t_ABRE_PARENTESE = r'('
+t_FECHA_PARENTESE = r')'
+t_CARACTERE_ESPECIAL = r'[\[\].,\"\']|[<>="]{1,2}'
 t_CARDINALIDADE = r'[0-9]+'
 t_ignore = ' \t\n\r'
 
@@ -39,7 +47,7 @@ def p_programa(p):
     """programa : declaracao_classe"""
     pass
 
-# Classe Primitiva
+#=========================================== CLASSE PRIMITIVA ===========================================
 def p_classe_primitiva(p):
     """declaracao_classe : PALAVRA_RESERVADA CLASSE obrigatorio_subclassof caso_disjointclasses caso_individuals"""
     p[0] = {
@@ -77,7 +85,8 @@ def p_outra_propriedade(p):
 
 def p_caso_disjointclasses(p):
     """caso_disjointclasses : PALAVRA_RESERVADA CLASSE
-                            | PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL outra_classe"""
+                            | PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL outra_classe
+                            |"""
     if len(p) == 3:
         p[0] = [p[2]]
     else:
@@ -93,7 +102,8 @@ def p_outra_classe(p):
 
 def p_caso_individuals(p):
     """caso_individuals : PALAVRA_RESERVADA NOME_INDIVIDUO
-                        | PALAVRA_RESERVADA NOME_INDIVIDUO CARACTERE_ESPECIAL outro_individuo"""
+                        | PALAVRA_RESERVADA NOME_INDIVIDUO CARACTERE_ESPECIAL outro_individuo
+                        |"""
     if len(p) == 3:
         p[0] = [p[2]]
     else:
@@ -106,6 +116,60 @@ def p_outro_individuo(p):
         p[0] = [p[1]]
     else:
         p[0] = [p[1]] + p[3]
+
+
+
+#=========================================== CLASSE DEFINIDA ===========================================
+def p_classe_definida(p):
+    """declaracao_classe: PALAVRA_RESERVADA CLASSE obrigatorio_equivalent_to caso_individuals caso_class2"""
+
+def p_obrigatorio_equivalent_to(p): 
+    """obrigatorio_equivalent_to: PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA ABRE_PARENTESE descricoes FECHA_PARENTESE"""
+
+def p_descricoes(p): 
+    """descricoes   :PROPRIEDADE PALAVRA_RESERVADA CLASSE
+	                |PROPRIEDADE PALAVRA_RESERVADA NAMESPACE INTEGER CARACTERE_ESPECIAL CARACTERE_ESPECIAL CARDINALIDADE CARACTERE_ESPECIAL"""
+
+def p_caso_class2(p): 
+    """caso_class2: PALAVRA_RESERVADA CLASSE obrigatorio_equivalent_to"""
+
+
+#=========================================== CLASSE COM AXIOMA DE FECHAMENTO ===========================================
+
+def p_classe_axioma_fechamento(p): 
+    """declaracao_classe: PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL caracteristica"""
+
+def p_caracteristica(p):
+    """caracteristica: PALAVRA_RESERVADA PALAVRA_RESERVADA CLASSE
+	                 | PALAVRA_RESERVADA PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL caracteristica
+	                 | PALAVRA_RESERVADA PALAVRA_RESERVADA ABRE_PARENTESE CLASSE PALAVRA_RESERVADA CLASSE FECHA_PARENTESE
+	                 | PALAVRA_RESERVADA PALAVRA_RESERVADA ABRE_PARENTESE CLASSE PALAVRA_RESERVADA CLASSE FECHA_PARENTESE CARACTERE_ESPECIAL caracteristica"""
+
+
+#=========================================== CLASSE COM DESCRICOES ANINHADAS ===========================================
+
+def p_classe_descricoes_aninhadas(p):
+    """declaracao_classe: """
+
+#=========================================== CLASSE ENUMERADA ===========================================
+def p_classe_enumerada(p):
+    """declaracao_classe: PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA ABRE_CHAVE elemento_enum FECHA_CHAVE"""
+
+def p_elemento_enum(p):
+    """elemento_enum: CLASSE
+	                | CLASSE CARACTERE_ESPECIAL elemento_enum"""
+#=========================================== CLASSE COBERTA ===========================================
+def p_classe_coberta(p):
+    """declaracao_classe: PALAVRA_RESERVADA CLASSE equivalentto CLASSE ou_outra_classe"""
+
+def p_ou_outra_classe(p): 
+    """ou_outra_classe: PALAVRA_RESERVADA CLASSE ou_outra_classe
+	                  | PALAVRA_RESERVADA CLASSE"""
+
+
+#=========================================== CLASSE ANINHADA ===========================================
+#TODO: FALTA A GLC PARA A CLASSE ANINHADA
+
 
 # Função de erro
 def p_error(p):

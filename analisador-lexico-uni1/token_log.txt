@@ -1,1 +1,2 @@
 Erro sintático: token inesperado 'xsd' de tipo 'PROPRIEDADE'
+Erro sintático: token inesperado 'xsd' de tipo 'PROPRIEDADE'

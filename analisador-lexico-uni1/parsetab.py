@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'CARACTERE_ESPECIAL CARDINALIDADE CLASSE NAMESPACE NOME_INDIVIDUO PALAVRA_RESERVADA PROPRIEDADE TIPOprograma : declaracao_classedeclaracao_classe : PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA  restricoes disjunto individuosrestricoes : PROPRIEDADE PALAVRA_RESERVADA CLASSE\n                  | restricoes_composta\n                  | CARDINALIDADE\n                  | CARACTERE_ESPECIALrestricoes_composta : restricoes CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE\n                           | restricoes CARACTERE_ESPECIAL PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSEdisjunto : PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CLASSE\n                | individuos : PALAVRA_RESERVADA NOME_INDIVIDUO\n                  | individuos CARACTERE_ESPECIAL NOME_INDIVIDUOdeclaracao_classe : PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_defrestricoes_def : CLASSE PALAVRA_RESERVADA restricoes\n                      | restricoes_composta CARACTERE_ESPECIAL restricoesdeclaracao_classe : PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL lista_individuos CARACTERE_ESPECIALlista_individuos : NOME_INDIVIDUO\n                         | lista_individuos CARACTERE_ESPECIAL NOME_INDIVIDUOdeclaracao_classe : PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL lista_classeslista_classes : CLASSE\n                      | lista_classes PALAVRA_RESERVADA CLASSE'
+_lr_signature = 'CARACTERE_ESPECIAL CARDINALIDADE CLASSE NAMESPACE NOME_INDIVIDUO PALAVRA_RESERVADA PROPRIEDADE TIPOprograma : declaracao_classe programa\n        | declaracao_classedeclaracao_classe : PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes restricoes : CARACTERE_ESPECIAL PALAVRA_RESERVADA CLASSE restricoes\n                  | declaracao_classe : PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento restricoes_axioma_fechamento : PROPRIEDADE PALAVRA_RESERVADA CLASSE\n                  | PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento\n                  | PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL \n                  | PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL restricoes_axioma_fechamentorestricoes_composta : restricoes CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE\n                           | restricoes CARACTERE_ESPECIAL PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSEdisjunto : PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CLASSE\n                | individuos : PALAVRA_RESERVADA NOME_INDIVIDUO\n                  | individuos CARACTERE_ESPECIAL NOME_INDIVIDUOdeclaracao_classe : PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_defrestricoes_def : CLASSE PALAVRA_RESERVADA restricoes\n                      | restricoes_composta CARACTERE_ESPECIAL restricoesdeclaracao_classe : PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL lista_individuos CARACTERE_ESPECIALlista_individuos : NOME_INDIVIDUO\n                         | lista_individuos CARACTERE_ESPECIAL NOME_INDIVIDUOdeclaracao_classe : PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL lista_classeslista_classes : CLASSE\n                      | lista_classes PALAVRA_RESERVADA CLASSE'
     
-_lr_action_items = {'PALAVRA_RESERVADA':([0,4,7,8,9,10,11,12,15,19,20,30,32,35,43,45,46,],[3,5,18,21,-4,-5,-6,22,25,28,31,40,-3,-21,-9,-7,-8,]),'$end':([1,2,9,10,11,12,14,15,29,32,33,34,35,36,38,44,45,46,],[0,-1,-4,-5,-6,-20,-13,-19,-2,-3,-14,-16,-21,-15,-11,-12,-7,-8,]),'CLASSE':([3,6,18,21,25,37,40,41,],[4,12,27,32,35,43,45,46,]),'CARACTERE_ESPECIAL':([4,5,6,7,9,10,11,13,16,17,22,23,24,26,27,29,31,32,33,36,38,42,44,45,46,],[6,11,13,20,-4,-5,-6,-6,20,26,11,34,-17,11,37,39,41,-3,20,20,-11,-18,-12,-7,-8,]),'PROPRIEDADE':([5,6,20,22,26,],[8,8,30,8,8,]),'CARDINALIDADE':([5,6,22,26,],[10,10,10,10,]),'NOME_INDIVIDUO':([13,28,34,39,],[24,38,42,44,]),}
+_lr_action_items = {'PALAVRA_RESERVADA':([0,2,5,9,10,11,12,13,18,23,24,25,26,27,28,29,30,31,32,33,35,37,38,42,47,48,51,53,],[3,3,6,17,18,19,-17,22,-5,34,-5,-6,36,-5,-18,19,-5,-20,-25,40,-19,-3,-4,-7,49,-8,-9,-10,]),'$end':([1,2,4,10,12,13,18,24,25,27,28,30,31,32,35,37,38,42,48,51,53,],[0,-2,-1,-24,-17,-23,-5,-5,-6,-5,-18,-5,-20,-25,-19,-3,-4,-7,-8,-9,-10,]),'CLASSE':([3,6,7,17,19,22,36,40,41,43,49,],[5,8,10,27,30,32,42,44,45,47,50,]),'CARACTERE_ESPECIAL':([5,7,8,14,15,18,20,21,24,27,30,34,36,38,39,42,44,45,50,51,],[7,11,16,23,24,29,31,-21,29,29,29,41,43,-4,-22,46,-11,-12,51,52,]),'PROPRIEDADE':([6,16,23,46,52,],[9,26,33,26,26,]),'NOME_INDIVIDUO':([11,31,],[21,39,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'programa':([0,],[1,]),'declaracao_classe':([0,],[2,]),'restricoes':([5,6,22,26,],[7,16,33,36,]),'restricoes_composta':([5,6,22,26,],[9,17,9,9,]),'restricoes_def':([6,],[14,]),'lista_classes':([6,],[15,]),'disjunto':([7,],[19,]),'lista_individuos':([13,],[23,]),'individuos':([19,],[29,]),}
+_lr_goto_items = {'programa':([0,2,],[1,4,]),'declaracao_classe':([0,2,],[2,2,]),'restricoes_def':([7,],[12,]),'lista_classes':([7,],[13,]),'restricoes':([7,18,24,27,30,],[14,28,35,37,38,]),'restricoes_composta':([7,],[15,]),'lista_individuos':([11,],[20,]),'restricoes_axioma_fechamento':([16,46,52,],[25,48,53,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,25 +27,29 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> programa","S'",1,None,None,None),
-  ('programa -> declaracao_classe','programa',1,'p_programa','analisadorLexico.py',55),
-  ('declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA restricoes disjunto individuos','declaracao_classe',6,'p_declaracao_classe_primitiva','analisadorLexico.py',60),
-  ('restricoes -> PROPRIEDADE PALAVRA_RESERVADA CLASSE','restricoes',3,'p_restricoes','analisadorLexico.py',64),
-  ('restricoes -> restricoes_composta','restricoes',1,'p_restricoes','analisadorLexico.py',65),
-  ('restricoes -> CARDINALIDADE','restricoes',1,'p_restricoes','analisadorLexico.py',66),
-  ('restricoes -> CARACTERE_ESPECIAL','restricoes',1,'p_restricoes','analisadorLexico.py',67),
-  ('restricoes_composta -> restricoes CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE','restricoes_composta',5,'p_restricoes_composta','analisadorLexico.py',71),
-  ('restricoes_composta -> restricoes CARACTERE_ESPECIAL PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE','restricoes_composta',5,'p_restricoes_composta','analisadorLexico.py',72),
-  ('disjunto -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CLASSE','disjunto',4,'p_disjunto','analisadorLexico.py',76),
-  ('disjunto -> <empty>','disjunto',0,'p_disjunto','analisadorLexico.py',77),
-  ('individuos -> PALAVRA_RESERVADA NOME_INDIVIDUO','individuos',2,'p_individuos','analisadorLexico.py',81),
-  ('individuos -> individuos CARACTERE_ESPECIAL NOME_INDIVIDUO','individuos',3,'p_individuos','analisadorLexico.py',82),
-  ('declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_def','declaracao_classe',4,'p_declaracao_classe_definida','analisadorLexico.py',87),
-  ('restricoes_def -> CLASSE PALAVRA_RESERVADA restricoes','restricoes_def',3,'p_restricoes_def','analisadorLexico.py',91),
-  ('restricoes_def -> restricoes_composta CARACTERE_ESPECIAL restricoes','restricoes_def',3,'p_restricoes_def','analisadorLexico.py',92),
-  ('declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL lista_individuos CARACTERE_ESPECIAL','declaracao_classe',6,'p_declaracao_classe_enumerada','analisadorLexico.py',97),
-  ('lista_individuos -> NOME_INDIVIDUO','lista_individuos',1,'p_lista_individuos','analisadorLexico.py',101),
-  ('lista_individuos -> lista_individuos CARACTERE_ESPECIAL NOME_INDIVIDUO','lista_individuos',3,'p_lista_individuos','analisadorLexico.py',102),
-  ('declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL lista_classes','declaracao_classe',4,'p_declaracao_classe_coberta','analisadorLexico.py',107),
-  ('lista_classes -> CLASSE','lista_classes',1,'p_lista_classes','analisadorLexico.py',111),
-  ('lista_classes -> lista_classes PALAVRA_RESERVADA CLASSE','lista_classes',3,'p_lista_classes','analisadorLexico.py',112),
+  ('programa -> declaracao_classe programa','programa',2,'p_programa','analisadorLexico.py',55),
+  ('programa -> declaracao_classe','programa',1,'p_programa','analisadorLexico.py',56),
+  ('declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes','declaracao_classe',7,'p_declaracao_classe_primitiva','analisadorLexico.py',61),
+  ('restricoes -> CARACTERE_ESPECIAL PALAVRA_RESERVADA CLASSE restricoes','restricoes',4,'p_restricoes','analisadorLexico.py',65),
+  ('restricoes -> <empty>','restricoes',0,'p_restricoes','analisadorLexico.py',66),
+  ('declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento','declaracao_classe',6,'p_declaracao_classe_axioma_fechamento','analisadorLexico.py',73),
+  ('restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CLASSE','restricoes_axioma_fechamento',3,'p_restricoes_axioma_fechamento','analisadorLexico.py',80),
+  ('restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento','restricoes_axioma_fechamento',5,'p_restricoes_axioma_fechamento','analisadorLexico.py',81),
+  ('restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL','restricoes_axioma_fechamento',7,'p_restricoes_axioma_fechamento','analisadorLexico.py',82),
+  ('restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL restricoes_axioma_fechamento','restricoes_axioma_fechamento',9,'p_restricoes_axioma_fechamento','analisadorLexico.py',83),
+  ('restricoes_composta -> restricoes CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE','restricoes_composta',5,'p_restricoes_composta','analisadorLexico.py',89),
+  ('restricoes_composta -> restricoes CARACTERE_ESPECIAL PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE','restricoes_composta',5,'p_restricoes_composta','analisadorLexico.py',90),
+  ('disjunto -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CLASSE','disjunto',4,'p_disjunto','analisadorLexico.py',94),
+  ('disjunto -> <empty>','disjunto',0,'p_disjunto','analisadorLexico.py',95),
+  ('individuos -> PALAVRA_RESERVADA NOME_INDIVIDUO','individuos',2,'p_individuos','analisadorLexico.py',99),
+  ('individuos -> individuos CARACTERE_ESPECIAL NOME_INDIVIDUO','individuos',3,'p_individuos','analisadorLexico.py',100),
+  ('declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_def','declaracao_classe',4,'p_declaracao_classe_definida','analisadorLexico.py',105),
+  ('restricoes_def -> CLASSE PALAVRA_RESERVADA restricoes','restricoes_def',3,'p_restricoes_def','analisadorLexico.py',109),
+  ('restricoes_def -> restricoes_composta CARACTERE_ESPECIAL restricoes','restricoes_def',3,'p_restricoes_def','analisadorLexico.py',110),
+  ('declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL lista_individuos CARACTERE_ESPECIAL','declaracao_classe',6,'p_declaracao_classe_enumerada','analisadorLexico.py',115),
+  ('lista_individuos -> NOME_INDIVIDUO','lista_individuos',1,'p_lista_individuos','analisadorLexico.py',119),
+  ('lista_individuos -> lista_individuos CARACTERE_ESPECIAL NOME_INDIVIDUO','lista_individuos',3,'p_lista_individuos','analisadorLexico.py',120),
+  ('declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL lista_classes','declaracao_classe',4,'p_declaracao_classe_coberta','analisadorLexico.py',125),
+  ('lista_classes -> CLASSE','lista_classes',1,'p_lista_classes','analisadorLexico.py',129),
+  ('lista_classes -> lista_classes PALAVRA_RESERVADA CLASSE','lista_classes',3,'p_lista_classes','analisadorLexico.py',130),
 ]

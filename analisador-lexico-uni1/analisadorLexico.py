@@ -28,11 +28,11 @@ tokens = [
 
 # Regras de expressão regular para os tokens
 t_NOME_INDIVIDUO = r'([A-Z][a-z]+)+[0-9]+'
-t_PALAVRA_RESERVADA = r'[Ss][Oo][Mm][Ee]|[Aa][Ll][Ll]|[Vv][Aa][Ll][Uu][Ee]|[Mm][Ii][Nn]|[Ee][Xx][Aa][Cc][Tt][Ll][Yy]|[Tt][Hh][Aa][Tt]|[Mm][Aa][Xx]|[Nn][Oo][Tt]|[Aa][Nn][Dd]|[Oo][Rr]|Class:|EquivalentTo:|Individuals:|SubClassOf:|DisjointClasses|DisjointWith:|and|some'
-t_CLASSE = r'([A-Z][a-z]+[_]?)+'
+t_PALAVRA_RESERVADA = r'[Ss][Oo][Mm][Ee]|[Aa][Ll][Ll]|[Vv][Aa][Ll][Uu][Ee]|[Mm][Ii][Nn]|[Ee][Xx][Aa][Cc][Tt][Ll][Yy]|[Tt][Hh][Aa][Tt]|[Mm][Aa][Xx]|[Nn][Oo][Tt]|[Aa][Nn][Dd]|[Oo][Rr]|Class:|EquivalentTo:|Individuals:|SubClassOf:|DisjointClasses:|DisjointWith:|and|some'
+t_CLASSE = r'([A-Z][a-z]+[_]?)+' 
 t_NAMESPACE = r'[a-z]{3,4}:'
 t_TIPO = r'rational|real|langString|PlainLiteral|XMLLiteral|Literal|anyURI|base64Binary|boolean|byte|dateTime|dateTimeStamp|decimal|double|float|hexBinary|integer|int|language|long|Name|NCName|negativeInteger|NMTOKEN|nonNegativeInteger|nonPositiveInteger|normalizedString|positiveInteger|short|string|token|unsignedByte|unsignedInt|unsignedLong|unsignedShort'
-t_PROPRIEDADE = r'has([A-Z][a-z]+)+|is([A-Z][a-z]+)+Of|[a-z]+([A-Z][a-z]+)*'
+t_PROPRIEDADE = r'has([A-Z][a-z]+)+|is([A-Z][a-z]+)+Of|[a-z]+([A-Z][a-z]+)*' 
 t_CARACTERE_ESPECIAL = r'[{}\[\]().,\"\']|[<>="]{1,2}'
 t_CARDINALIDADE = r'[0-9]+'
 
@@ -52,20 +52,38 @@ lexer = lex.lex(errorlog=lex.NullLogger())
 
 # Regras sintáticas
 def p_programa(p):
-    """programa : declaracao_classe"""
+    """programa : declaracao_classe programa
+        | declaracao_classe"""
     pass
 
 # Classe Primitiva
 def p_declaracao_classe_primitiva(p):
-    """declaracao_classe : PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA  restricoes disjunto individuos"""
+    """declaracao_classe : PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes """ #disjunto individuos
     pass
 
 def p_restricoes(p):
-    """restricoes : PROPRIEDADE PALAVRA_RESERVADA CLASSE
-                  | restricoes_composta
-                  | CARDINALIDADE
-                  | CARACTERE_ESPECIAL"""
+    """restricoes : CARACTERE_ESPECIAL PALAVRA_RESERVADA CLASSE restricoes
+                  | """
     pass
+                  #| restricoes_composta
+                  #| CARDINALIDADE
+                  #| CARACTERE_ESPECIAL"""
+
+def p_declaracao_classe_axioma_fechamento(p):
+    """declaracao_classe : PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento """
+    pass
+#CLASS: oiajsdoa
+#Subclassof:
+#poksapdkas, 
+#lkaçlsdkaçs
+def p_restricoes_axioma_fechamento(p):
+    """restricoes_axioma_fechamento : PROPRIEDADE PALAVRA_RESERVADA CLASSE
+                  | PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
+                  | PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL 
+                  | PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL restricoes_axioma_fechamento"""
+    pass
+                  #| restricoes_composta
+
 
 def p_restricoes_composta(p):
     """restricoes_composta : restricoes CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE

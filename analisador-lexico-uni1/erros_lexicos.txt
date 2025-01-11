@@ -1,0 +1,348 @@
+Erro léxico: token não reconhecido perto de ': Activity'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': Actor
+  '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': BrokerSe'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': Certific'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': Certific'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de '1 Certific'
+Erro léxico: token não reconhecido perto de ': Certific'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de '(historica'
+Erro léxico: token não reconhecido perto de ')
+        '
+Erro léxico: token não reconhecido perto de '(mediates '
+Erro léxico: token não reconhecido perto de '(Certifica'
+Erro léxico: token não reconhecido perto de '))
+       '
+Erro léxico: token não reconhecido perto de ')
+        '
+Erro léxico: token não reconhecido perto de '(mediates '
+Erro léxico: token não reconhecido perto de '1 Certific'
+Erro léxico: token não reconhecido perto de ')
+        '
+Erro léxico: token não reconhecido perto de '(mediates '
+Erro léxico: token não reconhecido perto de '1 Certific'
+Erro léxico: token não reconhecido perto de ')
+        '
+Erro léxico: token não reconhecido perto de '(mediates '
+Erro léxico: token não reconhecido perto de '1 Evaluate'
+Erro léxico: token não reconhecido perto de ')
+        '
+Erro léxico: token não reconhecido perto de '(historica'
+Erro léxico: token não reconhecido perto de '1 Certific'
+Erro léxico: token não reconhecido perto de ')
+        '
+Erro léxico: token não reconhecido perto de '(historica'
+Erro léxico: token não reconhecido perto de '1 Evaluati'
+Erro léxico: token não reconhecido perto de ')
+    
+   '
+Erro léxico: token não reconhecido perto de ': Certific'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': Conditio'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de '(inheresIn'
+Erro léxico: token não reconhecido perto de ') and (ext'
+Erro léxico: token não reconhecido perto de '(externall'
+Erro léxico: token não reconhecido perto de ') and (his'
+Erro léxico: token não reconhecido perto de '(historica'
+Erro léxico: token não reconhecido perto de '),
+       '
+Erro léxico: token não reconhecido perto de '1 Metadata'
+Erro léxico: token não reconhecido perto de '1 DataCust'
+Erro léxico: token não reconhecido perto de '1 DataSupp'
+Erro léxico: token não reconhecido perto de ': Conditio'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de '(inheresIn'
+Erro léxico: token não reconhecido perto de ') and (ext'
+Erro léxico: token não reconhecido perto de '(externall'
+Erro léxico: token não reconhecido perto de ') and (his'
+Erro léxico: token não reconhecido perto de '(historica'
+Erro léxico: token não reconhecido perto de '),
+       '
+Erro léxico: token não reconhecido perto de '1 DataSupp'
+Erro léxico: token não reconhecido perto de '1 DataCust'
+Erro léxico: token não reconhecido perto de ': Connecto'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de '1 DataUsag'
+Erro léxico: token não reconhecido perto de ': CorePart'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': Counterp'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': Counterp'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de '1 DataCust'
+Erro léxico: token não reconhecido perto de ': Counterp'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': Data
+
+  '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de '1 Ownershi'
+Erro léxico: token não reconhecido perto de ': DataCust'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': DataExch'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de '(participa'
+Erro léxico: token não reconhecido perto de ')
+        '
+Erro léxico: token não reconhecido perto de '(participa'
+Erro léxico: token não reconhecido perto de ')
+        '
+Erro léxico: token não reconhecido perto de '(participa'
+Erro léxico: token não reconhecido perto de '1 DataCust'
+Erro léxico: token não reconhecido perto de ')
+        '
+Erro léxico: token não reconhecido perto de '(participa'
+Erro léxico: token não reconhecido perto de '1 DataSupp'
+Erro léxico: token não reconhecido perto de ')
+        '
+Erro léxico: token não reconhecido perto de '(participa'
+Erro léxico: token não reconhecido perto de '2 Actor)
+ '
+Erro léxico: token não reconhecido perto de ')
+        '
+Erro léxico: token não reconhecido perto de '(composedB'
+Erro léxico: token não reconhecido perto de '1 Counterp'
+Erro léxico: token não reconhecido perto de ')
+        '
+Erro léxico: token não reconhecido perto de '(composedB'
+Erro léxico: token não reconhecido perto de '1 OfferedC'
+Erro léxico: token não reconhecido perto de ')
+    
+   '
+Erro léxico: token não reconhecido perto de ': DataOper'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': DataSove'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de '1 DataSupp'
+Erro léxico: token não reconhecido perto de ': DataSupp'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': DataUsag'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': DigitalA'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de '(composedB'
+Erro léxico: token não reconhecido perto de '1 Data) an'
+Erro léxico: token não reconhecido perto de ') and (com'
+Erro léxico: token não reconhecido perto de '(composedB'
+Erro léxico: token não reconhecido perto de '1 DataUsag'
+Erro léxico: token não reconhecido perto de '),
+       '
+Erro léxico: token não reconhecido perto de ': Economic'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de '((composed'
+Erro léxico: token não reconhecido perto de '(composedB'
+Erro léxico: token não reconhecido perto de ')
+        '
+Erro léxico: token não reconhecido perto de '(composedB'
+Erro léxico: token não reconhecido perto de '))
+       '
+Erro léxico: token não reconhecido perto de ')
+        '
+Erro léxico: token não reconhecido perto de '(historica'
+Erro léxico: token não reconhecido perto de ')
+        '
+Erro léxico: token não reconhecido perto de '(composedB'
+Erro léxico: token não reconhecido perto de '(OffereeUn'
+Erro léxico: token não reconhecido perto de '))
+       '
+Erro léxico: token não reconhecido perto de ')
+        '
+Erro léxico: token não reconhecido perto de '(historica'
+Erro léxico: token não reconhecido perto de '1 Economic'
+Erro léxico: token não reconhecido perto de ')
+    
+   '
+Erro léxico: token não reconhecido perto de ': Economic'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de '((composed'
+Erro léxico: token não reconhecido perto de '(composedB'
+Erro léxico: token não reconhecido perto de ')
+        '
+Erro léxico: token não reconhecido perto de '(composedB'
+Erro léxico: token não reconhecido perto de '))
+       '
+Erro léxico: token não reconhecido perto de ')
+        '
+Erro léxico: token não reconhecido perto de '(mediates '
+Erro léxico: token não reconhecido perto de '(DataCusto'
+Erro léxico: token não reconhecido perto de '))
+       '
+Erro léxico: token não reconhecido perto de ')
+        '
+Erro léxico: token não reconhecido perto de '(wasCreate'
+Erro léxico: token não reconhecido perto de ')
+        '
+Erro léxico: token não reconhecido perto de '(composedB'
+Erro léxico: token não reconhecido perto de '(Condition'
+Erro léxico: token não reconhecido perto de '))
+       '
+Erro léxico: token não reconhecido perto de ')
+        '
+Erro léxico: token não reconhecido perto de '(mediates '
+Erro léxico: token não reconhecido perto de '1 DataCust'
+Erro léxico: token não reconhecido perto de ')
+        '
+Erro léxico: token não reconhecido perto de '(mediates '
+Erro léxico: token não reconhecido perto de '1 DataSupp'
+Erro léxico: token não reconhecido perto de ')
+        '
+Erro léxico: token não reconhecido perto de '(wasCreate'
+Erro léxico: token não reconhecido perto de '1 Offer)
+ '
+Erro léxico: token não reconhecido perto de ')
+    
+   '
+Erro léxico: token não reconhecido perto de ': Evaluate'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': Evaluati'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de '1 Evaluati'
+Erro léxico: token não reconhecido perto de ': Evaluati'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de '(mediates '
+Erro léxico: token não reconhecido perto de '(Evaluated'
+Erro léxico: token não reconhecido perto de '))
+       '
+Erro léxico: token não reconhecido perto de ')
+        '
+Erro léxico: token não reconhecido perto de '(mediates '
+Erro léxico: token não reconhecido perto de '1 Evaluate'
+Erro léxico: token não reconhecido perto de ')
+        '
+Erro léxico: token não reconhecido perto de '(mediates '
+Erro léxico: token não reconhecido perto de '1 Evaluati'
+Erro léxico: token não reconhecido perto de ')
+        '
+Erro léxico: token não reconhecido perto de '(mediates '
+Erro léxico: token não reconhecido perto de '1 Evaluati'
+Erro léxico: token não reconhecido perto de ')
+        '
+Erro léxico: token não reconhecido perto de '(historica'
+Erro léxico: token não reconhecido perto de '1 Evaluati'
+Erro léxico: token não reconhecido perto de ')
+    
+   '
+Erro léxico: token não reconhecido perto de ': Evaluati'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': Evaluati'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': Intermed'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': InvokeDa'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de '1 Connecto'
+Erro léxico: token não reconhecido perto de '1 DataCust'
+Erro léxico: token não reconhecido perto de '1 DataOper'
+Erro léxico: token não reconhecido perto de '1 DataSupp'
+Erro léxico: token não reconhecido perto de '1 DataUsag'
+Erro léxico: token não reconhecido perto de ': Metadata'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de '1 Metadata'
+Erro léxico: token não reconhecido perto de '1 Metadata'
+Erro léxico: token não reconhecido perto de ': Metadata'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de '1 Conditio'
+Erro léxico: token não reconhecido perto de '1 BrokerSe'
+Erro léxico: token não reconhecido perto de '1 DataSupp'
+Erro léxico: token não reconhecido perto de '1 Metadata'
+Erro léxico: token não reconhecido perto de ': Metadata'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de '1 BrokerSe'
+Erro léxico: token não reconhecido perto de '1 DataCust'
+Erro léxico: token não reconhecido perto de '1 Metadata'
+Erro léxico: token não reconhecido perto de ': Offer
+
+ '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de '(DataCusto'
+Erro léxico: token não reconhecido perto de ')
+        '
+Erro léxico: token não reconhecido perto de '1 DataCust'
+Erro léxico: token não reconhecido perto de '1 DataSupp'
+Erro léxico: token não reconhecido perto de '1 Economic'
+Erro léxico: token não reconhecido perto de ': OfferedC'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de '1 DataSupp'
+Erro léxico: token não reconhecido perto de ': OfferedC'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': OffereeU'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de '(externall'
+Erro léxico: token não reconhecido perto de ') and (his'
+Erro léxico: token não reconhecido perto de '(historica'
+Erro léxico: token não reconhecido perto de ') and (inh'
+Erro léxico: token não reconhecido perto de '(inheresIn'
+Erro léxico: token não reconhecido perto de '),
+       '
+Erro léxico: token não reconhecido perto de '1 Counterp'
+Erro léxico: token não reconhecido perto de '1 DataCust'
+Erro léxico: token não reconhecido perto de ': OfferorU'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de '(externall'
+Erro léxico: token não reconhecido perto de ') and (his'
+Erro léxico: token não reconhecido perto de '(historica'
+Erro léxico: token não reconhecido perto de ') and (inh'
+Erro léxico: token não reconhecido perto de '(inheresIn'
+Erro léxico: token não reconhecido perto de '),
+       '
+Erro léxico: token não reconhecido perto de '1 DigitalA'
+Erro léxico: token não reconhecido perto de '1 DataSupp'
+Erro léxico: token não reconhecido perto de ': Ownershi'
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de '1 DataSupp'
+Erro léxico: token não reconhecido perto de ': Resource'
+Erro léxico: token não reconhecido perto de ': 
+       '

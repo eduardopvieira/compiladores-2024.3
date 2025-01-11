@@ -1,0 +1,511 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    NAMESPACE
+    TIPO
+
+Grammar
+
+Rule 0     S' -> programa
+Rule 1     programa -> declaracao_classe
+Rule 2     declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA restricoes disjunto individuos
+Rule 3     restricoes -> PROPRIEDADE PALAVRA_RESERVADA CLASSE
+Rule 4     restricoes -> restricoes_composta
+Rule 5     restricoes -> CARDINALIDADE
+Rule 6     restricoes -> CARACTERE_ESPECIAL
+Rule 7     restricoes_composta -> restricoes CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE
+Rule 8     restricoes_composta -> restricoes CARACTERE_ESPECIAL PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE
+Rule 9     disjunto -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CLASSE
+Rule 10    disjunto -> <empty>
+Rule 11    individuos -> PALAVRA_RESERVADA NOME_INDIVIDUO
+Rule 12    individuos -> individuos CARACTERE_ESPECIAL NOME_INDIVIDUO
+Rule 13    declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_def
+Rule 14    restricoes_def -> CLASSE PALAVRA_RESERVADA restricoes
+Rule 15    restricoes_def -> restricoes_composta CARACTERE_ESPECIAL restricoes
+Rule 16    declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL lista_individuos CARACTERE_ESPECIAL
+Rule 17    lista_individuos -> NOME_INDIVIDUO
+Rule 18    lista_individuos -> lista_individuos CARACTERE_ESPECIAL NOME_INDIVIDUO
+Rule 19    declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL lista_classes
+Rule 20    lista_classes -> CLASSE
+Rule 21    lista_classes -> lista_classes PALAVRA_RESERVADA CLASSE
+
+Terminals, with rules where they appear
+
+CARACTERE_ESPECIAL   : 6 7 8 8 9 12 13 15 16 16 16 18 19
+CARDINALIDADE        : 5
+CLASSE               : 2 3 7 8 9 9 13 14 16 19 20 21
+NAMESPACE            : 
+NOME_INDIVIDUO       : 11 12 17 18
+PALAVRA_RESERVADA    : 2 2 3 7 8 9 11 13 14 16 19 21
+PROPRIEDADE          : 3 7
+TIPO                 : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+declaracao_classe    : 1
+disjunto             : 2
+individuos           : 2 12
+lista_classes        : 19 21
+lista_individuos     : 16 18
+programa             : 0
+restricoes           : 2 7 8 14 15
+restricoes_composta  : 4 15
+restricoes_def       : 13
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . programa
+    (1) programa -> . declaracao_classe
+    (2) declaracao_classe -> . PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA restricoes disjunto individuos
+    (13) declaracao_classe -> . PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_def
+    (16) declaracao_classe -> . PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL lista_individuos CARACTERE_ESPECIAL
+    (19) declaracao_classe -> . PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL lista_classes
+
+    PALAVRA_RESERVADA shift and go to state 3
+
+    programa                       shift and go to state 1
+    declaracao_classe              shift and go to state 2
+
+state 1
+
+    (0) S' -> programa .
+
+
+
+state 2
+
+    (1) programa -> declaracao_classe .
+
+    $end            reduce using rule 1 (programa -> declaracao_classe .)
+
+
+state 3
+
+    (2) declaracao_classe -> PALAVRA_RESERVADA . CLASSE PALAVRA_RESERVADA restricoes disjunto individuos
+    (13) declaracao_classe -> PALAVRA_RESERVADA . CLASSE CARACTERE_ESPECIAL restricoes_def
+    (16) declaracao_classe -> PALAVRA_RESERVADA . CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL lista_individuos CARACTERE_ESPECIAL
+    (19) declaracao_classe -> PALAVRA_RESERVADA . CLASSE CARACTERE_ESPECIAL lista_classes
+
+    CLASSE          shift and go to state 4
+
+
+state 4
+
+    (2) declaracao_classe -> PALAVRA_RESERVADA CLASSE . PALAVRA_RESERVADA restricoes disjunto individuos
+    (13) declaracao_classe -> PALAVRA_RESERVADA CLASSE . CARACTERE_ESPECIAL restricoes_def
+    (16) declaracao_classe -> PALAVRA_RESERVADA CLASSE . CARACTERE_ESPECIAL CARACTERE_ESPECIAL lista_individuos CARACTERE_ESPECIAL
+    (19) declaracao_classe -> PALAVRA_RESERVADA CLASSE . CARACTERE_ESPECIAL lista_classes
+
+    PALAVRA_RESERVADA shift and go to state 5
+    CARACTERE_ESPECIAL shift and go to state 6
+
+
+state 5
+
+    (2) declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA . restricoes disjunto individuos
+    (3) restricoes -> . PROPRIEDADE PALAVRA_RESERVADA CLASSE
+    (4) restricoes -> . restricoes_composta
+    (5) restricoes -> . CARDINALIDADE
+    (6) restricoes -> . CARACTERE_ESPECIAL
+    (7) restricoes_composta -> . restricoes CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE
+    (8) restricoes_composta -> . restricoes CARACTERE_ESPECIAL PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE
+
+    PROPRIEDADE     shift and go to state 8
+    CARDINALIDADE   shift and go to state 10
+    CARACTERE_ESPECIAL shift and go to state 11
+
+    restricoes                     shift and go to state 7
+    restricoes_composta            shift and go to state 9
+
+state 6
+
+    (13) declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL . restricoes_def
+    (16) declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL . CARACTERE_ESPECIAL lista_individuos CARACTERE_ESPECIAL
+    (19) declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL . lista_classes
+    (14) restricoes_def -> . CLASSE PALAVRA_RESERVADA restricoes
+    (15) restricoes_def -> . restricoes_composta CARACTERE_ESPECIAL restricoes
+    (20) lista_classes -> . CLASSE
+    (21) lista_classes -> . lista_classes PALAVRA_RESERVADA CLASSE
+    (7) restricoes_composta -> . restricoes CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE
+    (8) restricoes_composta -> . restricoes CARACTERE_ESPECIAL PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE
+    (3) restricoes -> . PROPRIEDADE PALAVRA_RESERVADA CLASSE
+    (4) restricoes -> . restricoes_composta
+    (5) restricoes -> . CARDINALIDADE
+    (6) restricoes -> . CARACTERE_ESPECIAL
+
+    CARACTERE_ESPECIAL shift and go to state 13
+    CLASSE          shift and go to state 12
+    PROPRIEDADE     shift and go to state 8
+    CARDINALIDADE   shift and go to state 10
+
+    restricoes_def                 shift and go to state 14
+    lista_classes                  shift and go to state 15
+    restricoes                     shift and go to state 16
+    restricoes_composta            shift and go to state 17
+
+state 7
+
+    (2) declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA restricoes . disjunto individuos
+    (7) restricoes_composta -> restricoes . CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE
+    (8) restricoes_composta -> restricoes . CARACTERE_ESPECIAL PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE
+    (9) disjunto -> . PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CLASSE
+    (10) disjunto -> .
+
+  ! shift/reduce conflict for PALAVRA_RESERVADA resolved as shift
+    CARACTERE_ESPECIAL shift and go to state 20
+    PALAVRA_RESERVADA shift and go to state 18
+
+  ! PALAVRA_RESERVADA [ reduce using rule 10 (disjunto -> .) ]
+
+    disjunto                       shift and go to state 19
+
+state 8
+
+    (3) restricoes -> PROPRIEDADE . PALAVRA_RESERVADA CLASSE
+
+    PALAVRA_RESERVADA shift and go to state 21
+
+
+state 9
+
+    (4) restricoes -> restricoes_composta .
+
+    CARACTERE_ESPECIAL reduce using rule 4 (restricoes -> restricoes_composta .)
+    PALAVRA_RESERVADA reduce using rule 4 (restricoes -> restricoes_composta .)
+    $end            reduce using rule 4 (restricoes -> restricoes_composta .)
+
+
+state 10
+
+    (5) restricoes -> CARDINALIDADE .
+
+    CARACTERE_ESPECIAL reduce using rule 5 (restricoes -> CARDINALIDADE .)
+    PALAVRA_RESERVADA reduce using rule 5 (restricoes -> CARDINALIDADE .)
+    $end            reduce using rule 5 (restricoes -> CARDINALIDADE .)
+
+
+state 11
+
+    (6) restricoes -> CARACTERE_ESPECIAL .
+
+    CARACTERE_ESPECIAL reduce using rule 6 (restricoes -> CARACTERE_ESPECIAL .)
+    PALAVRA_RESERVADA reduce using rule 6 (restricoes -> CARACTERE_ESPECIAL .)
+    $end            reduce using rule 6 (restricoes -> CARACTERE_ESPECIAL .)
+
+
+state 12
+
+    (14) restricoes_def -> CLASSE . PALAVRA_RESERVADA restricoes
+    (20) lista_classes -> CLASSE .
+
+  ! shift/reduce conflict for PALAVRA_RESERVADA resolved as shift
+    PALAVRA_RESERVADA shift and go to state 22
+    $end            reduce using rule 20 (lista_classes -> CLASSE .)
+
+  ! PALAVRA_RESERVADA [ reduce using rule 20 (lista_classes -> CLASSE .) ]
+
+
+state 13
+
+    (16) declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL . lista_individuos CARACTERE_ESPECIAL
+    (6) restricoes -> CARACTERE_ESPECIAL .
+    (17) lista_individuos -> . NOME_INDIVIDUO
+    (18) lista_individuos -> . lista_individuos CARACTERE_ESPECIAL NOME_INDIVIDUO
+
+    CARACTERE_ESPECIAL reduce using rule 6 (restricoes -> CARACTERE_ESPECIAL .)
+    NOME_INDIVIDUO  shift and go to state 24
+
+    lista_individuos               shift and go to state 23
+
+state 14
+
+    (13) declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_def .
+
+    $end            reduce using rule 13 (declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_def .)
+
+
+state 15
+
+    (19) declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL lista_classes .
+    (21) lista_classes -> lista_classes . PALAVRA_RESERVADA CLASSE
+
+    $end            reduce using rule 19 (declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL lista_classes .)
+    PALAVRA_RESERVADA shift and go to state 25
+
+
+state 16
+
+    (7) restricoes_composta -> restricoes . CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE
+    (8) restricoes_composta -> restricoes . CARACTERE_ESPECIAL PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE
+
+    CARACTERE_ESPECIAL shift and go to state 20
+
+
+state 17
+
+    (15) restricoes_def -> restricoes_composta . CARACTERE_ESPECIAL restricoes
+    (4) restricoes -> restricoes_composta .
+
+  ! shift/reduce conflict for CARACTERE_ESPECIAL resolved as shift
+    CARACTERE_ESPECIAL shift and go to state 26
+
+  ! CARACTERE_ESPECIAL [ reduce using rule 4 (restricoes -> restricoes_composta .) ]
+
+
+state 18
+
+    (9) disjunto -> PALAVRA_RESERVADA . CLASSE CARACTERE_ESPECIAL CLASSE
+
+    CLASSE          shift and go to state 27
+
+
+state 19
+
+    (2) declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA restricoes disjunto . individuos
+    (11) individuos -> . PALAVRA_RESERVADA NOME_INDIVIDUO
+    (12) individuos -> . individuos CARACTERE_ESPECIAL NOME_INDIVIDUO
+
+    PALAVRA_RESERVADA shift and go to state 28
+
+    individuos                     shift and go to state 29
+
+state 20
+
+    (7) restricoes_composta -> restricoes CARACTERE_ESPECIAL . PROPRIEDADE PALAVRA_RESERVADA CLASSE
+    (8) restricoes_composta -> restricoes CARACTERE_ESPECIAL . PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE
+
+    PROPRIEDADE     shift and go to state 30
+    PALAVRA_RESERVADA shift and go to state 31
+
+
+state 21
+
+    (3) restricoes -> PROPRIEDADE PALAVRA_RESERVADA . CLASSE
+
+    CLASSE          shift and go to state 32
+
+
+state 22
+
+    (14) restricoes_def -> CLASSE PALAVRA_RESERVADA . restricoes
+    (3) restricoes -> . PROPRIEDADE PALAVRA_RESERVADA CLASSE
+    (4) restricoes -> . restricoes_composta
+    (5) restricoes -> . CARDINALIDADE
+    (6) restricoes -> . CARACTERE_ESPECIAL
+    (7) restricoes_composta -> . restricoes CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE
+    (8) restricoes_composta -> . restricoes CARACTERE_ESPECIAL PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE
+
+    PROPRIEDADE     shift and go to state 8
+    CARDINALIDADE   shift and go to state 10
+    CARACTERE_ESPECIAL shift and go to state 11
+
+    restricoes                     shift and go to state 33
+    restricoes_composta            shift and go to state 9
+
+state 23
+
+    (16) declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL lista_individuos . CARACTERE_ESPECIAL
+    (18) lista_individuos -> lista_individuos . CARACTERE_ESPECIAL NOME_INDIVIDUO
+
+    CARACTERE_ESPECIAL shift and go to state 34
+
+
+state 24
+
+    (17) lista_individuos -> NOME_INDIVIDUO .
+
+    CARACTERE_ESPECIAL reduce using rule 17 (lista_individuos -> NOME_INDIVIDUO .)
+
+
+state 25
+
+    (21) lista_classes -> lista_classes PALAVRA_RESERVADA . CLASSE
+
+    CLASSE          shift and go to state 35
+
+
+state 26
+
+    (15) restricoes_def -> restricoes_composta CARACTERE_ESPECIAL . restricoes
+    (3) restricoes -> . PROPRIEDADE PALAVRA_RESERVADA CLASSE
+    (4) restricoes -> . restricoes_composta
+    (5) restricoes -> . CARDINALIDADE
+    (6) restricoes -> . CARACTERE_ESPECIAL
+    (7) restricoes_composta -> . restricoes CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE
+    (8) restricoes_composta -> . restricoes CARACTERE_ESPECIAL PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE
+
+    PROPRIEDADE     shift and go to state 8
+    CARDINALIDADE   shift and go to state 10
+    CARACTERE_ESPECIAL shift and go to state 11
+
+    restricoes_composta            shift and go to state 9
+    restricoes                     shift and go to state 36
+
+state 27
+
+    (9) disjunto -> PALAVRA_RESERVADA CLASSE . CARACTERE_ESPECIAL CLASSE
+
+    CARACTERE_ESPECIAL shift and go to state 37
+
+
+state 28
+
+    (11) individuos -> PALAVRA_RESERVADA . NOME_INDIVIDUO
+
+    NOME_INDIVIDUO  shift and go to state 38
+
+
+state 29
+
+    (2) declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA restricoes disjunto individuos .
+    (12) individuos -> individuos . CARACTERE_ESPECIAL NOME_INDIVIDUO
+
+    $end            reduce using rule 2 (declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA restricoes disjunto individuos .)
+    CARACTERE_ESPECIAL shift and go to state 39
+
+
+state 30
+
+    (7) restricoes_composta -> restricoes CARACTERE_ESPECIAL PROPRIEDADE . PALAVRA_RESERVADA CLASSE
+
+    PALAVRA_RESERVADA shift and go to state 40
+
+
+state 31
+
+    (8) restricoes_composta -> restricoes CARACTERE_ESPECIAL PALAVRA_RESERVADA . CARACTERE_ESPECIAL CLASSE
+
+    CARACTERE_ESPECIAL shift and go to state 41
+
+
+state 32
+
+    (3) restricoes -> PROPRIEDADE PALAVRA_RESERVADA CLASSE .
+
+    CARACTERE_ESPECIAL reduce using rule 3 (restricoes -> PROPRIEDADE PALAVRA_RESERVADA CLASSE .)
+    PALAVRA_RESERVADA reduce using rule 3 (restricoes -> PROPRIEDADE PALAVRA_RESERVADA CLASSE .)
+    $end            reduce using rule 3 (restricoes -> PROPRIEDADE PALAVRA_RESERVADA CLASSE .)
+
+
+state 33
+
+    (14) restricoes_def -> CLASSE PALAVRA_RESERVADA restricoes .
+    (7) restricoes_composta -> restricoes . CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE
+    (8) restricoes_composta -> restricoes . CARACTERE_ESPECIAL PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE
+
+    $end            reduce using rule 14 (restricoes_def -> CLASSE PALAVRA_RESERVADA restricoes .)
+    CARACTERE_ESPECIAL shift and go to state 20
+
+
+state 34
+
+    (16) declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL lista_individuos CARACTERE_ESPECIAL .
+    (18) lista_individuos -> lista_individuos CARACTERE_ESPECIAL . NOME_INDIVIDUO
+
+    $end            reduce using rule 16 (declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL lista_individuos CARACTERE_ESPECIAL .)
+    NOME_INDIVIDUO  shift and go to state 42
+
+
+state 35
+
+    (21) lista_classes -> lista_classes PALAVRA_RESERVADA CLASSE .
+
+    PALAVRA_RESERVADA reduce using rule 21 (lista_classes -> lista_classes PALAVRA_RESERVADA CLASSE .)
+    $end            reduce using rule 21 (lista_classes -> lista_classes PALAVRA_RESERVADA CLASSE .)
+
+
+state 36
+
+    (15) restricoes_def -> restricoes_composta CARACTERE_ESPECIAL restricoes .
+    (7) restricoes_composta -> restricoes . CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE
+    (8) restricoes_composta -> restricoes . CARACTERE_ESPECIAL PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE
+
+    $end            reduce using rule 15 (restricoes_def -> restricoes_composta CARACTERE_ESPECIAL restricoes .)
+    CARACTERE_ESPECIAL shift and go to state 20
+
+
+state 37
+
+    (9) disjunto -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL . CLASSE
+
+    CLASSE          shift and go to state 43
+
+
+state 38
+
+    (11) individuos -> PALAVRA_RESERVADA NOME_INDIVIDUO .
+
+    CARACTERE_ESPECIAL reduce using rule 11 (individuos -> PALAVRA_RESERVADA NOME_INDIVIDUO .)
+    $end            reduce using rule 11 (individuos -> PALAVRA_RESERVADA NOME_INDIVIDUO .)
+
+
+state 39
+
+    (12) individuos -> individuos CARACTERE_ESPECIAL . NOME_INDIVIDUO
+
+    NOME_INDIVIDUO  shift and go to state 44
+
+
+state 40
+
+    (7) restricoes_composta -> restricoes CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA . CLASSE
+
+    CLASSE          shift and go to state 45
+
+
+state 41
+
+    (8) restricoes_composta -> restricoes CARACTERE_ESPECIAL PALAVRA_RESERVADA CARACTERE_ESPECIAL . CLASSE
+
+    CLASSE          shift and go to state 46
+
+
+state 42
+
+    (18) lista_individuos -> lista_individuos CARACTERE_ESPECIAL NOME_INDIVIDUO .
+
+    CARACTERE_ESPECIAL reduce using rule 18 (lista_individuos -> lista_individuos CARACTERE_ESPECIAL NOME_INDIVIDUO .)
+
+
+state 43
+
+    (9) disjunto -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CLASSE .
+
+    PALAVRA_RESERVADA reduce using rule 9 (disjunto -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CLASSE .)
+
+
+state 44
+
+    (12) individuos -> individuos CARACTERE_ESPECIAL NOME_INDIVIDUO .
+
+    CARACTERE_ESPECIAL reduce using rule 12 (individuos -> individuos CARACTERE_ESPECIAL NOME_INDIVIDUO .)
+    $end            reduce using rule 12 (individuos -> individuos CARACTERE_ESPECIAL NOME_INDIVIDUO .)
+
+
+state 45
+
+    (7) restricoes_composta -> restricoes CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE .
+
+    CARACTERE_ESPECIAL reduce using rule 7 (restricoes_composta -> restricoes CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE .)
+    PALAVRA_RESERVADA reduce using rule 7 (restricoes_composta -> restricoes CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE .)
+    $end            reduce using rule 7 (restricoes_composta -> restricoes CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE .)
+
+
+state 46
+
+    (8) restricoes_composta -> restricoes CARACTERE_ESPECIAL PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE .
+
+    CARACTERE_ESPECIAL reduce using rule 8 (restricoes_composta -> restricoes CARACTERE_ESPECIAL PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE .)
+    PALAVRA_RESERVADA reduce using rule 8 (restricoes_composta -> restricoes CARACTERE_ESPECIAL PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE .)
+    $end            reduce using rule 8 (restricoes_composta -> restricoes CARACTERE_ESPECIAL PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for PALAVRA_RESERVADA in state 7 resolved as shift
+WARNING: shift/reduce conflict for PALAVRA_RESERVADA in state 12 resolved as shift
+WARNING: shift/reduce conflict for CARACTERE_ESPECIAL in state 17 resolved as shift

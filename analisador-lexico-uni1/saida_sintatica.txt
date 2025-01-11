@@ -1,0 +1,10 @@
+Iniciando análise sintática...
+Declarando classe: Class:
+Nome da classe: Customer
+Encontrado: EquivalentTo:
+Expressão: ('CLASSE', 'Person')
+Expressão: ('CARACTERE_ESPECIAL', '(')
+Expressão: ('PROPRIEDADE', 'purchasedPizza')
+Expressão: ('CLASSE', 'Pizza')
+Expressão: ('CARACTERE_ESPECIAL', ')')
+Análise sintática concluída com sucesso.

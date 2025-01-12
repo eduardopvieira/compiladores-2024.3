@@ -125,16 +125,40 @@ def p_caso_definida(p):
                     | ABRE_PARENT CLASSE PALAVRA_RESERVADA caso_definida FECHA_PARENT"""
 pass
 
-def p_declaracao_classe_aninhada(p): 
-     """declaracao_classe_aninhada : PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA CLASSE restricoes_aninhada"""
-     pass
-
-
-
-def p_restricoes_aninhada(p): 
-    """restricoes_aninhada : PALAVRA_RESERVADA ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT 
-                            |  PALAVRA_RESERVADA ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT restricoes_aninhada"""
+def p_declaracao_classe_aninhada(p):
+    """
+    declaracao_classe : PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA ABRE_PARENT restricoes_aninhada FECHA_PARENT
+    """
     pass
+
+def p_restricoes_aninhada(p):
+    """
+    restricoes_aninhada : PROPRIEDADE PALAVRA_RESERVADA CLASSE
+                        | PROPRIEDADE PALAVRA_RESERVADA ABRE_PARENT CLASSE PALAVRA_RESERVADA aninhada
+                        | ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes_aninhada
+                        | PALAVRA_RESERVADA ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada
+    """
+    pass
+                        #| PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes_aninhada
+
+def p_aninhada(p):
+    """
+    aninhada : ABRE_PARENT CLASSE PALAVRA_RESERVADA CLASSE FECHA_PARENT
+              | ABRE_PARENT CLASSE PALAVRA_RESERVADA aninhada FECHA_PARENT
+              | CLASSE PALAVRA_RESERVADA aninhada 
+              | CLASSE
+    """
+    pass
+# def p_declaracao_classe_aninhada(p): 
+#      """declaracao_classe_aninhada : PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA CLASSE restricoes_aninhada"""
+#      pass
+
+
+
+# def p_restricoes_aninhada(p): 
+#     """restricoes_aninhada : PALAVRA_RESERVADA ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT 
+#                             |  PALAVRA_RESERVADA ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT restricoes_aninhada"""
+#     pass
 def p_restricoes_composta(p):
     """restricoes_composta : restricoes CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE
                            | restricoes CARACTERE_ESPECIAL PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE"""

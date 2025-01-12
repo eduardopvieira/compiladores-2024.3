@@ -25,6 +25,8 @@ tokens = [
     "CARACTERE_ESPECIAL",
     "OPERADORES",
     "CARDINALIDADE",
+    "ABRE_PARENT",
+    "FECHA_PARENT"
 ]
 
 # Regras de expressão regular para os tokens
@@ -34,13 +36,19 @@ t_CLASSE = r'([A-Z][a-z]+[_]?)+'
 t_NAMESPACE = r'[a-z]{3,4}:'
 t_TIPO = r'rational|real|langString|PlainLiteral|XMLLiteral|Literal|anyURI|base64Binary|boolean|byte|dateTime|dateTimeStamp|decimal|double|float|hexBinary|integer|int|language|long|Name|NCName|negativeInteger|NMTOKEN|nonNegativeInteger|nonPositiveInteger|normalizedString|positiveInteger|short|string|token|unsignedByte|unsignedInt|unsignedLong|unsignedShort'
 t_PROPRIEDADE = r'has([A-Z][a-z]+)+|is([A-Z][a-z]+)+Of|[a-z]+([A-Z][a-z]+)*' 
-t_CARACTERE_ESPECIAL = r'[{}\[\]().,\"\']'
+t_CARACTERE_ESPECIAL = r'[{}\[\].,\"\']'
 t_OPERADORES = r'[<>="]{1,2}'
 t_CARDINALIDADE = r'[0-9]+'
+t_ABRE_PARENT = r'\('
+t_FECHA_PARENT = r'\)'
 
 
 # Ignora os espaços em branco e tabulações
-t_ignore = ' \t\n\r'
+t_ignore = ' \t'
+
+def t_newline(t):
+    r'\n+'
+    t.lexer.lineno += len(t.value)
 
 def t_error(t):
     erro = f"Erro léxico: token não reconhecido perto de '{t.value[:10]}'\n"
@@ -67,47 +75,65 @@ def p_restricoes(p):
     """restricoes : CARACTERE_ESPECIAL PALAVRA_RESERVADA CLASSE restricoes
                   | """
     pass
-                  #| restricoes_composta
-                  #| CARDINALIDADE
-                  #| CARACTERE_ESPECIAL"""
+            
 
 def p_declaracao_classe_axioma_fechamento(p):
     """declaracao_classe : PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento """
     pass
-#CLASS: oiajsdoa
-#Subclassof:
-#poksapdkas, 
-#lkaçlsdkaçs
+
 def p_restricoes_axioma_fechamento(p):
     """restricoes_axioma_fechamento : PROPRIEDADE PALAVRA_RESERVADA CLASSE
                   | PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
                   | PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
                   | PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE 
+                  | PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
+                  | PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE 
+                  | caso_axioma 
+                  | PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CLASSE
+                  | PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
                   | PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE  
                   | PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL restricoes_axioma_fechamento"""
     pass
-                  #| restricoes_composta
-                  #| PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL 
+                
 
+def p_caso_axioma(p):
+    """caso_axioma : ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT
+                    | ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT CARACTERE_ESPECIAL restricoes_axioma_fechamento                    
+                    | ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT PALAVRA_RESERVADA caso_axioma"""
+    pass
 
 def p_declaracao_classe_definida(p):
     """declaracao_classe : PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA restricoes_definida"""
     pass
 
 def p_restricoes_definida(p):
-    """restricoes_definida : CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL
-                           | CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL PALAVRA_RESERVADA restricoes_definida
+    """restricoes_definida : ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT
+                           | ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT PALAVRA_RESERVADA restricoes_definida
 
-                           | CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL   
-                           | CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL PALAVRA_RESERVADA  restricoes_definida
+                           | ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT   
+                           | ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT PALAVRA_RESERVADA  restricoes_definida
 
-                           | CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA casos_definida
-                           | """
+                           | ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA restricoes_definida FECHA_PARENT 
+                           | ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA  caso_definida FECHA_PARENT """
+                           
     pass
-def caso_definida(p):
-    """restricoes_definida : 
-                          | 
-                          | CLASSE PALAVRA_RESERVADA CARACTERE_ESPECIAL CARACTERE_ESPECIAL"""
+
+def p_caso_definida(p):
+      """caso_definida : CLASSE 
+                    | CLASSE PALAVRA_RESERVADA  FECHA_PARENT caso_definida
+                    | CLASSE PALAVRA_RESERVADA  FECHA_PARENT 
+                    | ABRE_PARENT CLASSE PALAVRA_RESERVADA caso_definida FECHA_PARENT"""
+pass
+
+def p_declaracao_classe_aninhada(p): 
+     """declaracao_classe_aninhada : PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA CLASSE restricoes_aninhada"""
+     pass
+
+
+
+def p_restricoes_aninhada(p): 
+    """restricoes_aninhada : PALAVRA_RESERVADA ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT 
+                            |  PALAVRA_RESERVADA ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT restricoes_aninhada"""
     pass
 def p_restricoes_composta(p):
     """restricoes_composta : restricoes CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE

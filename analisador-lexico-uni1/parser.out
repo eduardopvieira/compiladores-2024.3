@@ -2,125 +2,124 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
 Unused terminals:
 
-    NAMESPACE
     OPERADORES
-    TIPO
 
 Grammar
 
 Rule 0     S' -> programa
-Rule 1     programa -> declaracao_classe programa
-Rule 2     programa -> declaracao_classe
-Rule 3     declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes
-Rule 4     restricoes -> CARACTERE_ESPECIAL PALAVRA_RESERVADA CLASSE restricoes
-Rule 5     restricoes -> <empty>
-Rule 6     declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-Rule 7     restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CLASSE
-Rule 8     restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-Rule 9     restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-Rule 10    restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE
-Rule 11    restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-Rule 12    restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE
-Rule 13    restricoes_axioma_fechamento -> caso_axioma
-Rule 14    restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CLASSE
-Rule 15    restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-Rule 16    restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE
-Rule 17    restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL restricoes_axioma_fechamento
-Rule 18    caso_axioma -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT
-Rule 19    caso_axioma -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT CARACTERE_ESPECIAL restricoes_axioma_fechamento
-Rule 20    caso_axioma -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT PALAVRA_RESERVADA caso_axioma
-Rule 21    restricoes_definida -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT
-Rule 22    restricoes_definida -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT PALAVRA_RESERVADA restricoes_definida
-Rule 23    restricoes_definida -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT
-Rule 24    restricoes_definida -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT PALAVRA_RESERVADA restricoes_definida
-Rule 25    restricoes_definida -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA restricoes_definida FECHA_PARENT
-Rule 26    restricoes_definida -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA caso_definida FECHA_PARENT
-Rule 27    caso_definida -> CLASSE
-Rule 28    caso_definida -> CLASSE PALAVRA_RESERVADA FECHA_PARENT caso_definida
-Rule 29    caso_definida -> CLASSE PALAVRA_RESERVADA FECHA_PARENT
-Rule 30    caso_definida -> ABRE_PARENT CLASSE PALAVRA_RESERVADA caso_definida FECHA_PARENT
-Rule 31    declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA CLASSE ands_aninhada FECHA_PARENT
-Rule 32    ands_aninhada -> PALAVRA_RESERVADA restricoes_aninhada ands_aninhada
-Rule 33    ands_aninhada -> PALAVRA_RESERVADA restricoes_aninhada
-Rule 34    restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT
-Rule 35    restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA ABRE_PARENT lista_classes FECHA_PARENT
-Rule 36    restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes_aninhada
-Rule 37    restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada
-Rule 38    restricoes_aninhada -> ABRE_PARENT restricoes_aninhada FECHA_PARENT
-Rule 39    conectivo_logico -> PALAVRA_RESERVADA
-Rule 40    aninhada -> ABRE_PARENT CLASSE PALAVRA_RESERVADA CLASSE FECHA_PARENT
-Rule 41    aninhada -> ABRE_PARENT CLASSE PALAVRA_RESERVADA aninhada FECHA_PARENT
-Rule 42    aninhada -> CLASSE PALAVRA_RESERVADA aninhada
-Rule 43    aninhada -> CLASSE
-Rule 44    restricoes_composta -> restricoes CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE
-Rule 45    restricoes_composta -> restricoes CARACTERE_ESPECIAL PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE
-Rule 46    disjunto -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CLASSE
-Rule 47    disjunto -> <empty>
-Rule 48    individuos -> PALAVRA_RESERVADA NOME_INDIVIDUO
-Rule 49    individuos -> individuos CARACTERE_ESPECIAL NOME_INDIVIDUO
-Rule 50    declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_def
-Rule 51    restricoes_def -> CLASSE PALAVRA_RESERVADA restricoes
-Rule 52    restricoes_def -> restricoes_composta CARACTERE_ESPECIAL restricoes
-Rule 53    declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL lista_individuos CARACTERE_ESPECIAL
-Rule 54    lista_individuos -> NOME_INDIVIDUO
-Rule 55    lista_individuos -> lista_individuos CARACTERE_ESPECIAL NOME_INDIVIDUO
-Rule 56    declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL lista_classes
-Rule 57    lista_classes -> CLASSE
-Rule 58    lista_classes -> lista_classes PALAVRA_RESERVADA CLASSE
+Rule 1     programa -> tipo_classe_primaria programa
+Rule 2     programa -> tipo_classe_primaria
+Rule 3     tipo_classe_primaria -> declaracao_classe_definida
+Rule 4     tipo_classe_primaria -> declaracao_classe_primitiva
+Rule 5     tipo_classe_secundaria -> declaracao_classe_aninhada
+Rule 6     tipo_classe_secundaria -> declaracao_classe_enumerada
+Rule 7     tipo_classe_secundaria -> declaracao_classe_coberta
+Rule 8     tipo_classe_secundaria -> declaracao_classe_axioma_fechamento
+Rule 9     declaracao_classe_primitiva -> PALAVRA_RESERVADA CLASSE caso_subclassof caso_individuals_opcional caso_disjoint_opcional
+Rule 10    caso_subclassof -> SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA CLASSE
+Rule 11    caso_subclassof -> SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO
+Rule 12    caso_subclassof -> SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL continuacao_subclassof
+Rule 13    caso_subclassof -> SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof
+Rule 14    caso_subclassof -> SUBCLASSOF declaracao_classe_axioma_fechamento
+Rule 15    caso_individuals_opcional -> NOME_INDIVIDUO CARACTERE_ESPECIAL caso_individuals_opcional
+Rule 16    caso_individuals_opcional -> NOME_INDIVIDUO
+Rule 17    caso_individuals_opcional -> INDIVIDUALS NOME_INDIVIDUO
+Rule 18    caso_individuals_opcional -> INDIVIDUALS NOME_INDIVIDUO CARACTERE_ESPECIAL caso_individuals_opcional
+Rule 19    caso_disjoint_opcional -> CLASSE CARACTERE_ESPECIAL caso_disjoint_opcional
+Rule 20    caso_disjoint_opcional -> CLASSE
+Rule 21    caso_disjoint_opcional -> DISJOINTCLASSES CLASSE
+Rule 22    caso_disjoint_opcional -> DISJOINTCLASSES CLASSE CARACTERE_ESPECIAL caso_disjoint_opcional
+Rule 23    continuacao_subclassof -> PROPRIEDADE PALAVRA_RESERVADA CLASSE
+Rule 24    continuacao_subclassof -> PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO
+Rule 25    continuacao_subclassof -> PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL continuacao_subclassof
+Rule 26    continuacao_subclassof -> PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof
+Rule 27    declaracao_classe_definida -> PALAVRA_RESERVADA CLASSE EQUIVALENT_TO tipo_classe_secundaria caso_individuals_opcional
+Rule 28    declaracao_classe_aninhada -> caso_ands
+Rule 29    caso_ands -> AND restricoes_aninhada caso_ands
+Rule 30    caso_ands -> AND restricoes_aninhada
+Rule 31    restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT
+Rule 32    restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA ABRE_PARENT classes_and FECHA_PARENT
+Rule 33    restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes_aninhada
+Rule 34    restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada
+Rule 35    restricoes_aninhada -> ABRE_PARENT restricoes_aninhada FECHA_PARENT
+Rule 36    classes_and -> CLASSE AND classes_and
+Rule 37    classes_and -> CLASSE
+Rule 38    declaracao_classe_axioma_fechamento -> CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
+Rule 39    restricoes_axioma_fechamento -> PROPRIEDADE SOME CLASSE
+Rule 40    restricoes_axioma_fechamento -> PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
+Rule 41    restricoes_axioma_fechamento -> PROPRIEDADE ONLY ABRE_PARENT classes_or FECHA_PARENT
+Rule 42    classes_or -> CLASSE OR classes_or
+Rule 43    classes_or -> CLASSE
+Rule 44    declaracao_classe_enumerada -> ABRE_CHAVE classes_enumeradas FECHA_CHAVE
+Rule 45    classes_enumeradas -> CLASSE CARACTERE_ESPECIAL classes_enumeradas
+Rule 46    classes_enumeradas -> CLASSE
+Rule 47    declaracao_classe_coberta -> classes_or
 
 Terminals, with rules where they appear
 
-ABRE_PARENT          : 18 19 20 21 22 23 24 25 26 30 34 35 35 36 37 38 40 41
-CARACTERE_ESPECIAL   : 4 6 8 9 11 15 16 17 17 17 19 44 45 45 46 49 50 52 53 53 53 55 56
-CARDINALIDADE        : 9 10 11 12 23 24 37
-CLASSE               : 3 3 4 6 6 7 8 9 10 11 12 14 15 16 16 17 17 18 19 20 21 22 23 24 27 28 29 30 31 31 34 36 37 40 40 41 42 43 44 45 46 46 50 51 53 56 57 58
-FECHA_PARENT         : 18 19 20 21 22 23 24 25 26 28 29 30 31 34 35 37 38 40 41
-NAMESPACE            : 
-NOME_INDIVIDUO       : 48 49 54 55
+ABRE_CHAVE           : 44
+ABRE_PARENT          : 31 32 32 33 34 35 41
+AND                  : 29 30 36
+CARACTERE_ESPECIAL   : 12 13 15 18 19 22 25 26 38 40 45
+CARDINALIDADE        : 34
+CLASSE               : 9 10 12 19 20 21 22 23 25 27 31 33 34 36 37 38 39 40 42 43 45 46
+DISJOINTCLASSES      : 21 22
+EQUIVALENT_TO        : 27
+FECHA_CHAVE          : 44
+FECHA_PARENT         : 31 32 34 35 41
+INDIVIDUALS          : 17 18
+NAMESPACE            : 11 13 24 26
+NOME_INDIVIDUO       : 15 16 17 18
+ONLY                 : 41
 OPERADORES           : 
-PALAVRA_RESERVADA    : 3 3 3 4 6 6 7 8 9 10 11 12 14 15 16 16 17 17 18 19 20 20 21 22 22 23 24 24 25 26 28 29 30 31 31 32 33 34 35 36 37 39 40 41 42 44 45 46 48 50 51 53 56 58
-PROPRIEDADE          : 3 7 8 9 10 11 11 12 12 14 14 15 15 16 17 18 19 20 21 22 23 24 25 26 34 35 36 37 44
-TIPO                 : 
+OR                   : 42
+PALAVRA_RESERVADA    : 9 10 11 12 13 23 24 25 26 27 31 32 33 34
+PROPRIEDADE          : 10 11 12 13 23 24 25 26 31 32 33 34 39 40 41
+SOME                 : 39 40
+SUBCLASSOF           : 10 11 12 13 14
+TIPO                 : 11 13 24 26
 error                : 
 
 Nonterminals, with rules where they appear
 
-ands_aninhada        : 31 32
-aninhada             : 41 42
-caso_axioma          : 13 20
-caso_definida        : 26 28 30
-conectivo_logico     : 
-declaracao_classe    : 1 2
-disjunto             : 
-individuos           : 49
-lista_classes        : 35 56 58
-lista_individuos     : 53 55
+caso_ands            : 28 29
+caso_disjoint_opcional : 9 19 22
+caso_individuals_opcional : 9 15 18 27
+caso_subclassof      : 9
+classes_and          : 32 36
+classes_enumeradas   : 44 45
+classes_or           : 41 42 47
+continuacao_subclassof : 12 13 25 26
+declaracao_classe_aninhada : 5
+declaracao_classe_axioma_fechamento : 8 14
+declaracao_classe_coberta : 7
+declaracao_classe_definida : 3
+declaracao_classe_enumerada : 6
+declaracao_classe_primitiva : 4
 programa             : 1 0
-restricoes           : 3 4 44 45 51 52
-restricoes_aninhada  : 32 33 36 37 38
-restricoes_axioma_fechamento : 6 8 9 11 15 17 19
-restricoes_composta  : 52
-restricoes_def       : 50
-restricoes_definida  : 22 24 25
+restricoes_aninhada  : 29 30 33 34 35
+restricoes_axioma_fechamento : 38 40
+tipo_classe_primaria : 1 2
+tipo_classe_secundaria : 27
 
 Parsing method: LALR
 
 state 0
 
     (0) S' -> . programa
-    (1) programa -> . declaracao_classe programa
-    (2) programa -> . declaracao_classe
-    (3) declaracao_classe -> . PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes
-    (6) declaracao_classe -> . PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (31) declaracao_classe -> . PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA CLASSE ands_aninhada FECHA_PARENT
-    (50) declaracao_classe -> . PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_def
-    (53) declaracao_classe -> . PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL lista_individuos CARACTERE_ESPECIAL
-    (56) declaracao_classe -> . PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL lista_classes
+    (1) programa -> . tipo_classe_primaria programa
+    (2) programa -> . tipo_classe_primaria
+    (3) tipo_classe_primaria -> . declaracao_classe_definida
+    (4) tipo_classe_primaria -> . declaracao_classe_primitiva
+    (27) declaracao_classe_definida -> . PALAVRA_RESERVADA CLASSE EQUIVALENT_TO tipo_classe_secundaria caso_individuals_opcional
+    (9) declaracao_classe_primitiva -> . PALAVRA_RESERVADA CLASSE caso_subclassof caso_individuals_opcional caso_disjoint_opcional
 
-    PALAVRA_RESERVADA shift and go to state 3
+    PALAVRA_RESERVADA shift and go to state 5
 
     programa                       shift and go to state 1
-    declaracao_classe              shift and go to state 2
+    tipo_classe_primaria           shift and go to state 2
+    declaracao_classe_definida     shift and go to state 3
+    declaracao_classe_primitiva    shift and go to state 4
 
 state 1
 
@@ -130,1030 +129,959 @@ state 1
 
 state 2
 
-    (1) programa -> declaracao_classe . programa
-    (2) programa -> declaracao_classe .
-    (1) programa -> . declaracao_classe programa
-    (2) programa -> . declaracao_classe
-    (3) declaracao_classe -> . PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes
-    (6) declaracao_classe -> . PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (31) declaracao_classe -> . PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA CLASSE ands_aninhada FECHA_PARENT
-    (50) declaracao_classe -> . PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_def
-    (53) declaracao_classe -> . PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL lista_individuos CARACTERE_ESPECIAL
-    (56) declaracao_classe -> . PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL lista_classes
+    (1) programa -> tipo_classe_primaria . programa
+    (2) programa -> tipo_classe_primaria .
+    (1) programa -> . tipo_classe_primaria programa
+    (2) programa -> . tipo_classe_primaria
+    (3) tipo_classe_primaria -> . declaracao_classe_definida
+    (4) tipo_classe_primaria -> . declaracao_classe_primitiva
+    (27) declaracao_classe_definida -> . PALAVRA_RESERVADA CLASSE EQUIVALENT_TO tipo_classe_secundaria caso_individuals_opcional
+    (9) declaracao_classe_primitiva -> . PALAVRA_RESERVADA CLASSE caso_subclassof caso_individuals_opcional caso_disjoint_opcional
 
-    $end            reduce using rule 2 (programa -> declaracao_classe .)
-    PALAVRA_RESERVADA shift and go to state 3
+    $end            reduce using rule 2 (programa -> tipo_classe_primaria .)
+    PALAVRA_RESERVADA shift and go to state 5
 
-    declaracao_classe              shift and go to state 2
-    programa                       shift and go to state 4
+    tipo_classe_primaria           shift and go to state 2
+    programa                       shift and go to state 6
+    declaracao_classe_definida     shift and go to state 3
+    declaracao_classe_primitiva    shift and go to state 4
 
 state 3
 
-    (3) declaracao_classe -> PALAVRA_RESERVADA . CLASSE PALAVRA_RESERVADA PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes
-    (6) declaracao_classe -> PALAVRA_RESERVADA . CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (31) declaracao_classe -> PALAVRA_RESERVADA . CLASSE PALAVRA_RESERVADA CLASSE ands_aninhada FECHA_PARENT
-    (50) declaracao_classe -> PALAVRA_RESERVADA . CLASSE CARACTERE_ESPECIAL restricoes_def
-    (53) declaracao_classe -> PALAVRA_RESERVADA . CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL lista_individuos CARACTERE_ESPECIAL
-    (56) declaracao_classe -> PALAVRA_RESERVADA . CLASSE CARACTERE_ESPECIAL lista_classes
+    (3) tipo_classe_primaria -> declaracao_classe_definida .
 
-    CLASSE          shift and go to state 5
+    PALAVRA_RESERVADA reduce using rule 3 (tipo_classe_primaria -> declaracao_classe_definida .)
+    $end            reduce using rule 3 (tipo_classe_primaria -> declaracao_classe_definida .)
 
 
 state 4
 
-    (1) programa -> declaracao_classe programa .
+    (4) tipo_classe_primaria -> declaracao_classe_primitiva .
 
-    $end            reduce using rule 1 (programa -> declaracao_classe programa .)
+    PALAVRA_RESERVADA reduce using rule 4 (tipo_classe_primaria -> declaracao_classe_primitiva .)
+    $end            reduce using rule 4 (tipo_classe_primaria -> declaracao_classe_primitiva .)
 
 
 state 5
 
-    (3) declaracao_classe -> PALAVRA_RESERVADA CLASSE . PALAVRA_RESERVADA PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes
-    (6) declaracao_classe -> PALAVRA_RESERVADA CLASSE . PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (31) declaracao_classe -> PALAVRA_RESERVADA CLASSE . PALAVRA_RESERVADA CLASSE ands_aninhada FECHA_PARENT
-    (50) declaracao_classe -> PALAVRA_RESERVADA CLASSE . CARACTERE_ESPECIAL restricoes_def
-    (53) declaracao_classe -> PALAVRA_RESERVADA CLASSE . CARACTERE_ESPECIAL CARACTERE_ESPECIAL lista_individuos CARACTERE_ESPECIAL
-    (56) declaracao_classe -> PALAVRA_RESERVADA CLASSE . CARACTERE_ESPECIAL lista_classes
+    (27) declaracao_classe_definida -> PALAVRA_RESERVADA . CLASSE EQUIVALENT_TO tipo_classe_secundaria caso_individuals_opcional
+    (9) declaracao_classe_primitiva -> PALAVRA_RESERVADA . CLASSE caso_subclassof caso_individuals_opcional caso_disjoint_opcional
 
-    PALAVRA_RESERVADA shift and go to state 6
-    CARACTERE_ESPECIAL shift and go to state 7
+    CLASSE          shift and go to state 7
 
 
 state 6
 
-    (3) declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA . PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes
-    (6) declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA . CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (31) declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA . CLASSE ands_aninhada FECHA_PARENT
+    (1) programa -> tipo_classe_primaria programa .
 
-    PROPRIEDADE     shift and go to state 9
-    CLASSE          shift and go to state 8
+    $end            reduce using rule 1 (programa -> tipo_classe_primaria programa .)
 
 
 state 7
 
-    (50) declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL . restricoes_def
-    (53) declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL . CARACTERE_ESPECIAL lista_individuos CARACTERE_ESPECIAL
-    (56) declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL . lista_classes
-    (51) restricoes_def -> . CLASSE PALAVRA_RESERVADA restricoes
-    (52) restricoes_def -> . restricoes_composta CARACTERE_ESPECIAL restricoes
-    (57) lista_classes -> . CLASSE
-    (58) lista_classes -> . lista_classes PALAVRA_RESERVADA CLASSE
-    (44) restricoes_composta -> . restricoes CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE
-    (45) restricoes_composta -> . restricoes CARACTERE_ESPECIAL PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE
-    (4) restricoes -> . CARACTERE_ESPECIAL PALAVRA_RESERVADA CLASSE restricoes
-    (5) restricoes -> .
+    (27) declaracao_classe_definida -> PALAVRA_RESERVADA CLASSE . EQUIVALENT_TO tipo_classe_secundaria caso_individuals_opcional
+    (9) declaracao_classe_primitiva -> PALAVRA_RESERVADA CLASSE . caso_subclassof caso_individuals_opcional caso_disjoint_opcional
+    (10) caso_subclassof -> . SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA CLASSE
+    (11) caso_subclassof -> . SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO
+    (12) caso_subclassof -> . SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL continuacao_subclassof
+    (13) caso_subclassof -> . SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof
+    (14) caso_subclassof -> . SUBCLASSOF declaracao_classe_axioma_fechamento
 
-  ! shift/reduce conflict for CARACTERE_ESPECIAL resolved as shift
-    CARACTERE_ESPECIAL shift and go to state 11
-    CLASSE          shift and go to state 10
+    EQUIVALENT_TO   shift and go to state 8
+    SUBCLASSOF      shift and go to state 10
 
-  ! CARACTERE_ESPECIAL [ reduce using rule 5 (restricoes -> .) ]
-
-    restricoes_def                 shift and go to state 12
-    lista_classes                  shift and go to state 13
-    restricoes                     shift and go to state 14
-    restricoes_composta            shift and go to state 15
+    caso_subclassof                shift and go to state 9
 
 state 8
 
-    (6) declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA CLASSE . CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (31) declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA CLASSE . ands_aninhada FECHA_PARENT
-    (32) ands_aninhada -> . PALAVRA_RESERVADA restricoes_aninhada ands_aninhada
-    (33) ands_aninhada -> . PALAVRA_RESERVADA restricoes_aninhada
+    (27) declaracao_classe_definida -> PALAVRA_RESERVADA CLASSE EQUIVALENT_TO . tipo_classe_secundaria caso_individuals_opcional
+    (5) tipo_classe_secundaria -> . declaracao_classe_aninhada
+    (6) tipo_classe_secundaria -> . declaracao_classe_enumerada
+    (7) tipo_classe_secundaria -> . declaracao_classe_coberta
+    (8) tipo_classe_secundaria -> . declaracao_classe_axioma_fechamento
+    (28) declaracao_classe_aninhada -> . caso_ands
+    (44) declaracao_classe_enumerada -> . ABRE_CHAVE classes_enumeradas FECHA_CHAVE
+    (47) declaracao_classe_coberta -> . classes_or
+    (38) declaracao_classe_axioma_fechamento -> . CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
+    (29) caso_ands -> . AND restricoes_aninhada caso_ands
+    (30) caso_ands -> . AND restricoes_aninhada
+    (42) classes_or -> . CLASSE OR classes_or
+    (43) classes_or -> . CLASSE
 
-    CARACTERE_ESPECIAL shift and go to state 17
-    PALAVRA_RESERVADA shift and go to state 16
+    ABRE_CHAVE      shift and go to state 18
+    CLASSE          shift and go to state 11
+    AND             shift and go to state 20
 
-    ands_aninhada                  shift and go to state 18
+    tipo_classe_secundaria         shift and go to state 12
+    declaracao_classe_aninhada     shift and go to state 13
+    declaracao_classe_enumerada    shift and go to state 14
+    declaracao_classe_coberta      shift and go to state 15
+    declaracao_classe_axioma_fechamento shift and go to state 16
+    caso_ands                      shift and go to state 17
+    classes_or                     shift and go to state 19
 
 state 9
 
-    (3) declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA PROPRIEDADE . PALAVRA_RESERVADA CLASSE restricoes
+    (9) declaracao_classe_primitiva -> PALAVRA_RESERVADA CLASSE caso_subclassof . caso_individuals_opcional caso_disjoint_opcional
+    (15) caso_individuals_opcional -> . NOME_INDIVIDUO CARACTERE_ESPECIAL caso_individuals_opcional
+    (16) caso_individuals_opcional -> . NOME_INDIVIDUO
+    (17) caso_individuals_opcional -> . INDIVIDUALS NOME_INDIVIDUO
+    (18) caso_individuals_opcional -> . INDIVIDUALS NOME_INDIVIDUO CARACTERE_ESPECIAL caso_individuals_opcional
 
-    PALAVRA_RESERVADA shift and go to state 19
+    NOME_INDIVIDUO  shift and go to state 22
+    INDIVIDUALS     shift and go to state 23
 
+    caso_individuals_opcional      shift and go to state 21
 
 state 10
 
-    (51) restricoes_def -> CLASSE . PALAVRA_RESERVADA restricoes
-    (57) lista_classes -> CLASSE .
+    (10) caso_subclassof -> SUBCLASSOF . PROPRIEDADE PALAVRA_RESERVADA CLASSE
+    (11) caso_subclassof -> SUBCLASSOF . PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO
+    (12) caso_subclassof -> SUBCLASSOF . PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL continuacao_subclassof
+    (13) caso_subclassof -> SUBCLASSOF . PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof
+    (14) caso_subclassof -> SUBCLASSOF . declaracao_classe_axioma_fechamento
+    (38) declaracao_classe_axioma_fechamento -> . CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
 
-  ! shift/reduce conflict for PALAVRA_RESERVADA resolved as shift
-    PALAVRA_RESERVADA shift and go to state 20
-    $end            reduce using rule 57 (lista_classes -> CLASSE .)
+    PROPRIEDADE     shift and go to state 24
+    CLASSE          shift and go to state 25
 
-  ! PALAVRA_RESERVADA [ reduce using rule 57 (lista_classes -> CLASSE .) ]
-
+    declaracao_classe_axioma_fechamento shift and go to state 26
 
 state 11
 
-    (53) declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL . lista_individuos CARACTERE_ESPECIAL
-    (4) restricoes -> CARACTERE_ESPECIAL . PALAVRA_RESERVADA CLASSE restricoes
-    (54) lista_individuos -> . NOME_INDIVIDUO
-    (55) lista_individuos -> . lista_individuos CARACTERE_ESPECIAL NOME_INDIVIDUO
+    (38) declaracao_classe_axioma_fechamento -> CLASSE . CARACTERE_ESPECIAL restricoes_axioma_fechamento
+    (42) classes_or -> CLASSE . OR classes_or
+    (43) classes_or -> CLASSE .
 
-    PALAVRA_RESERVADA shift and go to state 21
-    NOME_INDIVIDUO  shift and go to state 23
+    CARACTERE_ESPECIAL shift and go to state 27
+    OR              shift and go to state 28
+    NOME_INDIVIDUO  reduce using rule 43 (classes_or -> CLASSE .)
+    INDIVIDUALS     reduce using rule 43 (classes_or -> CLASSE .)
 
-    lista_individuos               shift and go to state 22
 
 state 12
 
-    (50) declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_def .
+    (27) declaracao_classe_definida -> PALAVRA_RESERVADA CLASSE EQUIVALENT_TO tipo_classe_secundaria . caso_individuals_opcional
+    (15) caso_individuals_opcional -> . NOME_INDIVIDUO CARACTERE_ESPECIAL caso_individuals_opcional
+    (16) caso_individuals_opcional -> . NOME_INDIVIDUO
+    (17) caso_individuals_opcional -> . INDIVIDUALS NOME_INDIVIDUO
+    (18) caso_individuals_opcional -> . INDIVIDUALS NOME_INDIVIDUO CARACTERE_ESPECIAL caso_individuals_opcional
 
-    PALAVRA_RESERVADA reduce using rule 50 (declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_def .)
-    $end            reduce using rule 50 (declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_def .)
+    NOME_INDIVIDUO  shift and go to state 22
+    INDIVIDUALS     shift and go to state 23
 
+    caso_individuals_opcional      shift and go to state 29
 
 state 13
 
-    (56) declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL lista_classes .
-    (58) lista_classes -> lista_classes . PALAVRA_RESERVADA CLASSE
+    (5) tipo_classe_secundaria -> declaracao_classe_aninhada .
 
-  ! shift/reduce conflict for PALAVRA_RESERVADA resolved as shift
-    $end            reduce using rule 56 (declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL lista_classes .)
-    PALAVRA_RESERVADA shift and go to state 24
-
-  ! PALAVRA_RESERVADA [ reduce using rule 56 (declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL lista_classes .) ]
+    NOME_INDIVIDUO  reduce using rule 5 (tipo_classe_secundaria -> declaracao_classe_aninhada .)
+    INDIVIDUALS     reduce using rule 5 (tipo_classe_secundaria -> declaracao_classe_aninhada .)
 
 
 state 14
 
-    (44) restricoes_composta -> restricoes . CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE
-    (45) restricoes_composta -> restricoes . CARACTERE_ESPECIAL PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE
+    (6) tipo_classe_secundaria -> declaracao_classe_enumerada .
 
-    CARACTERE_ESPECIAL shift and go to state 25
+    NOME_INDIVIDUO  reduce using rule 6 (tipo_classe_secundaria -> declaracao_classe_enumerada .)
+    INDIVIDUALS     reduce using rule 6 (tipo_classe_secundaria -> declaracao_classe_enumerada .)
 
 
 state 15
 
-    (52) restricoes_def -> restricoes_composta . CARACTERE_ESPECIAL restricoes
+    (7) tipo_classe_secundaria -> declaracao_classe_coberta .
 
-    CARACTERE_ESPECIAL shift and go to state 26
+    NOME_INDIVIDUO  reduce using rule 7 (tipo_classe_secundaria -> declaracao_classe_coberta .)
+    INDIVIDUALS     reduce using rule 7 (tipo_classe_secundaria -> declaracao_classe_coberta .)
 
 
 state 16
 
-    (32) ands_aninhada -> PALAVRA_RESERVADA . restricoes_aninhada ands_aninhada
-    (33) ands_aninhada -> PALAVRA_RESERVADA . restricoes_aninhada
-    (34) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT
-    (35) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA ABRE_PARENT lista_classes FECHA_PARENT
-    (36) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes_aninhada
-    (37) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada
-    (38) restricoes_aninhada -> . ABRE_PARENT restricoes_aninhada FECHA_PARENT
+    (8) tipo_classe_secundaria -> declaracao_classe_axioma_fechamento .
 
-    ABRE_PARENT     shift and go to state 28
+    NOME_INDIVIDUO  reduce using rule 8 (tipo_classe_secundaria -> declaracao_classe_axioma_fechamento .)
+    INDIVIDUALS     reduce using rule 8 (tipo_classe_secundaria -> declaracao_classe_axioma_fechamento .)
 
-    restricoes_aninhada            shift and go to state 27
 
 state 17
 
-    (6) declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL . restricoes_axioma_fechamento
-    (7) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CLASSE
-    (8) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (9) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (10) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE
-    (11) restricoes_axioma_fechamento -> . PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (12) restricoes_axioma_fechamento -> . PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE
-    (13) restricoes_axioma_fechamento -> . caso_axioma
-    (14) restricoes_axioma_fechamento -> . PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CLASSE
-    (15) restricoes_axioma_fechamento -> . PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (16) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE
-    (17) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (18) caso_axioma -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT
-    (19) caso_axioma -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (20) caso_axioma -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT PALAVRA_RESERVADA caso_axioma
+    (28) declaracao_classe_aninhada -> caso_ands .
 
-    PROPRIEDADE     shift and go to state 30
-    ABRE_PARENT     shift and go to state 32
+    NOME_INDIVIDUO  reduce using rule 28 (declaracao_classe_aninhada -> caso_ands .)
+    INDIVIDUALS     reduce using rule 28 (declaracao_classe_aninhada -> caso_ands .)
 
-    restricoes_axioma_fechamento   shift and go to state 29
-    caso_axioma                    shift and go to state 31
 
 state 18
 
-    (31) declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA CLASSE ands_aninhada . FECHA_PARENT
+    (44) declaracao_classe_enumerada -> ABRE_CHAVE . classes_enumeradas FECHA_CHAVE
+    (45) classes_enumeradas -> . CLASSE CARACTERE_ESPECIAL classes_enumeradas
+    (46) classes_enumeradas -> . CLASSE
 
-    FECHA_PARENT    shift and go to state 33
+    CLASSE          shift and go to state 31
 
+    classes_enumeradas             shift and go to state 30
 
 state 19
 
-    (3) declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA PROPRIEDADE PALAVRA_RESERVADA . CLASSE restricoes
+    (47) declaracao_classe_coberta -> classes_or .
 
-    CLASSE          shift and go to state 34
+    NOME_INDIVIDUO  reduce using rule 47 (declaracao_classe_coberta -> classes_or .)
+    INDIVIDUALS     reduce using rule 47 (declaracao_classe_coberta -> classes_or .)
 
 
 state 20
 
-    (51) restricoes_def -> CLASSE PALAVRA_RESERVADA . restricoes
-    (4) restricoes -> . CARACTERE_ESPECIAL PALAVRA_RESERVADA CLASSE restricoes
-    (5) restricoes -> .
+    (29) caso_ands -> AND . restricoes_aninhada caso_ands
+    (30) caso_ands -> AND . restricoes_aninhada
+    (31) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT
+    (32) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA ABRE_PARENT classes_and FECHA_PARENT
+    (33) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes_aninhada
+    (34) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada
+    (35) restricoes_aninhada -> . ABRE_PARENT restricoes_aninhada FECHA_PARENT
 
-    CARACTERE_ESPECIAL shift and go to state 36
-    PALAVRA_RESERVADA reduce using rule 5 (restricoes -> .)
-    $end            reduce using rule 5 (restricoes -> .)
+    ABRE_PARENT     shift and go to state 33
 
-    restricoes                     shift and go to state 35
+    restricoes_aninhada            shift and go to state 32
 
 state 21
 
-    (4) restricoes -> CARACTERE_ESPECIAL PALAVRA_RESERVADA . CLASSE restricoes
+    (9) declaracao_classe_primitiva -> PALAVRA_RESERVADA CLASSE caso_subclassof caso_individuals_opcional . caso_disjoint_opcional
+    (19) caso_disjoint_opcional -> . CLASSE CARACTERE_ESPECIAL caso_disjoint_opcional
+    (20) caso_disjoint_opcional -> . CLASSE
+    (21) caso_disjoint_opcional -> . DISJOINTCLASSES CLASSE
+    (22) caso_disjoint_opcional -> . DISJOINTCLASSES CLASSE CARACTERE_ESPECIAL caso_disjoint_opcional
 
-    CLASSE          shift and go to state 37
+    CLASSE          shift and go to state 34
+    DISJOINTCLASSES shift and go to state 36
 
+    caso_disjoint_opcional         shift and go to state 35
 
 state 22
 
-    (53) declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL lista_individuos . CARACTERE_ESPECIAL
-    (55) lista_individuos -> lista_individuos . CARACTERE_ESPECIAL NOME_INDIVIDUO
+    (15) caso_individuals_opcional -> NOME_INDIVIDUO . CARACTERE_ESPECIAL caso_individuals_opcional
+    (16) caso_individuals_opcional -> NOME_INDIVIDUO .
 
-    CARACTERE_ESPECIAL shift and go to state 38
+    CARACTERE_ESPECIAL shift and go to state 37
+    CLASSE          reduce using rule 16 (caso_individuals_opcional -> NOME_INDIVIDUO .)
+    DISJOINTCLASSES reduce using rule 16 (caso_individuals_opcional -> NOME_INDIVIDUO .)
+    PALAVRA_RESERVADA reduce using rule 16 (caso_individuals_opcional -> NOME_INDIVIDUO .)
+    $end            reduce using rule 16 (caso_individuals_opcional -> NOME_INDIVIDUO .)
 
 
 state 23
 
-    (54) lista_individuos -> NOME_INDIVIDUO .
+    (17) caso_individuals_opcional -> INDIVIDUALS . NOME_INDIVIDUO
+    (18) caso_individuals_opcional -> INDIVIDUALS . NOME_INDIVIDUO CARACTERE_ESPECIAL caso_individuals_opcional
 
-    CARACTERE_ESPECIAL reduce using rule 54 (lista_individuos -> NOME_INDIVIDUO .)
+    NOME_INDIVIDUO  shift and go to state 38
 
 
 state 24
 
-    (58) lista_classes -> lista_classes PALAVRA_RESERVADA . CLASSE
+    (10) caso_subclassof -> SUBCLASSOF PROPRIEDADE . PALAVRA_RESERVADA CLASSE
+    (11) caso_subclassof -> SUBCLASSOF PROPRIEDADE . PALAVRA_RESERVADA NAMESPACE TIPO
+    (12) caso_subclassof -> SUBCLASSOF PROPRIEDADE . PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL continuacao_subclassof
+    (13) caso_subclassof -> SUBCLASSOF PROPRIEDADE . PALAVRA_RESERVADA NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof
 
-    CLASSE          shift and go to state 39
+    PALAVRA_RESERVADA shift and go to state 39
 
 
 state 25
 
-    (44) restricoes_composta -> restricoes CARACTERE_ESPECIAL . PROPRIEDADE PALAVRA_RESERVADA CLASSE
-    (45) restricoes_composta -> restricoes CARACTERE_ESPECIAL . PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE
+    (38) declaracao_classe_axioma_fechamento -> CLASSE . CARACTERE_ESPECIAL restricoes_axioma_fechamento
 
-    PROPRIEDADE     shift and go to state 40
-    PALAVRA_RESERVADA shift and go to state 41
+    CARACTERE_ESPECIAL shift and go to state 27
 
 
 state 26
 
-    (52) restricoes_def -> restricoes_composta CARACTERE_ESPECIAL . restricoes
-    (4) restricoes -> . CARACTERE_ESPECIAL PALAVRA_RESERVADA CLASSE restricoes
-    (5) restricoes -> .
+    (14) caso_subclassof -> SUBCLASSOF declaracao_classe_axioma_fechamento .
 
-    CARACTERE_ESPECIAL shift and go to state 36
-    PALAVRA_RESERVADA reduce using rule 5 (restricoes -> .)
-    $end            reduce using rule 5 (restricoes -> .)
+    NOME_INDIVIDUO  reduce using rule 14 (caso_subclassof -> SUBCLASSOF declaracao_classe_axioma_fechamento .)
+    INDIVIDUALS     reduce using rule 14 (caso_subclassof -> SUBCLASSOF declaracao_classe_axioma_fechamento .)
 
-    restricoes                     shift and go to state 42
 
 state 27
 
-    (32) ands_aninhada -> PALAVRA_RESERVADA restricoes_aninhada . ands_aninhada
-    (33) ands_aninhada -> PALAVRA_RESERVADA restricoes_aninhada .
-    (32) ands_aninhada -> . PALAVRA_RESERVADA restricoes_aninhada ands_aninhada
-    (33) ands_aninhada -> . PALAVRA_RESERVADA restricoes_aninhada
+    (38) declaracao_classe_axioma_fechamento -> CLASSE CARACTERE_ESPECIAL . restricoes_axioma_fechamento
+    (39) restricoes_axioma_fechamento -> . PROPRIEDADE SOME CLASSE
+    (40) restricoes_axioma_fechamento -> . PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
+    (41) restricoes_axioma_fechamento -> . PROPRIEDADE ONLY ABRE_PARENT classes_or FECHA_PARENT
 
-    FECHA_PARENT    reduce using rule 33 (ands_aninhada -> PALAVRA_RESERVADA restricoes_aninhada .)
-    PALAVRA_RESERVADA shift and go to state 16
+    PROPRIEDADE     shift and go to state 41
 
-    ands_aninhada                  shift and go to state 43
+    restricoes_axioma_fechamento   shift and go to state 40
 
 state 28
 
-    (34) restricoes_aninhada -> ABRE_PARENT . PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT
-    (35) restricoes_aninhada -> ABRE_PARENT . PROPRIEDADE PALAVRA_RESERVADA ABRE_PARENT lista_classes FECHA_PARENT
-    (36) restricoes_aninhada -> ABRE_PARENT . PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes_aninhada
-    (37) restricoes_aninhada -> ABRE_PARENT . PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada
-    (38) restricoes_aninhada -> ABRE_PARENT . restricoes_aninhada FECHA_PARENT
-    (34) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT
-    (35) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA ABRE_PARENT lista_classes FECHA_PARENT
-    (36) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes_aninhada
-    (37) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada
-    (38) restricoes_aninhada -> . ABRE_PARENT restricoes_aninhada FECHA_PARENT
+    (42) classes_or -> CLASSE OR . classes_or
+    (42) classes_or -> . CLASSE OR classes_or
+    (43) classes_or -> . CLASSE
 
-    PROPRIEDADE     shift and go to state 44
-    ABRE_PARENT     shift and go to state 28
+    CLASSE          shift and go to state 42
 
-    restricoes_aninhada            shift and go to state 45
+    classes_or                     shift and go to state 43
 
 state 29
 
-    (6) declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento .
+    (27) declaracao_classe_definida -> PALAVRA_RESERVADA CLASSE EQUIVALENT_TO tipo_classe_secundaria caso_individuals_opcional .
 
-    PALAVRA_RESERVADA reduce using rule 6 (declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento .)
-    $end            reduce using rule 6 (declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento .)
+    PALAVRA_RESERVADA reduce using rule 27 (declaracao_classe_definida -> PALAVRA_RESERVADA CLASSE EQUIVALENT_TO tipo_classe_secundaria caso_individuals_opcional .)
+    $end            reduce using rule 27 (declaracao_classe_definida -> PALAVRA_RESERVADA CLASSE EQUIVALENT_TO tipo_classe_secundaria caso_individuals_opcional .)
 
 
 state 30
 
-    (7) restricoes_axioma_fechamento -> PROPRIEDADE . PALAVRA_RESERVADA CLASSE
-    (8) restricoes_axioma_fechamento -> PROPRIEDADE . PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (9) restricoes_axioma_fechamento -> PROPRIEDADE . PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (10) restricoes_axioma_fechamento -> PROPRIEDADE . PALAVRA_RESERVADA CARDINALIDADE CLASSE
-    (11) restricoes_axioma_fechamento -> PROPRIEDADE . PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (12) restricoes_axioma_fechamento -> PROPRIEDADE . PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE
-    (14) restricoes_axioma_fechamento -> PROPRIEDADE . PROPRIEDADE PALAVRA_RESERVADA CLASSE
-    (15) restricoes_axioma_fechamento -> PROPRIEDADE . PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (16) restricoes_axioma_fechamento -> PROPRIEDADE . PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE
-    (17) restricoes_axioma_fechamento -> PROPRIEDADE . PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL restricoes_axioma_fechamento
+    (44) declaracao_classe_enumerada -> ABRE_CHAVE classes_enumeradas . FECHA_CHAVE
 
-    PALAVRA_RESERVADA shift and go to state 47
-    PROPRIEDADE     shift and go to state 46
+    FECHA_CHAVE     shift and go to state 44
 
 
 state 31
 
-    (13) restricoes_axioma_fechamento -> caso_axioma .
+    (45) classes_enumeradas -> CLASSE . CARACTERE_ESPECIAL classes_enumeradas
+    (46) classes_enumeradas -> CLASSE .
 
-    PALAVRA_RESERVADA reduce using rule 13 (restricoes_axioma_fechamento -> caso_axioma .)
-    $end            reduce using rule 13 (restricoes_axioma_fechamento -> caso_axioma .)
+    CARACTERE_ESPECIAL shift and go to state 45
+    FECHA_CHAVE     reduce using rule 46 (classes_enumeradas -> CLASSE .)
 
 
 state 32
 
-    (18) caso_axioma -> ABRE_PARENT . PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT
-    (19) caso_axioma -> ABRE_PARENT . PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (20) caso_axioma -> ABRE_PARENT . PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT PALAVRA_RESERVADA caso_axioma
+    (29) caso_ands -> AND restricoes_aninhada . caso_ands
+    (30) caso_ands -> AND restricoes_aninhada .
+    (29) caso_ands -> . AND restricoes_aninhada caso_ands
+    (30) caso_ands -> . AND restricoes_aninhada
 
-    PROPRIEDADE     shift and go to state 48
+    NOME_INDIVIDUO  reduce using rule 30 (caso_ands -> AND restricoes_aninhada .)
+    INDIVIDUALS     reduce using rule 30 (caso_ands -> AND restricoes_aninhada .)
+    AND             shift and go to state 20
 
+    caso_ands                      shift and go to state 46
 
 state 33
 
-    (31) declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA CLASSE ands_aninhada FECHA_PARENT .
+    (31) restricoes_aninhada -> ABRE_PARENT . PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT
+    (32) restricoes_aninhada -> ABRE_PARENT . PROPRIEDADE PALAVRA_RESERVADA ABRE_PARENT classes_and FECHA_PARENT
+    (33) restricoes_aninhada -> ABRE_PARENT . PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes_aninhada
+    (34) restricoes_aninhada -> ABRE_PARENT . PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada
+    (35) restricoes_aninhada -> ABRE_PARENT . restricoes_aninhada FECHA_PARENT
+    (31) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT
+    (32) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA ABRE_PARENT classes_and FECHA_PARENT
+    (33) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes_aninhada
+    (34) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada
+    (35) restricoes_aninhada -> . ABRE_PARENT restricoes_aninhada FECHA_PARENT
 
-    PALAVRA_RESERVADA reduce using rule 31 (declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA CLASSE ands_aninhada FECHA_PARENT .)
-    $end            reduce using rule 31 (declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA CLASSE ands_aninhada FECHA_PARENT .)
+    PROPRIEDADE     shift and go to state 47
+    ABRE_PARENT     shift and go to state 33
 
+    restricoes_aninhada            shift and go to state 48
 
 state 34
 
-    (3) declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA PROPRIEDADE PALAVRA_RESERVADA CLASSE . restricoes
-    (4) restricoes -> . CARACTERE_ESPECIAL PALAVRA_RESERVADA CLASSE restricoes
-    (5) restricoes -> .
+    (19) caso_disjoint_opcional -> CLASSE . CARACTERE_ESPECIAL caso_disjoint_opcional
+    (20) caso_disjoint_opcional -> CLASSE .
 
-    CARACTERE_ESPECIAL shift and go to state 36
-    PALAVRA_RESERVADA reduce using rule 5 (restricoes -> .)
-    $end            reduce using rule 5 (restricoes -> .)
+    CARACTERE_ESPECIAL shift and go to state 49
+    PALAVRA_RESERVADA reduce using rule 20 (caso_disjoint_opcional -> CLASSE .)
+    $end            reduce using rule 20 (caso_disjoint_opcional -> CLASSE .)
 
-    restricoes                     shift and go to state 49
 
 state 35
 
-    (51) restricoes_def -> CLASSE PALAVRA_RESERVADA restricoes .
+    (9) declaracao_classe_primitiva -> PALAVRA_RESERVADA CLASSE caso_subclassof caso_individuals_opcional caso_disjoint_opcional .
 
-    PALAVRA_RESERVADA reduce using rule 51 (restricoes_def -> CLASSE PALAVRA_RESERVADA restricoes .)
-    $end            reduce using rule 51 (restricoes_def -> CLASSE PALAVRA_RESERVADA restricoes .)
+    PALAVRA_RESERVADA reduce using rule 9 (declaracao_classe_primitiva -> PALAVRA_RESERVADA CLASSE caso_subclassof caso_individuals_opcional caso_disjoint_opcional .)
+    $end            reduce using rule 9 (declaracao_classe_primitiva -> PALAVRA_RESERVADA CLASSE caso_subclassof caso_individuals_opcional caso_disjoint_opcional .)
 
 
 state 36
 
-    (4) restricoes -> CARACTERE_ESPECIAL . PALAVRA_RESERVADA CLASSE restricoes
+    (21) caso_disjoint_opcional -> DISJOINTCLASSES . CLASSE
+    (22) caso_disjoint_opcional -> DISJOINTCLASSES . CLASSE CARACTERE_ESPECIAL caso_disjoint_opcional
 
-    PALAVRA_RESERVADA shift and go to state 21
+    CLASSE          shift and go to state 50
 
 
 state 37
 
-    (4) restricoes -> CARACTERE_ESPECIAL PALAVRA_RESERVADA CLASSE . restricoes
-    (4) restricoes -> . CARACTERE_ESPECIAL PALAVRA_RESERVADA CLASSE restricoes
-    (5) restricoes -> .
+    (15) caso_individuals_opcional -> NOME_INDIVIDUO CARACTERE_ESPECIAL . caso_individuals_opcional
+    (15) caso_individuals_opcional -> . NOME_INDIVIDUO CARACTERE_ESPECIAL caso_individuals_opcional
+    (16) caso_individuals_opcional -> . NOME_INDIVIDUO
+    (17) caso_individuals_opcional -> . INDIVIDUALS NOME_INDIVIDUO
+    (18) caso_individuals_opcional -> . INDIVIDUALS NOME_INDIVIDUO CARACTERE_ESPECIAL caso_individuals_opcional
 
-  ! shift/reduce conflict for CARACTERE_ESPECIAL resolved as shift
-    CARACTERE_ESPECIAL shift and go to state 36
-    PALAVRA_RESERVADA reduce using rule 5 (restricoes -> .)
-    $end            reduce using rule 5 (restricoes -> .)
+    NOME_INDIVIDUO  shift and go to state 22
+    INDIVIDUALS     shift and go to state 23
 
-  ! CARACTERE_ESPECIAL [ reduce using rule 5 (restricoes -> .) ]
-
-    restricoes                     shift and go to state 50
+    caso_individuals_opcional      shift and go to state 51
 
 state 38
 
-    (53) declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL lista_individuos CARACTERE_ESPECIAL .
-    (55) lista_individuos -> lista_individuos CARACTERE_ESPECIAL . NOME_INDIVIDUO
+    (17) caso_individuals_opcional -> INDIVIDUALS NOME_INDIVIDUO .
+    (18) caso_individuals_opcional -> INDIVIDUALS NOME_INDIVIDUO . CARACTERE_ESPECIAL caso_individuals_opcional
 
-    PALAVRA_RESERVADA reduce using rule 53 (declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL lista_individuos CARACTERE_ESPECIAL .)
-    $end            reduce using rule 53 (declaracao_classe -> PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL lista_individuos CARACTERE_ESPECIAL .)
-    NOME_INDIVIDUO  shift and go to state 51
+    CLASSE          reduce using rule 17 (caso_individuals_opcional -> INDIVIDUALS NOME_INDIVIDUO .)
+    DISJOINTCLASSES reduce using rule 17 (caso_individuals_opcional -> INDIVIDUALS NOME_INDIVIDUO .)
+    PALAVRA_RESERVADA reduce using rule 17 (caso_individuals_opcional -> INDIVIDUALS NOME_INDIVIDUO .)
+    $end            reduce using rule 17 (caso_individuals_opcional -> INDIVIDUALS NOME_INDIVIDUO .)
+    CARACTERE_ESPECIAL shift and go to state 52
 
 
 state 39
 
-    (58) lista_classes -> lista_classes PALAVRA_RESERVADA CLASSE .
+    (10) caso_subclassof -> SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA . CLASSE
+    (11) caso_subclassof -> SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA . NAMESPACE TIPO
+    (12) caso_subclassof -> SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA . CLASSE CARACTERE_ESPECIAL continuacao_subclassof
+    (13) caso_subclassof -> SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA . NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof
 
-    PALAVRA_RESERVADA reduce using rule 58 (lista_classes -> lista_classes PALAVRA_RESERVADA CLASSE .)
-    $end            reduce using rule 58 (lista_classes -> lista_classes PALAVRA_RESERVADA CLASSE .)
-    FECHA_PARENT    reduce using rule 58 (lista_classes -> lista_classes PALAVRA_RESERVADA CLASSE .)
+    CLASSE          shift and go to state 53
+    NAMESPACE       shift and go to state 54
 
 
 state 40
 
-    (44) restricoes_composta -> restricoes CARACTERE_ESPECIAL PROPRIEDADE . PALAVRA_RESERVADA CLASSE
+    (38) declaracao_classe_axioma_fechamento -> CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento .
 
-    PALAVRA_RESERVADA shift and go to state 52
+    NOME_INDIVIDUO  reduce using rule 38 (declaracao_classe_axioma_fechamento -> CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento .)
+    INDIVIDUALS     reduce using rule 38 (declaracao_classe_axioma_fechamento -> CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento .)
 
 
 state 41
 
-    (45) restricoes_composta -> restricoes CARACTERE_ESPECIAL PALAVRA_RESERVADA . CARACTERE_ESPECIAL CLASSE
+    (39) restricoes_axioma_fechamento -> PROPRIEDADE . SOME CLASSE
+    (40) restricoes_axioma_fechamento -> PROPRIEDADE . SOME CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
+    (41) restricoes_axioma_fechamento -> PROPRIEDADE . ONLY ABRE_PARENT classes_or FECHA_PARENT
 
-    CARACTERE_ESPECIAL shift and go to state 53
+    SOME            shift and go to state 55
+    ONLY            shift and go to state 56
 
 
 state 42
 
-    (52) restricoes_def -> restricoes_composta CARACTERE_ESPECIAL restricoes .
+    (42) classes_or -> CLASSE . OR classes_or
+    (43) classes_or -> CLASSE .
 
-    PALAVRA_RESERVADA reduce using rule 52 (restricoes_def -> restricoes_composta CARACTERE_ESPECIAL restricoes .)
-    $end            reduce using rule 52 (restricoes_def -> restricoes_composta CARACTERE_ESPECIAL restricoes .)
+    OR              shift and go to state 28
+    NOME_INDIVIDUO  reduce using rule 43 (classes_or -> CLASSE .)
+    INDIVIDUALS     reduce using rule 43 (classes_or -> CLASSE .)
+    FECHA_PARENT    reduce using rule 43 (classes_or -> CLASSE .)
 
 
 state 43
 
-    (32) ands_aninhada -> PALAVRA_RESERVADA restricoes_aninhada ands_aninhada .
+    (42) classes_or -> CLASSE OR classes_or .
 
-    FECHA_PARENT    reduce using rule 32 (ands_aninhada -> PALAVRA_RESERVADA restricoes_aninhada ands_aninhada .)
+    NOME_INDIVIDUO  reduce using rule 42 (classes_or -> CLASSE OR classes_or .)
+    INDIVIDUALS     reduce using rule 42 (classes_or -> CLASSE OR classes_or .)
+    FECHA_PARENT    reduce using rule 42 (classes_or -> CLASSE OR classes_or .)
 
 
 state 44
 
-    (34) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE . PALAVRA_RESERVADA CLASSE FECHA_PARENT
-    (35) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE . PALAVRA_RESERVADA ABRE_PARENT lista_classes FECHA_PARENT
-    (36) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE . PALAVRA_RESERVADA CLASSE restricoes_aninhada
-    (37) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE . PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada
+    (44) declaracao_classe_enumerada -> ABRE_CHAVE classes_enumeradas FECHA_CHAVE .
 
-    PALAVRA_RESERVADA shift and go to state 54
+    NOME_INDIVIDUO  reduce using rule 44 (declaracao_classe_enumerada -> ABRE_CHAVE classes_enumeradas FECHA_CHAVE .)
+    INDIVIDUALS     reduce using rule 44 (declaracao_classe_enumerada -> ABRE_CHAVE classes_enumeradas FECHA_CHAVE .)
 
 
 state 45
 
-    (38) restricoes_aninhada -> ABRE_PARENT restricoes_aninhada . FECHA_PARENT
+    (45) classes_enumeradas -> CLASSE CARACTERE_ESPECIAL . classes_enumeradas
+    (45) classes_enumeradas -> . CLASSE CARACTERE_ESPECIAL classes_enumeradas
+    (46) classes_enumeradas -> . CLASSE
 
-    FECHA_PARENT    shift and go to state 55
+    CLASSE          shift and go to state 31
 
+    classes_enumeradas             shift and go to state 57
 
 state 46
 
-    (11) restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE . PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (12) restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE . PALAVRA_RESERVADA CARDINALIDADE CLASSE
-    (14) restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE . PALAVRA_RESERVADA CLASSE
-    (15) restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE . PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
+    (29) caso_ands -> AND restricoes_aninhada caso_ands .
 
-    PALAVRA_RESERVADA shift and go to state 56
+    NOME_INDIVIDUO  reduce using rule 29 (caso_ands -> AND restricoes_aninhada caso_ands .)
+    INDIVIDUALS     reduce using rule 29 (caso_ands -> AND restricoes_aninhada caso_ands .)
 
 
 state 47
 
-    (7) restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA . CLASSE
-    (8) restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA . CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (9) restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA . CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (10) restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA . CARDINALIDADE CLASSE
-    (16) restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA . CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE
-    (17) restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA . CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL restricoes_axioma_fechamento
+    (31) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE . PALAVRA_RESERVADA CLASSE FECHA_PARENT
+    (32) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE . PALAVRA_RESERVADA ABRE_PARENT classes_and FECHA_PARENT
+    (33) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE . PALAVRA_RESERVADA CLASSE restricoes_aninhada
+    (34) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE . PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada
 
-    CLASSE          shift and go to state 57
-    CARDINALIDADE   shift and go to state 59
-    CARACTERE_ESPECIAL shift and go to state 58
+    PALAVRA_RESERVADA shift and go to state 58
 
 
 state 48
 
-    (18) caso_axioma -> ABRE_PARENT PROPRIEDADE . PALAVRA_RESERVADA CLASSE FECHA_PARENT
-    (19) caso_axioma -> ABRE_PARENT PROPRIEDADE . PALAVRA_RESERVADA CLASSE FECHA_PARENT CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (20) caso_axioma -> ABRE_PARENT PROPRIEDADE . PALAVRA_RESERVADA CLASSE FECHA_PARENT PALAVRA_RESERVADA caso_axioma
+    (35) restricoes_aninhada -> ABRE_PARENT restricoes_aninhada . FECHA_PARENT
 
-    PALAVRA_RESERVADA shift and go to state 60
+    FECHA_PARENT    shift and go to state 59
 
 
 state 49
 
-    (3) declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes .
+    (19) caso_disjoint_opcional -> CLASSE CARACTERE_ESPECIAL . caso_disjoint_opcional
+    (19) caso_disjoint_opcional -> . CLASSE CARACTERE_ESPECIAL caso_disjoint_opcional
+    (20) caso_disjoint_opcional -> . CLASSE
+    (21) caso_disjoint_opcional -> . DISJOINTCLASSES CLASSE
+    (22) caso_disjoint_opcional -> . DISJOINTCLASSES CLASSE CARACTERE_ESPECIAL caso_disjoint_opcional
 
-    PALAVRA_RESERVADA reduce using rule 3 (declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes .)
-    $end            reduce using rule 3 (declaracao_classe -> PALAVRA_RESERVADA CLASSE PALAVRA_RESERVADA PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes .)
+    CLASSE          shift and go to state 34
+    DISJOINTCLASSES shift and go to state 36
 
+    caso_disjoint_opcional         shift and go to state 60
 
 state 50
 
-    (4) restricoes -> CARACTERE_ESPECIAL PALAVRA_RESERVADA CLASSE restricoes .
+    (21) caso_disjoint_opcional -> DISJOINTCLASSES CLASSE .
+    (22) caso_disjoint_opcional -> DISJOINTCLASSES CLASSE . CARACTERE_ESPECIAL caso_disjoint_opcional
 
-    CARACTERE_ESPECIAL reduce using rule 4 (restricoes -> CARACTERE_ESPECIAL PALAVRA_RESERVADA CLASSE restricoes .)
-    PALAVRA_RESERVADA reduce using rule 4 (restricoes -> CARACTERE_ESPECIAL PALAVRA_RESERVADA CLASSE restricoes .)
-    $end            reduce using rule 4 (restricoes -> CARACTERE_ESPECIAL PALAVRA_RESERVADA CLASSE restricoes .)
+    PALAVRA_RESERVADA reduce using rule 21 (caso_disjoint_opcional -> DISJOINTCLASSES CLASSE .)
+    $end            reduce using rule 21 (caso_disjoint_opcional -> DISJOINTCLASSES CLASSE .)
+    CARACTERE_ESPECIAL shift and go to state 61
 
 
 state 51
 
-    (55) lista_individuos -> lista_individuos CARACTERE_ESPECIAL NOME_INDIVIDUO .
+    (15) caso_individuals_opcional -> NOME_INDIVIDUO CARACTERE_ESPECIAL caso_individuals_opcional .
 
-    CARACTERE_ESPECIAL reduce using rule 55 (lista_individuos -> lista_individuos CARACTERE_ESPECIAL NOME_INDIVIDUO .)
+    CLASSE          reduce using rule 15 (caso_individuals_opcional -> NOME_INDIVIDUO CARACTERE_ESPECIAL caso_individuals_opcional .)
+    DISJOINTCLASSES reduce using rule 15 (caso_individuals_opcional -> NOME_INDIVIDUO CARACTERE_ESPECIAL caso_individuals_opcional .)
+    PALAVRA_RESERVADA reduce using rule 15 (caso_individuals_opcional -> NOME_INDIVIDUO CARACTERE_ESPECIAL caso_individuals_opcional .)
+    $end            reduce using rule 15 (caso_individuals_opcional -> NOME_INDIVIDUO CARACTERE_ESPECIAL caso_individuals_opcional .)
 
 
 state 52
 
-    (44) restricoes_composta -> restricoes CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA . CLASSE
+    (18) caso_individuals_opcional -> INDIVIDUALS NOME_INDIVIDUO CARACTERE_ESPECIAL . caso_individuals_opcional
+    (15) caso_individuals_opcional -> . NOME_INDIVIDUO CARACTERE_ESPECIAL caso_individuals_opcional
+    (16) caso_individuals_opcional -> . NOME_INDIVIDUO
+    (17) caso_individuals_opcional -> . INDIVIDUALS NOME_INDIVIDUO
+    (18) caso_individuals_opcional -> . INDIVIDUALS NOME_INDIVIDUO CARACTERE_ESPECIAL caso_individuals_opcional
 
-    CLASSE          shift and go to state 61
+    NOME_INDIVIDUO  shift and go to state 22
+    INDIVIDUALS     shift and go to state 23
 
+    caso_individuals_opcional      shift and go to state 62
 
 state 53
 
-    (45) restricoes_composta -> restricoes CARACTERE_ESPECIAL PALAVRA_RESERVADA CARACTERE_ESPECIAL . CLASSE
+    (10) caso_subclassof -> SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA CLASSE .
+    (12) caso_subclassof -> SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA CLASSE . CARACTERE_ESPECIAL continuacao_subclassof
 
-    CLASSE          shift and go to state 62
+    NOME_INDIVIDUO  reduce using rule 10 (caso_subclassof -> SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA CLASSE .)
+    INDIVIDUALS     reduce using rule 10 (caso_subclassof -> SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA CLASSE .)
+    CARACTERE_ESPECIAL shift and go to state 63
 
 
 state 54
 
-    (34) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA . CLASSE FECHA_PARENT
-    (35) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA . ABRE_PARENT lista_classes FECHA_PARENT
-    (36) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA . CLASSE restricoes_aninhada
-    (37) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA . CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada
+    (11) caso_subclassof -> SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA NAMESPACE . TIPO
+    (13) caso_subclassof -> SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA NAMESPACE . TIPO CARACTERE_ESPECIAL continuacao_subclassof
 
-    CLASSE          shift and go to state 64
-    ABRE_PARENT     shift and go to state 63
-    CARDINALIDADE   shift and go to state 65
+    TIPO            shift and go to state 64
 
 
 state 55
 
-    (38) restricoes_aninhada -> ABRE_PARENT restricoes_aninhada FECHA_PARENT .
+    (39) restricoes_axioma_fechamento -> PROPRIEDADE SOME . CLASSE
+    (40) restricoes_axioma_fechamento -> PROPRIEDADE SOME . CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
 
-    PALAVRA_RESERVADA reduce using rule 38 (restricoes_aninhada -> ABRE_PARENT restricoes_aninhada FECHA_PARENT .)
-    FECHA_PARENT    reduce using rule 38 (restricoes_aninhada -> ABRE_PARENT restricoes_aninhada FECHA_PARENT .)
+    CLASSE          shift and go to state 65
 
 
 state 56
 
-    (11) restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA . CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (12) restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA . CARDINALIDADE CLASSE
-    (14) restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA . CLASSE
-    (15) restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA . CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
+    (41) restricoes_axioma_fechamento -> PROPRIEDADE ONLY . ABRE_PARENT classes_or FECHA_PARENT
 
-    CARDINALIDADE   shift and go to state 66
-    CLASSE          shift and go to state 67
+    ABRE_PARENT     shift and go to state 66
 
 
 state 57
 
-    (7) restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CLASSE .
-    (8) restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CLASSE . CARACTERE_ESPECIAL restricoes_axioma_fechamento
+    (45) classes_enumeradas -> CLASSE CARACTERE_ESPECIAL classes_enumeradas .
 
-    PALAVRA_RESERVADA reduce using rule 7 (restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CLASSE .)
-    $end            reduce using rule 7 (restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CLASSE .)
-    CARACTERE_ESPECIAL shift and go to state 68
+    FECHA_CHAVE     reduce using rule 45 (classes_enumeradas -> CLASSE CARACTERE_ESPECIAL classes_enumeradas .)
 
 
 state 58
 
-    (16) restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL . CLASSE PALAVRA_RESERVADA CLASSE
-    (17) restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL . CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL restricoes_axioma_fechamento
+    (31) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA . CLASSE FECHA_PARENT
+    (32) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA . ABRE_PARENT classes_and FECHA_PARENT
+    (33) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA . CLASSE restricoes_aninhada
+    (34) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA . CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada
 
-    CLASSE          shift and go to state 69
+    CLASSE          shift and go to state 68
+    ABRE_PARENT     shift and go to state 67
+    CARDINALIDADE   shift and go to state 69
 
 
 state 59
 
-    (9) restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE . CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (10) restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE . CLASSE
+    (35) restricoes_aninhada -> ABRE_PARENT restricoes_aninhada FECHA_PARENT .
 
-    CLASSE          shift and go to state 70
+    AND             reduce using rule 35 (restricoes_aninhada -> ABRE_PARENT restricoes_aninhada FECHA_PARENT .)
+    NOME_INDIVIDUO  reduce using rule 35 (restricoes_aninhada -> ABRE_PARENT restricoes_aninhada FECHA_PARENT .)
+    INDIVIDUALS     reduce using rule 35 (restricoes_aninhada -> ABRE_PARENT restricoes_aninhada FECHA_PARENT .)
+    FECHA_PARENT    reduce using rule 35 (restricoes_aninhada -> ABRE_PARENT restricoes_aninhada FECHA_PARENT .)
 
 
 state 60
 
-    (18) caso_axioma -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA . CLASSE FECHA_PARENT
-    (19) caso_axioma -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA . CLASSE FECHA_PARENT CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (20) caso_axioma -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA . CLASSE FECHA_PARENT PALAVRA_RESERVADA caso_axioma
+    (19) caso_disjoint_opcional -> CLASSE CARACTERE_ESPECIAL caso_disjoint_opcional .
 
-    CLASSE          shift and go to state 71
+    PALAVRA_RESERVADA reduce using rule 19 (caso_disjoint_opcional -> CLASSE CARACTERE_ESPECIAL caso_disjoint_opcional .)
+    $end            reduce using rule 19 (caso_disjoint_opcional -> CLASSE CARACTERE_ESPECIAL caso_disjoint_opcional .)
 
 
 state 61
 
-    (44) restricoes_composta -> restricoes CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE .
+    (22) caso_disjoint_opcional -> DISJOINTCLASSES CLASSE CARACTERE_ESPECIAL . caso_disjoint_opcional
+    (19) caso_disjoint_opcional -> . CLASSE CARACTERE_ESPECIAL caso_disjoint_opcional
+    (20) caso_disjoint_opcional -> . CLASSE
+    (21) caso_disjoint_opcional -> . DISJOINTCLASSES CLASSE
+    (22) caso_disjoint_opcional -> . DISJOINTCLASSES CLASSE CARACTERE_ESPECIAL caso_disjoint_opcional
 
-    CARACTERE_ESPECIAL reduce using rule 44 (restricoes_composta -> restricoes CARACTERE_ESPECIAL PROPRIEDADE PALAVRA_RESERVADA CLASSE .)
+    CLASSE          shift and go to state 34
+    DISJOINTCLASSES shift and go to state 36
 
+    caso_disjoint_opcional         shift and go to state 70
 
 state 62
 
-    (45) restricoes_composta -> restricoes CARACTERE_ESPECIAL PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE .
+    (18) caso_individuals_opcional -> INDIVIDUALS NOME_INDIVIDUO CARACTERE_ESPECIAL caso_individuals_opcional .
 
-    CARACTERE_ESPECIAL reduce using rule 45 (restricoes_composta -> restricoes CARACTERE_ESPECIAL PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE .)
+    CLASSE          reduce using rule 18 (caso_individuals_opcional -> INDIVIDUALS NOME_INDIVIDUO CARACTERE_ESPECIAL caso_individuals_opcional .)
+    DISJOINTCLASSES reduce using rule 18 (caso_individuals_opcional -> INDIVIDUALS NOME_INDIVIDUO CARACTERE_ESPECIAL caso_individuals_opcional .)
+    PALAVRA_RESERVADA reduce using rule 18 (caso_individuals_opcional -> INDIVIDUALS NOME_INDIVIDUO CARACTERE_ESPECIAL caso_individuals_opcional .)
+    $end            reduce using rule 18 (caso_individuals_opcional -> INDIVIDUALS NOME_INDIVIDUO CARACTERE_ESPECIAL caso_individuals_opcional .)
 
 
 state 63
 
-    (35) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA ABRE_PARENT . lista_classes FECHA_PARENT
-    (57) lista_classes -> . CLASSE
-    (58) lista_classes -> . lista_classes PALAVRA_RESERVADA CLASSE
+    (12) caso_subclassof -> SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL . continuacao_subclassof
+    (23) continuacao_subclassof -> . PROPRIEDADE PALAVRA_RESERVADA CLASSE
+    (24) continuacao_subclassof -> . PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO
+    (25) continuacao_subclassof -> . PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL continuacao_subclassof
+    (26) continuacao_subclassof -> . PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof
 
-    CLASSE          shift and go to state 73
+    PROPRIEDADE     shift and go to state 71
 
-    lista_classes                  shift and go to state 72
+    continuacao_subclassof         shift and go to state 72
 
 state 64
 
-    (34) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE . FECHA_PARENT
-    (36) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE . restricoes_aninhada
-    (34) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT
-    (35) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA ABRE_PARENT lista_classes FECHA_PARENT
-    (36) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes_aninhada
-    (37) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada
-    (38) restricoes_aninhada -> . ABRE_PARENT restricoes_aninhada FECHA_PARENT
+    (11) caso_subclassof -> SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO .
+    (13) caso_subclassof -> SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO . CARACTERE_ESPECIAL continuacao_subclassof
 
-    FECHA_PARENT    shift and go to state 74
-    ABRE_PARENT     shift and go to state 28
+    NOME_INDIVIDUO  reduce using rule 11 (caso_subclassof -> SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO .)
+    INDIVIDUALS     reduce using rule 11 (caso_subclassof -> SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO .)
+    CARACTERE_ESPECIAL shift and go to state 73
 
-    restricoes_aninhada            shift and go to state 75
 
 state 65
 
-    (37) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE . CLASSE FECHA_PARENT restricoes_aninhada
+    (39) restricoes_axioma_fechamento -> PROPRIEDADE SOME CLASSE .
+    (40) restricoes_axioma_fechamento -> PROPRIEDADE SOME CLASSE . CARACTERE_ESPECIAL restricoes_axioma_fechamento
 
-    CLASSE          shift and go to state 76
+    NOME_INDIVIDUO  reduce using rule 39 (restricoes_axioma_fechamento -> PROPRIEDADE SOME CLASSE .)
+    INDIVIDUALS     reduce using rule 39 (restricoes_axioma_fechamento -> PROPRIEDADE SOME CLASSE .)
+    CARACTERE_ESPECIAL shift and go to state 74
 
 
 state 66
 
-    (11) restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE . CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (12) restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE . CLASSE
+    (41) restricoes_axioma_fechamento -> PROPRIEDADE ONLY ABRE_PARENT . classes_or FECHA_PARENT
+    (42) classes_or -> . CLASSE OR classes_or
+    (43) classes_or -> . CLASSE
 
-    CLASSE          shift and go to state 77
+    CLASSE          shift and go to state 42
 
+    classes_or                     shift and go to state 75
 
 state 67
 
-    (14) restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CLASSE .
-    (15) restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CLASSE . CARACTERE_ESPECIAL restricoes_axioma_fechamento
+    (32) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA ABRE_PARENT . classes_and FECHA_PARENT
+    (36) classes_and -> . CLASSE AND classes_and
+    (37) classes_and -> . CLASSE
 
-    PALAVRA_RESERVADA reduce using rule 14 (restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CLASSE .)
-    $end            reduce using rule 14 (restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CLASSE .)
-    CARACTERE_ESPECIAL shift and go to state 78
+    CLASSE          shift and go to state 77
 
+    classes_and                    shift and go to state 76
 
 state 68
 
-    (8) restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL . restricoes_axioma_fechamento
-    (7) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CLASSE
-    (8) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (9) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (10) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE
-    (11) restricoes_axioma_fechamento -> . PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (12) restricoes_axioma_fechamento -> . PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE
-    (13) restricoes_axioma_fechamento -> . caso_axioma
-    (14) restricoes_axioma_fechamento -> . PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CLASSE
-    (15) restricoes_axioma_fechamento -> . PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (16) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE
-    (17) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (18) caso_axioma -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT
-    (19) caso_axioma -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (20) caso_axioma -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT PALAVRA_RESERVADA caso_axioma
+    (31) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE . FECHA_PARENT
+    (33) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE . restricoes_aninhada
+    (31) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT
+    (32) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA ABRE_PARENT classes_and FECHA_PARENT
+    (33) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes_aninhada
+    (34) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada
+    (35) restricoes_aninhada -> . ABRE_PARENT restricoes_aninhada FECHA_PARENT
 
-    PROPRIEDADE     shift and go to state 30
-    ABRE_PARENT     shift and go to state 32
+    FECHA_PARENT    shift and go to state 78
+    ABRE_PARENT     shift and go to state 33
 
-    restricoes_axioma_fechamento   shift and go to state 79
-    caso_axioma                    shift and go to state 31
+    restricoes_aninhada            shift and go to state 79
 
 state 69
 
-    (16) restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE . PALAVRA_RESERVADA CLASSE
-    (17) restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE . PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL restricoes_axioma_fechamento
+    (34) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE . CLASSE FECHA_PARENT restricoes_aninhada
 
-    PALAVRA_RESERVADA shift and go to state 80
+    CLASSE          shift and go to state 80
 
 
 state 70
 
-    (9) restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE . CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (10) restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE .
+    (22) caso_disjoint_opcional -> DISJOINTCLASSES CLASSE CARACTERE_ESPECIAL caso_disjoint_opcional .
 
-    CARACTERE_ESPECIAL shift and go to state 81
-    PALAVRA_RESERVADA reduce using rule 10 (restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE .)
-    $end            reduce using rule 10 (restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE .)
+    PALAVRA_RESERVADA reduce using rule 22 (caso_disjoint_opcional -> DISJOINTCLASSES CLASSE CARACTERE_ESPECIAL caso_disjoint_opcional .)
+    $end            reduce using rule 22 (caso_disjoint_opcional -> DISJOINTCLASSES CLASSE CARACTERE_ESPECIAL caso_disjoint_opcional .)
 
 
 state 71
 
-    (18) caso_axioma -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE . FECHA_PARENT
-    (19) caso_axioma -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE . FECHA_PARENT CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (20) caso_axioma -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE . FECHA_PARENT PALAVRA_RESERVADA caso_axioma
+    (23) continuacao_subclassof -> PROPRIEDADE . PALAVRA_RESERVADA CLASSE
+    (24) continuacao_subclassof -> PROPRIEDADE . PALAVRA_RESERVADA NAMESPACE TIPO
+    (25) continuacao_subclassof -> PROPRIEDADE . PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL continuacao_subclassof
+    (26) continuacao_subclassof -> PROPRIEDADE . PALAVRA_RESERVADA NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof
 
-    FECHA_PARENT    shift and go to state 82
+    PALAVRA_RESERVADA shift and go to state 81
 
 
 state 72
 
-    (35) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA ABRE_PARENT lista_classes . FECHA_PARENT
-    (58) lista_classes -> lista_classes . PALAVRA_RESERVADA CLASSE
+    (12) caso_subclassof -> SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL continuacao_subclassof .
 
-    FECHA_PARENT    shift and go to state 83
-    PALAVRA_RESERVADA shift and go to state 24
+    NOME_INDIVIDUO  reduce using rule 12 (caso_subclassof -> SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL continuacao_subclassof .)
+    INDIVIDUALS     reduce using rule 12 (caso_subclassof -> SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL continuacao_subclassof .)
 
 
 state 73
 
-    (57) lista_classes -> CLASSE .
+    (13) caso_subclassof -> SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO CARACTERE_ESPECIAL . continuacao_subclassof
+    (23) continuacao_subclassof -> . PROPRIEDADE PALAVRA_RESERVADA CLASSE
+    (24) continuacao_subclassof -> . PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO
+    (25) continuacao_subclassof -> . PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL continuacao_subclassof
+    (26) continuacao_subclassof -> . PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof
 
-    FECHA_PARENT    reduce using rule 57 (lista_classes -> CLASSE .)
-    PALAVRA_RESERVADA reduce using rule 57 (lista_classes -> CLASSE .)
+    PROPRIEDADE     shift and go to state 71
 
+    continuacao_subclassof         shift and go to state 82
 
 state 74
 
-    (34) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT .
+    (40) restricoes_axioma_fechamento -> PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL . restricoes_axioma_fechamento
+    (39) restricoes_axioma_fechamento -> . PROPRIEDADE SOME CLASSE
+    (40) restricoes_axioma_fechamento -> . PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
+    (41) restricoes_axioma_fechamento -> . PROPRIEDADE ONLY ABRE_PARENT classes_or FECHA_PARENT
 
-    PALAVRA_RESERVADA reduce using rule 34 (restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT .)
-    FECHA_PARENT    reduce using rule 34 (restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT .)
+    PROPRIEDADE     shift and go to state 41
 
+    restricoes_axioma_fechamento   shift and go to state 83
 
 state 75
 
-    (36) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes_aninhada .
-
-    PALAVRA_RESERVADA reduce using rule 36 (restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes_aninhada .)
-    FECHA_PARENT    reduce using rule 36 (restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes_aninhada .)
-
-
-state 76
-
-    (37) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE . FECHA_PARENT restricoes_aninhada
+    (41) restricoes_axioma_fechamento -> PROPRIEDADE ONLY ABRE_PARENT classes_or . FECHA_PARENT
 
     FECHA_PARENT    shift and go to state 84
 
 
+state 76
+
+    (32) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA ABRE_PARENT classes_and . FECHA_PARENT
+
+    FECHA_PARENT    shift and go to state 85
+
+
 state 77
 
-    (11) restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE . CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (12) restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE .
+    (36) classes_and -> CLASSE . AND classes_and
+    (37) classes_and -> CLASSE .
 
-    CARACTERE_ESPECIAL shift and go to state 85
-    PALAVRA_RESERVADA reduce using rule 12 (restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE .)
-    $end            reduce using rule 12 (restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE .)
+    AND             shift and go to state 86
+    FECHA_PARENT    reduce using rule 37 (classes_and -> CLASSE .)
 
 
 state 78
 
-    (15) restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL . restricoes_axioma_fechamento
-    (7) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CLASSE
-    (8) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (9) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (10) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE
-    (11) restricoes_axioma_fechamento -> . PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (12) restricoes_axioma_fechamento -> . PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE
-    (13) restricoes_axioma_fechamento -> . caso_axioma
-    (14) restricoes_axioma_fechamento -> . PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CLASSE
-    (15) restricoes_axioma_fechamento -> . PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (16) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE
-    (17) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (18) caso_axioma -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT
-    (19) caso_axioma -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (20) caso_axioma -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT PALAVRA_RESERVADA caso_axioma
+    (31) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT .
 
-    PROPRIEDADE     shift and go to state 30
-    ABRE_PARENT     shift and go to state 32
+    AND             reduce using rule 31 (restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT .)
+    NOME_INDIVIDUO  reduce using rule 31 (restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT .)
+    INDIVIDUALS     reduce using rule 31 (restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT .)
+    FECHA_PARENT    reduce using rule 31 (restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT .)
 
-    restricoes_axioma_fechamento   shift and go to state 86
-    caso_axioma                    shift and go to state 31
 
 state 79
 
-    (8) restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento .
+    (33) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes_aninhada .
 
-    PALAVRA_RESERVADA reduce using rule 8 (restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento .)
-    $end            reduce using rule 8 (restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento .)
+    AND             reduce using rule 33 (restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes_aninhada .)
+    NOME_INDIVIDUO  reduce using rule 33 (restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes_aninhada .)
+    INDIVIDUALS     reduce using rule 33 (restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes_aninhada .)
+    FECHA_PARENT    reduce using rule 33 (restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes_aninhada .)
 
 
 state 80
 
-    (16) restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA . CLASSE
-    (17) restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA . CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL restricoes_axioma_fechamento
+    (34) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE . FECHA_PARENT restricoes_aninhada
 
-    CLASSE          shift and go to state 87
+    FECHA_PARENT    shift and go to state 87
 
 
 state 81
 
-    (9) restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL . restricoes_axioma_fechamento
-    (7) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CLASSE
-    (8) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (9) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (10) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE
-    (11) restricoes_axioma_fechamento -> . PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (12) restricoes_axioma_fechamento -> . PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE
-    (13) restricoes_axioma_fechamento -> . caso_axioma
-    (14) restricoes_axioma_fechamento -> . PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CLASSE
-    (15) restricoes_axioma_fechamento -> . PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (16) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE
-    (17) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (18) caso_axioma -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT
-    (19) caso_axioma -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (20) caso_axioma -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT PALAVRA_RESERVADA caso_axioma
+    (23) continuacao_subclassof -> PROPRIEDADE PALAVRA_RESERVADA . CLASSE
+    (24) continuacao_subclassof -> PROPRIEDADE PALAVRA_RESERVADA . NAMESPACE TIPO
+    (25) continuacao_subclassof -> PROPRIEDADE PALAVRA_RESERVADA . CLASSE CARACTERE_ESPECIAL continuacao_subclassof
+    (26) continuacao_subclassof -> PROPRIEDADE PALAVRA_RESERVADA . NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof
 
-    PROPRIEDADE     shift and go to state 30
-    ABRE_PARENT     shift and go to state 32
+    CLASSE          shift and go to state 88
+    NAMESPACE       shift and go to state 89
 
-    restricoes_axioma_fechamento   shift and go to state 88
-    caso_axioma                    shift and go to state 31
 
 state 82
 
-    (18) caso_axioma -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT .
-    (19) caso_axioma -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT . CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (20) caso_axioma -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT . PALAVRA_RESERVADA caso_axioma
+    (13) caso_subclassof -> SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof .
 
-  ! shift/reduce conflict for PALAVRA_RESERVADA resolved as shift
-    $end            reduce using rule 18 (caso_axioma -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT .)
-    CARACTERE_ESPECIAL shift and go to state 90
-    PALAVRA_RESERVADA shift and go to state 89
-
-  ! PALAVRA_RESERVADA [ reduce using rule 18 (caso_axioma -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT .) ]
+    NOME_INDIVIDUO  reduce using rule 13 (caso_subclassof -> SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof .)
+    INDIVIDUALS     reduce using rule 13 (caso_subclassof -> SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof .)
 
 
 state 83
 
-    (35) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA ABRE_PARENT lista_classes FECHA_PARENT .
+    (40) restricoes_axioma_fechamento -> PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento .
 
-    PALAVRA_RESERVADA reduce using rule 35 (restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA ABRE_PARENT lista_classes FECHA_PARENT .)
-    FECHA_PARENT    reduce using rule 35 (restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA ABRE_PARENT lista_classes FECHA_PARENT .)
+    NOME_INDIVIDUO  reduce using rule 40 (restricoes_axioma_fechamento -> PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento .)
+    INDIVIDUALS     reduce using rule 40 (restricoes_axioma_fechamento -> PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento .)
 
 
 state 84
 
-    (37) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT . restricoes_aninhada
-    (34) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT
-    (35) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA ABRE_PARENT lista_classes FECHA_PARENT
-    (36) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes_aninhada
-    (37) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada
-    (38) restricoes_aninhada -> . ABRE_PARENT restricoes_aninhada FECHA_PARENT
+    (41) restricoes_axioma_fechamento -> PROPRIEDADE ONLY ABRE_PARENT classes_or FECHA_PARENT .
 
-    ABRE_PARENT     shift and go to state 28
+    NOME_INDIVIDUO  reduce using rule 41 (restricoes_axioma_fechamento -> PROPRIEDADE ONLY ABRE_PARENT classes_or FECHA_PARENT .)
+    INDIVIDUALS     reduce using rule 41 (restricoes_axioma_fechamento -> PROPRIEDADE ONLY ABRE_PARENT classes_or FECHA_PARENT .)
 
-    restricoes_aninhada            shift and go to state 91
 
 state 85
 
-    (11) restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL . restricoes_axioma_fechamento
-    (7) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CLASSE
-    (8) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (9) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (10) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE
-    (11) restricoes_axioma_fechamento -> . PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (12) restricoes_axioma_fechamento -> . PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE
-    (13) restricoes_axioma_fechamento -> . caso_axioma
-    (14) restricoes_axioma_fechamento -> . PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CLASSE
-    (15) restricoes_axioma_fechamento -> . PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (16) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE
-    (17) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (18) caso_axioma -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT
-    (19) caso_axioma -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (20) caso_axioma -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT PALAVRA_RESERVADA caso_axioma
+    (32) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA ABRE_PARENT classes_and FECHA_PARENT .
 
-    PROPRIEDADE     shift and go to state 30
-    ABRE_PARENT     shift and go to state 32
+    AND             reduce using rule 32 (restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA ABRE_PARENT classes_and FECHA_PARENT .)
+    NOME_INDIVIDUO  reduce using rule 32 (restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA ABRE_PARENT classes_and FECHA_PARENT .)
+    INDIVIDUALS     reduce using rule 32 (restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA ABRE_PARENT classes_and FECHA_PARENT .)
+    FECHA_PARENT    reduce using rule 32 (restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA ABRE_PARENT classes_and FECHA_PARENT .)
 
-    restricoes_axioma_fechamento   shift and go to state 92
-    caso_axioma                    shift and go to state 31
 
 state 86
 
-    (15) restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento .
+    (36) classes_and -> CLASSE AND . classes_and
+    (36) classes_and -> . CLASSE AND classes_and
+    (37) classes_and -> . CLASSE
 
-    PALAVRA_RESERVADA reduce using rule 15 (restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento .)
-    $end            reduce using rule 15 (restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento .)
+    CLASSE          shift and go to state 77
 
+    classes_and                    shift and go to state 90
 
 state 87
 
-    (16) restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE .
-    (17) restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE . CARACTERE_ESPECIAL CARACTERE_ESPECIAL restricoes_axioma_fechamento
+    (34) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT . restricoes_aninhada
+    (31) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT
+    (32) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA ABRE_PARENT classes_and FECHA_PARENT
+    (33) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes_aninhada
+    (34) restricoes_aninhada -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada
+    (35) restricoes_aninhada -> . ABRE_PARENT restricoes_aninhada FECHA_PARENT
 
-    PALAVRA_RESERVADA reduce using rule 16 (restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE .)
-    $end            reduce using rule 16 (restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE .)
-    CARACTERE_ESPECIAL shift and go to state 93
+    ABRE_PARENT     shift and go to state 33
 
+    restricoes_aninhada            shift and go to state 91
 
 state 88
 
-    (9) restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento .
+    (23) continuacao_subclassof -> PROPRIEDADE PALAVRA_RESERVADA CLASSE .
+    (25) continuacao_subclassof -> PROPRIEDADE PALAVRA_RESERVADA CLASSE . CARACTERE_ESPECIAL continuacao_subclassof
 
-    PALAVRA_RESERVADA reduce using rule 9 (restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento .)
-    $end            reduce using rule 9 (restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento .)
+    NOME_INDIVIDUO  reduce using rule 23 (continuacao_subclassof -> PROPRIEDADE PALAVRA_RESERVADA CLASSE .)
+    INDIVIDUALS     reduce using rule 23 (continuacao_subclassof -> PROPRIEDADE PALAVRA_RESERVADA CLASSE .)
+    CARACTERE_ESPECIAL shift and go to state 92
 
 
 state 89
 
-    (20) caso_axioma -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT PALAVRA_RESERVADA . caso_axioma
-    (18) caso_axioma -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT
-    (19) caso_axioma -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (20) caso_axioma -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT PALAVRA_RESERVADA caso_axioma
+    (24) continuacao_subclassof -> PROPRIEDADE PALAVRA_RESERVADA NAMESPACE . TIPO
+    (26) continuacao_subclassof -> PROPRIEDADE PALAVRA_RESERVADA NAMESPACE . TIPO CARACTERE_ESPECIAL continuacao_subclassof
 
-    ABRE_PARENT     shift and go to state 32
+    TIPO            shift and go to state 93
 
-    caso_axioma                    shift and go to state 94
 
 state 90
 
-    (19) caso_axioma -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT CARACTERE_ESPECIAL . restricoes_axioma_fechamento
-    (7) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CLASSE
-    (8) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (9) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (10) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE
-    (11) restricoes_axioma_fechamento -> . PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (12) restricoes_axioma_fechamento -> . PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE
-    (13) restricoes_axioma_fechamento -> . caso_axioma
-    (14) restricoes_axioma_fechamento -> . PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CLASSE
-    (15) restricoes_axioma_fechamento -> . PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (16) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE
-    (17) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (18) caso_axioma -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT
-    (19) caso_axioma -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (20) caso_axioma -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT PALAVRA_RESERVADA caso_axioma
+    (36) classes_and -> CLASSE AND classes_and .
 
-    PROPRIEDADE     shift and go to state 30
-    ABRE_PARENT     shift and go to state 32
+    FECHA_PARENT    reduce using rule 36 (classes_and -> CLASSE AND classes_and .)
 
-    restricoes_axioma_fechamento   shift and go to state 95
-    caso_axioma                    shift and go to state 31
 
 state 91
 
-    (37) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada .
+    (34) restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada .
 
-    PALAVRA_RESERVADA reduce using rule 37 (restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada .)
-    FECHA_PARENT    reduce using rule 37 (restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada .)
+    AND             reduce using rule 34 (restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada .)
+    NOME_INDIVIDUO  reduce using rule 34 (restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada .)
+    INDIVIDUALS     reduce using rule 34 (restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada .)
+    FECHA_PARENT    reduce using rule 34 (restricoes_aninhada -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada .)
 
 
 state 92
 
-    (11) restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento .
+    (25) continuacao_subclassof -> PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL . continuacao_subclassof
+    (23) continuacao_subclassof -> . PROPRIEDADE PALAVRA_RESERVADA CLASSE
+    (24) continuacao_subclassof -> . PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO
+    (25) continuacao_subclassof -> . PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL continuacao_subclassof
+    (26) continuacao_subclassof -> . PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof
 
-    PALAVRA_RESERVADA reduce using rule 11 (restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento .)
-    $end            reduce using rule 11 (restricoes_axioma_fechamento -> PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento .)
+    PROPRIEDADE     shift and go to state 71
 
+    continuacao_subclassof         shift and go to state 94
 
 state 93
 
-    (17) restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL . CARACTERE_ESPECIAL restricoes_axioma_fechamento
+    (24) continuacao_subclassof -> PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO .
+    (26) continuacao_subclassof -> PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO . CARACTERE_ESPECIAL continuacao_subclassof
 
-    CARACTERE_ESPECIAL shift and go to state 96
+    NOME_INDIVIDUO  reduce using rule 24 (continuacao_subclassof -> PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO .)
+    INDIVIDUALS     reduce using rule 24 (continuacao_subclassof -> PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO .)
+    CARACTERE_ESPECIAL shift and go to state 95
 
 
 state 94
 
-    (20) caso_axioma -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT PALAVRA_RESERVADA caso_axioma .
+    (25) continuacao_subclassof -> PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL continuacao_subclassof .
 
-    PALAVRA_RESERVADA reduce using rule 20 (caso_axioma -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT PALAVRA_RESERVADA caso_axioma .)
-    $end            reduce using rule 20 (caso_axioma -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT PALAVRA_RESERVADA caso_axioma .)
+    NOME_INDIVIDUO  reduce using rule 25 (continuacao_subclassof -> PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL continuacao_subclassof .)
+    INDIVIDUALS     reduce using rule 25 (continuacao_subclassof -> PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL continuacao_subclassof .)
 
 
 state 95
 
-    (19) caso_axioma -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT CARACTERE_ESPECIAL restricoes_axioma_fechamento .
+    (26) continuacao_subclassof -> PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO CARACTERE_ESPECIAL . continuacao_subclassof
+    (23) continuacao_subclassof -> . PROPRIEDADE PALAVRA_RESERVADA CLASSE
+    (24) continuacao_subclassof -> . PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO
+    (25) continuacao_subclassof -> . PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL continuacao_subclassof
+    (26) continuacao_subclassof -> . PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof
 
-    PALAVRA_RESERVADA reduce using rule 19 (caso_axioma -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT CARACTERE_ESPECIAL restricoes_axioma_fechamento .)
-    $end            reduce using rule 19 (caso_axioma -> ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT CARACTERE_ESPECIAL restricoes_axioma_fechamento .)
+    PROPRIEDADE     shift and go to state 71
 
+    continuacao_subclassof         shift and go to state 96
 
 state 96
 
-    (17) restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL . restricoes_axioma_fechamento
-    (7) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CLASSE
-    (8) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (9) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (10) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE
-    (11) restricoes_axioma_fechamento -> . PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (12) restricoes_axioma_fechamento -> . PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE
-    (13) restricoes_axioma_fechamento -> . caso_axioma
-    (14) restricoes_axioma_fechamento -> . PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CLASSE
-    (15) restricoes_axioma_fechamento -> . PROPRIEDADE PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (16) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE
-    (17) restricoes_axioma_fechamento -> . PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (18) caso_axioma -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT
-    (19) caso_axioma -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT CARACTERE_ESPECIAL restricoes_axioma_fechamento
-    (20) caso_axioma -> . ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT PALAVRA_RESERVADA caso_axioma
+    (26) continuacao_subclassof -> PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof .
 
-    PROPRIEDADE     shift and go to state 30
-    ABRE_PARENT     shift and go to state 32
+    NOME_INDIVIDUO  reduce using rule 26 (continuacao_subclassof -> PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof .)
+    INDIVIDUALS     reduce using rule 26 (continuacao_subclassof -> PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof .)
 
-    restricoes_axioma_fechamento   shift and go to state 97
-    caso_axioma                    shift and go to state 31
-
-state 97
-
-    (17) restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL restricoes_axioma_fechamento .
-
-    PALAVRA_RESERVADA reduce using rule 17 (restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL restricoes_axioma_fechamento .)
-    $end            reduce using rule 17 (restricoes_axioma_fechamento -> PROPRIEDADE PALAVRA_RESERVADA CARACTERE_ESPECIAL CLASSE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL CARACTERE_ESPECIAL restricoes_axioma_fechamento .)
-
-WARNING: 
-WARNING: Conflicts:
-WARNING: 
-WARNING: shift/reduce conflict for CARACTERE_ESPECIAL in state 7 resolved as shift
-WARNING: shift/reduce conflict for PALAVRA_RESERVADA in state 10 resolved as shift
-WARNING: shift/reduce conflict for PALAVRA_RESERVADA in state 13 resolved as shift
-WARNING: shift/reduce conflict for CARACTERE_ESPECIAL in state 37 resolved as shift
-WARNING: shift/reduce conflict for PALAVRA_RESERVADA in state 82 resolved as shift

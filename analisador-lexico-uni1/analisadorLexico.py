@@ -21,6 +21,7 @@ tokens = [
     "EQUIVALENT_TO",
     "INDIVIDUALS",
     "DISJOINTCLASSES",
+    "EXACTLY",
     "NOME_INDIVIDUO",
     "PALAVRA_RESERVADA",
     "CLASSE",
@@ -58,8 +59,12 @@ def t_EQUIVALENT_TO(t):
     r'EquivalentTo:'
     return t
 
+def t_EXACTLY(t):
+    r'exactly'
+    return t
+
 def t_OR(t):
-    r'[Oo][Rr]'
+    r'or'
     return t
 
 def t_AND(t):
@@ -81,8 +86,8 @@ def t_NAMESPACE(t):
 #!======================== REGEX GENERICOS =====================
 
 t_NOME_INDIVIDUO = r'([A-Z][a-z]+)+[0-9]+'
-t_PALAVRA_RESERVADA = r'[Aa][Ll][Ll]|[Vv][Aa][Ll][Uu][Ee]|[Mm][Ii][Nn]|[Ee][Xx][Aa][Cc][Tt][Ll][Yy]|[Tt][Hh][Aa][Tt]|[Mm][Aa][Xx]|[Nn][Oo][Tt]|Class:|DisjointWith:'
-t_CLASSE = r'([A-Z][a-z]+[_]?)+' 
+t_PALAVRA_RESERVADA = r'[Aa][Ll][Ll]|[Vv][Aa][Ll][Uu][Ee]|[Mm][Ii][Nn]|[Tt][Hh][Aa][Tt]|[Mm][Aa][Xx]|[Nn][Oo][Tt]|Class:|DisjointWith:'
+t_CLASSE = r'([A-Z]+[a-z]+[_]?)+' 
 t_TIPO = r'\b(rational|real|langString|PlainLiteral|XMLLiteral|Literal|anyURI|base64Binary|boolean|byte|dateTime|dateTimeStamp|decimal|double|float|hexBinary|integer|int|language|long|Name|NCName|negativeInteger|NMTOKEN|nonNegativeInteger|nonPositiveInteger|normalizedString|positiveInteger|short|string|token|unsignedByte|unsignedInt|unsignedLong|unsignedShort)\b'
 t_PROPRIEDADE = r'has([A-Z][a-z]+)+|is([A-Z][a-z]+)+Of|[a-z]+([A-Z][a-z]+)*' 
 t_CARACTERE_ESPECIAL = r'[\[\].,\"\']'
@@ -190,6 +195,7 @@ def p_continuacao_subclassof(p):
 def p_declaracao_classe_definida(p):
     """
     declaracao_classe_definida : PALAVRA_RESERVADA CLASSE EQUIVALENT_TO caso_simples_opcional estrutura_definida
+                               | PALAVRA_RESERVADA CLASSE EQUIVALENT_TO estrutura_definida
     """
     pass
 
@@ -197,6 +203,7 @@ def p_estrutura_definida(p):
     """
     estrutura_definida : caso_individuals_opcional estrutura_definida
                        | tipo_classe_secundaria estrutura_definida
+                       | declaracao_classe_coberta 
                        |
     """
     pass
@@ -224,13 +231,18 @@ def p_caso_ands(p):
 def p_restricoes_aninhada(p):
     """
     restricoes_aninhada : ABRE_PARENT PROPRIEDADE SOME CLASSE FECHA_PARENT
+                        | ABRE_PARENT PROPRIEDADE ONLY CLASSE FECHA_PARENT
+                        | ABRE_PARENT PROPRIEDADE ONLY restricoes_aninhada FECHA_PARENT
                         | ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT
                         | ABRE_PARENT PROPRIEDADE SOME ABRE_PARENT classes_and FECHA_PARENT
                         | ABRE_PARENT PROPRIEDADE SOME restricoes_aninhada FECHA_PARENT
                         | ABRE_PARENT PROPRIEDADE SOME CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada
                         | ABRE_PARENT PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL FECHA_PARENT
                         | ABRE_PARENT PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL FECHA_PARENT CARACTERE_ESPECIAL restricoes_aninhada
-                        | ABRE_PARENT restricoes_aninhada FECHA_PARENT"""
+                        | ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT
+                        | ABRE_PARENT PROPRIEDADE EXACTLY CARDINALIDADE CLASSE FECHA_PARENT
+                        | ABRE_PARENT restricoes_aninhada FECHA_PARENT
+                        | ABRE_PARENT classes_or FECHA_PARENT"""
     pass
 
 def p_classes_and(p):
@@ -248,6 +260,10 @@ def p_restricoes_axioma_fechamento(p):
     """
     restricoes_axioma_fechamento : PROPRIEDADE ONLY ABRE_PARENT classes_or FECHA_PARENT
                                  | PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
+                                 | PROPRIEDADE SOME CLASSE
+                                 | PROPRIEDADE ONLY CLASSE 
+                                 | PROPRIEDADE ONLY CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
+                                 | PROPRIEDADE EXACTLY CARDINALIDADE CLASSE
     """
     pass
 
@@ -275,7 +291,7 @@ def p_classes_enumeradas(p):
 
 def p_declaracao_classe_coberta(p):
     """
-    declaracao_classe_coberta : classes_or
+    declaracao_classe_coberta : classes_or 
     """
     pass
 

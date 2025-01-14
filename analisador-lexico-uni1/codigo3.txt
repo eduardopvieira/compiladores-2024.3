@@ -1,0 +1,113 @@
+  
+Class: DataUsagePolicy
+
+        
+    SubClassOf: 
+        Resource,
+        mediates some DataSovereigntyAct,
+        mediates some InvokeDataOperation
+    
+    
+Class: DigitalAsset
+
+        
+    SubClassOf: 
+        Resource,
+        (composedBy exactly 1 Data) and (composedBy exactly 1 DataUsagePolicy),
+        historicallyDependsOn some OfferorUnconditionalAgreement
+    
+    
+Class: EconomicAgreement
+
+        
+    EquivalentTo: 
+        Relator
+         and ((composedBy some OffereeUnconditionalAgreement)
+         and (composedBy some OfferorUnconditionalAgreement))
+         and (historicallyDependsOn only EconomicOffering)
+         and (composedBy only (OffereeUnconditionalAgreement or OfferorUnconditionalAgreement))
+         and (historicallyDependsOn min 1 EconomicOffering)
+    
+    
+Class: EconomicOffering
+
+        
+    EquivalentTo: 
+        Relator
+         and ((composedBy some ConditionalClaim)
+         and (composedBy some ConditionalCommitment))
+         and (mediates only (DataCustomer or DataSupplier))
+         and (wasCreatedIn only Offer)
+         and (composedBy only (ConditionalClaim or ConditionalCommitment))
+         and (mediates min 1 DataCustomer)
+         and (mediates min 1 DataSupplier)
+         and (wasCreatedIn exactly 1 Offer)
+    
+    
+Class: Evaluated
+
+    EquivalentTo: 
+        BrokerServiceProvider or Connector or CoreParticipant
+    
+    SubClassOf: 
+        FunctionalComplex
+    
+    
+Class: Evaluation
+
+        
+    SubClassOf: 
+        Activity,
+        historicallyDependsOn only EvaluationAct,
+        historicallyDependsOn exactly 1 EvaluationAct
+    
+    
+Class: EvaluationAct
+
+        
+    EquivalentTo: 
+        Relator
+         and (mediates only (Evaluated or EvaluationFacility or EvaluationReport))
+         and (mediates min 1 Evaluated)
+         and (mediates min 1 EvaluationFacility)
+         and (mediates min 1 EvaluationReport)
+         and (historicallyDependsOn min 1 Evaluation)
+    
+    
+Class: EvaluationFacility
+
+        
+    SubClassOf: 
+        IntermediaryParticipant,
+        emitsReport some EvaluationReport,
+        mediates some EvaluationAct
+    
+    
+Class: EvaluationReport
+
+        
+    SubClassOf: 
+        Resource,
+        mediates some EvaluationAct
+    
+    
+Class: IntermediaryParticipant
+
+        
+    SubClassOf: 
+        Actor
+    
+    
+Class: InvokeDataOperation
+
+        
+    SubClassOf: 
+        Relator,
+        mediates some Data,
+        mediates min 1 Connector,
+        mediates min 1 DataCustomer,
+        mediates min 1 DataOperation,
+        mediates min 1 DataSupplier,
+        mediates min 1 DataUsagePolicy
+    
+    

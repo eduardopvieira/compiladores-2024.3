@@ -1,0 +1,99 @@
+Class: Metadata
+
+        
+    SubClassOf: 
+        Resource,
+        describes some Data,
+        mediates exactly 1 MetadataAssignment,
+        mediates exactly 1 MetadataRetrival
+    
+    
+Class: MetadataAssignment
+
+        
+    SubClassOf: 
+        Relator,
+        inheresIn min 1 ConditionalCommitment,
+        mediates min 1 BrokerServiceProvider,
+        mediates min 1 DataSupplier,
+        mediates min 1 Metadata
+    
+    
+Class: MetadataRetrival
+
+        
+    SubClassOf: 
+        Relator,
+        inheresIn some ConditionalClaim,
+        mediates min 1 BrokerServiceProvider,
+        mediates min 1 DataCustomer,
+        mediates min 1 Metadata
+    
+    
+Class: Offer
+
+        
+    EquivalentTo: 
+        Event
+         and participatedIn only (DataCustomer or DataSupplier)
+         and wasCreatedIn only EconomicOffering
+         and participatedIn min 1 DataCustomer
+         and participatedIn min 1 DataSupplier
+         and wasCreatedIn exactly 1 EconomicOffering
+    
+    
+Class: OfferedContribution
+
+        
+    SubClassOf: 
+        Event,
+        participatedIn only DataSupplier,
+        participatedIn min 1 DataSupplier
+    
+    
+Class: OfferedContributionType
+
+        
+    SubClassOf: 
+        ConcreteIndividualType,
+        instantiate some OfferedContribution,
+        instantiate only OfferedContribution
+    
+    
+Class: OffereeUnconditionalAgreement
+
+        
+    SubClassOf: 
+        IntrinsicMode,
+        (externallyDependsOn only CounterpartContributionType) and (historicallyDependsOn only Counterpart) and (inheresIn only DataCustomer),
+        externallyDependsOn some CounterpartContributionType,
+        historicallyDependsOn min 1 Counterpart,
+        inheresIn exactly 1 DataCustomer
+    
+    
+Class: OfferorUnconditionalAgreement
+
+        
+    SubClassOf: 
+        IntrinsicMode,
+        (externallyDependsOn only OfferedContributionType) and (historicallyDependsOn only DigitalAsset) and (inheresIn only DataSupplier),
+        externallyDependsOn some OfferedContributionType,
+        historicallyDependsOn min 1 DigitalAsset,
+        inheresIn exactly 1 DataSupplier
+    
+    
+Class: Ownership
+
+        
+    SubClassOf: 
+        Relator,
+        mediates some Data,
+        mediates min 1 DataSupplier
+    
+    
+Class: Resource
+
+        
+    SubClassOf: 
+        FunctionalComplex,
+        participatedIn some DataExchange

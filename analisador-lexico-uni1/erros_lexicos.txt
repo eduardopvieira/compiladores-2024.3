@@ -82,3 +82,217 @@ Erro léxico: token não reconhecido perto de ':
        '
 Erro léxico: token não reconhecido perto de ': 
        '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ': 
+       '
+Erro léxico: token não reconhecido perto de ':
+ hasBase'
+Erro léxico: token não reconhecido perto de ':integer
+ '
+Erro léxico: token não reconhecido perto de ':
+ Pizza, '
+Erro léxico: token não reconhecido perto de ':
+ CustomP'
+Erro léxico: token não reconhecido perto de ':
+ hasBase'
+Erro léxico: token não reconhecido perto de ':integer
+ '
+Erro léxico: token não reconhecido perto de ':
+ Pizza, '
+Erro léxico: token não reconhecido perto de ':
+ CustomP'
+Erro léxico: token não reconhecido perto de ':
+ hasBase'
+Erro léxico: token não reconhecido perto de ':integer
+ '
+Erro léxico: token não reconhecido perto de ':
+ Pizza, '
+Erro léxico: token não reconhecido perto de ':
+ CustomP'
+Erro léxico: token não reconhecido perto de ':
+ hasBase'
+Erro léxico: token não reconhecido perto de ':integer
+ '
+Erro léxico: token não reconhecido perto de ':
+ Pizza, '
+Erro léxico: token não reconhecido perto de ':
+ CustomP'
+Erro léxico: token não reconhecido perto de ':
+ hasBase'
+Erro léxico: token não reconhecido perto de ':integer
+ '
+Erro léxico: token não reconhecido perto de ':
+ Pizza, '
+Erro léxico: token não reconhecido perto de ':
+ CustomP'
+Erro léxico: token não reconhecido perto de ':
+ hasBase'
+Erro léxico: token não reconhecido perto de ':integer
+ '
+Erro léxico: token não reconhecido perto de ':
+ Pizza, '
+Erro léxico: token não reconhecido perto de ':
+ CustomP'
+Erro léxico: token não reconhecido perto de ':
+ hasBase'
+Erro léxico: token não reconhecido perto de ':integer
+ '
+Erro léxico: token não reconhecido perto de ':
+ Pizza, '
+Erro léxico: token não reconhecido perto de ':
+ CustomP'
+Erro léxico: token não reconhecido perto de ':
+ hasBase'
+Erro léxico: token não reconhecido perto de ':integer
+ '
+Erro léxico: token não reconhecido perto de ':
+ Pizza, '
+Erro léxico: token não reconhecido perto de ':
+ CustomP'
+Erro léxico: token não reconhecido perto de ':
+ hasBase'
+Erro léxico: token não reconhecido perto de ':integer
+ '
+Erro léxico: token não reconhecido perto de ':
+ Pizza, '
+Erro léxico: token não reconhecido perto de ':
+ CustomP'
+Erro léxico: token não reconhecido perto de ':
+ hasBase'
+Erro léxico: token não reconhecido perto de ':integer
+ '
+Erro léxico: token não reconhecido perto de ':
+ Pizza, '
+Erro léxico: token não reconhecido perto de ':
+ CustomP'
+Erro léxico: token não reconhecido perto de ':
+ hasBase'
+Erro léxico: token não reconhecido perto de ':integer
+ '
+Erro léxico: token não reconhecido perto de ':
+ Pizza, '
+Erro léxico: token não reconhecido perto de ':
+ CustomP'
+Erro léxico: token não reconhecido perto de ':
+ hasBase'
+Erro léxico: token não reconhecido perto de ':integer
+ '
+Erro léxico: token não reconhecido perto de ':
+ Pizza, '
+Erro léxico: token não reconhecido perto de ':
+ CustomP'
+Erro léxico: token não reconhecido perto de ':
+ hasBase'
+Erro léxico: token não reconhecido perto de ':integer
+ '
+Erro léxico: token não reconhecido perto de ':
+ Pizza, '
+Erro léxico: token não reconhecido perto de ':
+ CustomP'
+Erro léxico: token não reconhecido perto de ':
+ hasBase'
+Erro léxico: token não reconhecido perto de ':integer
+ '
+Erro léxico: token não reconhecido perto de ':
+ Pizza, '
+Erro léxico: token não reconhecido perto de ':
+ CustomP'
+Erro léxico: token não reconhecido perto de ':integer
+ '
+Erro léxico: token não reconhecido perto de ':
+ Pizza, '
+Erro léxico: token não reconhecido perto de ':
+ CustomP'
+Erro léxico: token não reconhecido perto de ':integer
+ '
+Erro léxico: token não reconhecido perto de ':
+ Pizza, '
+Erro léxico: token não reconhecido perto de ':
+ CustomP'
+Erro léxico: token não reconhecido perto de ':integer
+ '
+Erro léxico: token não reconhecido perto de ':integer
+ '

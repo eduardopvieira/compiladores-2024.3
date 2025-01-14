@@ -189,7 +189,22 @@ def p_continuacao_subclassof(p):
 
 def p_declaracao_classe_definida(p):
     """
-    declaracao_classe_definida : PALAVRA_RESERVADA CLASSE EQUIVALENT_TO tipo_classe_secundaria caso_individuals_opcional 
+    declaracao_classe_definida : PALAVRA_RESERVADA CLASSE EQUIVALENT_TO estrutura_definida
+    """
+    pass
+
+def p_estrutura_definida(p): 
+    """
+    estrutura_definida : caso_simples_opcional estrutura_definida
+                       | tipo_classe_secundaria estrutura_definida
+                       | caso_individuals_opcional estrutura_definida
+                       |
+    """
+    pass
+
+def p_caso_simples_opcional(p):
+    """
+    caso_simples_opcional : CLASSE caso_ands
     """
     pass
 
@@ -208,10 +223,12 @@ def p_caso_ands(p):
 
 def p_restricoes_aninhada(p):
     """
-    restricoes_aninhada : ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT
-                        | ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA ABRE_PARENT classes_and FECHA_PARENT
-                        | ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE restricoes_aninhada
-                        | ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada
+    restricoes_aninhada : ABRE_PARENT PROPRIEDADE SOME CLASSE FECHA_PARENT
+                        | ABRE_PARENT PROPRIEDADE SOME ABRE_PARENT classes_and FECHA_PARENT
+                        | ABRE_PARENT PROPRIEDADE SOME CLASSE restricoes_aninhada
+                        | ABRE_PARENT PROPRIEDADE SOME CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada
+                        | ABRE_PARENT PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL FECHA_PARENT
+                        | ABRE_PARENT PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL FECHA_PARENT CARACTERE_ESPECIAL restricoes_aninhada
                         | ABRE_PARENT restricoes_aninhada FECHA_PARENT"""
     pass
 
@@ -302,15 +319,14 @@ def executar_analisador_manual(cod_teste):
 
 
 
-cod_teste = """ Class: Pizza
- SubClassOf:
- hasBase some PizzaBase,
- hasCaloricContent some xsd:integer
- DisjointClasses:
- Pizza, PizzaBase, PizzaTopping
+cod_teste = """ Class: CheesyPizza
+ EquivalentTo:
+ Pizza and (hasTopping some CheeseTopping)
  Individuals:
- CustomPizza1,
- CustomPizza2"""
+ CheesyPizza1
+ Class: HighCaloriePizza
+ EquivalentTo:
+ Pizza and (hasCaloricContent some xsd:integer[>= 400])"""
 
 # Função principal
 def main():

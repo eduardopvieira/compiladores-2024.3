@@ -22,8 +22,7 @@ Class: EconomicAgreement
         
     EquivalentTo: 
         Relator
-         and ((composedBy some OffereeUnconditionalAgreement)
-         and (composedBy some OfferorUnconditionalAgreement))
+         and ((composedBy some OffereeUnconditionalAgreement) and (composedBy some OfferorUnconditionalAgreement))
          and (historicallyDependsOn only EconomicOffering)
          and (composedBy only (OffereeUnconditionalAgreement or OfferorUnconditionalAgreement))
          and (historicallyDependsOn min 1 EconomicOffering)
@@ -109,5 +108,5 @@ Class: InvokeDataOperation
         mediates min 1 DataOperation,
         mediates min 1 DataSupplier,
         mediates min 1 DataUsagePolicy
-    
-    
+
+

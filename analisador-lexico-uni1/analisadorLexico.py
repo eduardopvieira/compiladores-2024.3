@@ -21,7 +21,8 @@ tokens = [
     "EQUIVALENT_TO",
     "INDIVIDUALS",
     "DISJOINTCLASSES",
-    "EXACTLY",
+    "DISJOINTWITH",
+    "COMPARADORES",
     "NOME_INDIVIDUO",
     "PALAVRA_RESERVADA",
     "CLASSE",
@@ -59,9 +60,6 @@ def t_EQUIVALENT_TO(t):
     r'EquivalentTo:'
     return t
 
-def t_EXACTLY(t):
-    r'exactly'
-    return t
 
 def t_OR(t):
     r'or'
@@ -83,10 +81,18 @@ def t_NAMESPACE(t):
     r'[a-z]{3,4}:'
     return t
 
+def t_DISJOINTWITH(t):
+    r'DisjointWith:'
+    return t
+
+def t_COMPARADORES(t):
+    r'min|exactly|max'
+    return t
+
 #!======================== REGEX GENERICOS =====================
 
 t_NOME_INDIVIDUO = r'([A-Z][a-z]+)+[0-9]+'
-t_PALAVRA_RESERVADA = r'[Aa][Ll][Ll]|[Vv][Aa][Ll][Uu][Ee]|[Mm][Ii][Nn]|[Tt][Hh][Aa][Tt]|[Mm][Aa][Xx]|[Nn][Oo][Tt]|Class:|DisjointWith:'
+t_PALAVRA_RESERVADA = r'[Aa][Ll][Ll]|[Vv][Aa][Ll][Uu][Ee]|[Tt][Hh][Aa][Tt]|[Nn][Oo][Tt]|Class:'
 t_CLASSE = r'([A-Z]+[a-z]+[_]?)+' 
 t_TIPO = r'\b(rational|real|langString|PlainLiteral|XMLLiteral|Literal|anyURI|base64Binary|boolean|byte|dateTime|dateTimeStamp|decimal|double|float|hexBinary|integer|int|language|long|Name|NCName|negativeInteger|NMTOKEN|nonNegativeInteger|nonPositiveInteger|normalizedString|positiveInteger|short|string|token|unsignedByte|unsignedInt|unsignedLong|unsignedShort)\b'
 t_PROPRIEDADE = r'has([A-Z][a-z]+)+|is([A-Z][a-z]+)+Of|[a-z]+([A-Z][a-z]+)*' 
@@ -97,6 +103,7 @@ t_ABRE_PARENT = r'\('
 t_FECHA_PARENT = r'\)'
 t_ABRE_CHAVE = r'\{'
 t_FECHA_CHAVE = r'\}'
+
 t_ignore = ' \t' #ESPAÇOS EM BRANCO E TABULAÇOES
 
 def t_newline(t):
@@ -178,6 +185,8 @@ def p_caso_disjoint_opcional(p):
                          |  CLASSE
                          |  DISJOINTCLASSES CLASSE 
                          |  DISJOINTCLASSES CLASSE CARACTERE_ESPECIAL caso_disjoint_opcional
+                         |  DISJOINTWITH CLASSE 
+                         |  DISJOINTWITH CLASSE CARACTERE_ESPECIAL caso_disjoint_opcional
                          |
     """
     pass
@@ -225,6 +234,9 @@ def p_caso_ands(p):
     """
     caso_ands : AND restricoes_aninhada caso_ands
               | AND restricoes_aninhada
+              | AND restricoes_aninhada_sem_parentese caso_ands
+              | AND restricoes_aninhada_sem_parentese              
+
     """
     pass
 
@@ -239,11 +251,30 @@ def p_restricoes_aninhada(p):
                         | ABRE_PARENT PROPRIEDADE SOME CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada
                         | ABRE_PARENT PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL FECHA_PARENT
                         | ABRE_PARENT PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL FECHA_PARENT CARACTERE_ESPECIAL restricoes_aninhada
-                        | ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CARDINALIDADE CLASSE FECHA_PARENT
-                        | ABRE_PARENT PROPRIEDADE EXACTLY CARDINALIDADE CLASSE FECHA_PARENT
+                        | ABRE_PARENT PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE FECHA_PARENT
                         | ABRE_PARENT restricoes_aninhada FECHA_PARENT
+                        | ABRE_PARENT restricoes_aninhada caso_ands FECHA_PARENT
                         | ABRE_PARENT classes_or FECHA_PARENT"""
     pass
+
+def p_restricoes_aninhada_sem_parentese(p):
+    """
+    restricoes_aninhada_sem_parentese :  PROPRIEDADE SOME CLASSE 
+                                     |  PROPRIEDADE ONLY CLASSE 
+                                     |  PROPRIEDADE ONLY restricoes_aninhada 
+                                     |  PROPRIEDADE PALAVRA_RESERVADA CLASSE 
+                                     |  PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE 
+    """
+    pass
+
+# |  PROPRIEDADE SOME classes_and 
+#                         |  PROPRIEDADE SOME restricoes_aninhada 
+#                         |  PROPRIEDADE SOME CARDINALIDADE CLASSE restricoes_aninhada
+#                         |  PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL 
+#                         |  PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL CARACTERE_ESPECIAL restricoes_aninhada
+#                         |  restricoes_aninhada 
+#                         |  restricoes_aninhada caso_ands 
+#                         |  classes_or
 
 def p_classes_and(p):
     """
@@ -253,17 +284,29 @@ def p_classes_and(p):
 #!===================== CLASSE AXIOMA DE FECHAMENTO ========================
 
 def p_declaracao_classe_axioma_fechamento(p):
-    """declaracao_classe_axioma_fechamento : CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento """
+    """declaracao_classe_axioma_fechamento : CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento"""
     pass
 
 def p_restricoes_axioma_fechamento(p):
     """
-    restricoes_axioma_fechamento : PROPRIEDADE ONLY ABRE_PARENT classes_or FECHA_PARENT
-                                 | PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-                                 | PROPRIEDADE SOME CLASSE
-                                 | PROPRIEDADE ONLY CLASSE 
-                                 | PROPRIEDADE ONLY CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-                                 | PROPRIEDADE EXACTLY CARDINALIDADE CLASSE
+    restricoes_axioma_fechamento : casos_propriedade ONLY ABRE_PARENT classes_or FECHA_PARENT
+                                 | casos_propriedade SOME CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
+                                 | casos_propriedade SOME CLASSE
+                                 | casos_propriedade ONLY CLASSE 
+                                 | casos_propriedade ONLY CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
+                                 | casos_propriedade COMPARADORES CARDINALIDADE CLASSE
+                                 | casos_propriedade COMPARADORES CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
+                                 | ABRE_PARENT restricoes_axioma_fechamento FECHA_PARENT 
+                                 | ABRE_PARENT restricoes_axioma_fechamento FECHA_PARENT AND restricoes_axioma_fechamento
+                                 | ABRE_PARENT restricoes_axioma_fechamento FECHA_PARENT CARACTERE_ESPECIAL restricoes_axioma_fechamento
+                                 
+    """
+    pass
+
+def p_casos_propriedade(p):
+    """
+    casos_propriedade : PROPRIEDADE PROPRIEDADE
+                      | PROPRIEDADE
     """
     pass
 
@@ -362,7 +405,7 @@ def main():
 
     if opcao == "1":
         try:
-            with open('codigo.txt', 'r') as arquivo:
+            with open('codigo4.txt', 'r') as arquivo:
                 codigo = arquivo.read()
             executar_analisador(codigo)
         except FileNotFoundError:

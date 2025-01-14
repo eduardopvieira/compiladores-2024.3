@@ -83,7 +83,7 @@ def t_NAMESPACE(t):
 t_NOME_INDIVIDUO = r'([A-Z][a-z]+)+[0-9]+'
 t_PALAVRA_RESERVADA = r'[Aa][Ll][Ll]|[Vv][Aa][Ll][Uu][Ee]|[Mm][Ii][Nn]|[Ee][Xx][Aa][Cc][Tt][Ll][Yy]|[Tt][Hh][Aa][Tt]|[Mm][Aa][Xx]|[Nn][Oo][Tt]|Class:|DisjointWith:'
 t_CLASSE = r'([A-Z][a-z]+[_]?)+' 
-t_TIPO = r'rational|real|langString|PlainLiteral|XMLLiteral|Literal|anyURI|base64Binary|boolean|byte|dateTime|dateTimeStamp|decimal|double|float|hexBinary|integer|int|language|long|Name|NCName|negativeInteger|NMTOKEN|nonNegativeInteger|nonPositiveInteger|normalizedString|positiveInteger|short|string|token|unsignedByte|unsignedInt|unsignedLong|unsignedShort'
+t_TIPO = r'\b(rational|real|langString|PlainLiteral|XMLLiteral|Literal|anyURI|base64Binary|boolean|byte|dateTime|dateTimeStamp|decimal|double|float|hexBinary|integer|int|language|long|Name|NCName|negativeInteger|NMTOKEN|nonNegativeInteger|nonPositiveInteger|normalizedString|positiveInteger|short|string|token|unsignedByte|unsignedInt|unsignedLong|unsignedShort)\b'
 t_PROPRIEDADE = r'has([A-Z][a-z]+)+|is([A-Z][a-z]+)+Of|[a-z]+([A-Z][a-z]+)*' 
 t_CARACTERE_ESPECIAL = r'[\[\].,\"\']'
 t_OPERADORES = r'[<>="]{1,2}'
@@ -189,15 +189,14 @@ def p_continuacao_subclassof(p):
 
 def p_declaracao_classe_definida(p):
     """
-    declaracao_classe_definida : PALAVRA_RESERVADA CLASSE EQUIVALENT_TO estrutura_definida
+    declaracao_classe_definida : PALAVRA_RESERVADA CLASSE EQUIVALENT_TO caso_simples_opcional estrutura_definida
     """
     pass
 
 def p_estrutura_definida(p): 
     """
-    estrutura_definida : caso_simples_opcional estrutura_definida
+    estrutura_definida : caso_individuals_opcional estrutura_definida
                        | tipo_classe_secundaria estrutura_definida
-                       | caso_individuals_opcional estrutura_definida
                        |
     """
     pass
@@ -205,6 +204,7 @@ def p_estrutura_definida(p):
 def p_caso_simples_opcional(p):
     """
     caso_simples_opcional : CLASSE caso_ands
+                          |
     """
     pass
 
@@ -224,8 +224,9 @@ def p_caso_ands(p):
 def p_restricoes_aninhada(p):
     """
     restricoes_aninhada : ABRE_PARENT PROPRIEDADE SOME CLASSE FECHA_PARENT
+                        | ABRE_PARENT PROPRIEDADE PALAVRA_RESERVADA CLASSE FECHA_PARENT
                         | ABRE_PARENT PROPRIEDADE SOME ABRE_PARENT classes_and FECHA_PARENT
-                        | ABRE_PARENT PROPRIEDADE SOME CLASSE restricoes_aninhada
+                        | ABRE_PARENT PROPRIEDADE SOME restricoes_aninhada FECHA_PARENT
                         | ABRE_PARENT PROPRIEDADE SOME CARDINALIDADE CLASSE FECHA_PARENT restricoes_aninhada
                         | ABRE_PARENT PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL FECHA_PARENT
                         | ABRE_PARENT PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL FECHA_PARENT CARACTERE_ESPECIAL restricoes_aninhada
@@ -245,9 +246,8 @@ def p_declaracao_classe_axioma_fechamento(p):
 
 def p_restricoes_axioma_fechamento(p):
     """
-    restricoes_axioma_fechamento : PROPRIEDADE SOME CLASSE
-                                | PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
-                                | PROPRIEDADE ONLY ABRE_PARENT classes_or FECHA_PARENT
+    restricoes_axioma_fechamento : PROPRIEDADE ONLY ABRE_PARENT classes_or FECHA_PARENT
+                                 | PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
     """
     pass
 
@@ -268,7 +268,7 @@ def p_declaracao_classe_enumerada(p):
 def p_classes_enumeradas(p):
     """
     classes_enumeradas : CLASSE CARACTERE_ESPECIAL classes_enumeradas
-                      | CLASSE
+                       | CLASSE
     """
 
 #!======================== CLASSE COBERTA ============================
@@ -293,11 +293,23 @@ parser = yacc.yacc()
 
 def executar_analisador(codigo):
     lexer.input(codigo)
+    print("\n### Tokens Identificados ###")
+    while True:
+            token = lexer.token()
+            if not token:
+                break
+            print(f"Token: {token.type}, Valor: {token.value}, Linha: {token.lineno}, Posição: {token.lexpos}")
+        
+        # Processa o parser
+    print("\n### Análise Sintática ###")
     result = parser.parse(codigo, lexer=lexer)
-    if result is None:
-        print("Análise sintática concluída com sucesso.")
+    if result:
+        for token in result:
+            print(token)
     else:
-        print("Erros encontrados na análise sintática.")
+        print("Nenhum resultado retornado pelo parser.")
+
+
 
 def executar_analisador_manual(cod_teste):
     lexer.input(cod_teste)
@@ -319,14 +331,10 @@ def executar_analisador_manual(cod_teste):
 
 
 
-cod_teste = """ Class: CheesyPizza
+cod_teste = """ Class: SpicyPizza
  EquivalentTo:
- Pizza and (hasTopping some CheeseTopping)
- Individuals:
- CheesyPizza1
- Class: HighCaloriePizza
- EquivalentTo:
- Pizza and (hasCaloricContent some xsd:integer[>= 400])"""
+ Pizza
+ and (hasTopping some (hasSpiciness value Hot))"""
 
 # Função principal
 def main():

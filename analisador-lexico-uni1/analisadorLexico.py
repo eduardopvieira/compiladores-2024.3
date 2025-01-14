@@ -17,6 +17,10 @@ import ply.yacc as yacc
 #! DEFINIÇÕES DO LEXER
 #!======================================
 tokens = [
+    "SUBCLASSOF",
+    "EQUIVALENT_TO",
+    "INDIVIDUALS",
+    "DISJOINTCLASSES",
     "NOME_INDIVIDUO",
     "PALAVRA_RESERVADA",
     "CLASSE",
@@ -30,38 +34,64 @@ tokens = [
     "FECHA_PARENT",
     "ABRE_CHAVE",
     "FECHA_CHAVE",
-    "EQUIVALENT_TO",
     "OR",
     "AND",
-    "SUBCLASSOF",
-    "INDIVIDUALS",
-    "DISJOINTCLASSES",
     "SOME",
     "ONLY"
 ]
 
-# Regras de expressão regular para os tokens
+
+#!========================== PALAVRAS RESERVADAS ==========================
+def t_SUBCLASSOF(t):
+    r'SubClassOf:'
+    return t
+
+def t_INDIVIDUALS(t):
+    r'Individuals:'
+    return t
+
+def t_DISJOINTCLASSES(t):
+    r'DisjointClasses:'
+    return t
+
+def t_EQUIVALENT_TO(t):
+    r'EquivalentTo:'
+    return t
+
+def t_OR(t):
+    r'[Oo][Rr]'
+    return t
+
+def t_AND(t):
+    r'and'
+    return t
+
+def t_SOME(t):
+    r'some'
+    return t
+
+def t_ONLY(t):
+    r'only'
+    return t
+
+def t_NAMESPACE(t):
+    r'[a-z]{3,4}:'
+    return t
+
+#!======================== REGEX GENERICOS =====================
+
 t_NOME_INDIVIDUO = r'([A-Z][a-z]+)+[0-9]+'
 t_PALAVRA_RESERVADA = r'[Aa][Ll][Ll]|[Vv][Aa][Ll][Uu][Ee]|[Mm][Ii][Nn]|[Ee][Xx][Aa][Cc][Tt][Ll][Yy]|[Tt][Hh][Aa][Tt]|[Mm][Aa][Xx]|[Nn][Oo][Tt]|Class:|DisjointWith:'
 t_CLASSE = r'([A-Z][a-z]+[_]?)+' 
-t_NAMESPACE = r'[a-z]{3,4}:'
 t_TIPO = r'rational|real|langString|PlainLiteral|XMLLiteral|Literal|anyURI|base64Binary|boolean|byte|dateTime|dateTimeStamp|decimal|double|float|hexBinary|integer|int|language|long|Name|NCName|negativeInteger|NMTOKEN|nonNegativeInteger|nonPositiveInteger|normalizedString|positiveInteger|short|string|token|unsignedByte|unsignedInt|unsignedLong|unsignedShort'
 t_PROPRIEDADE = r'has([A-Z][a-z]+)+|is([A-Z][a-z]+)+Of|[a-z]+([A-Z][a-z]+)*' 
-t_CARACTERE_ESPECIAL = r'[{}\[\].,\"\']'
+t_CARACTERE_ESPECIAL = r'[\[\].,\"\']'
 t_OPERADORES = r'[<>="]{1,2}'
 t_CARDINALIDADE = r'[0-9]+'
 t_ABRE_PARENT = r'\('
 t_FECHA_PARENT = r'\)'
 t_ABRE_CHAVE = r'\{'
 t_FECHA_CHAVE = r'\}'
-t_EQUIVALENT_TO = r'EquivalentTo:'
-t_OR = r'[Oo][Rr]'
-t_AND = r'and'
-t_SOME = r'some'
-t_ONLY = r'only'
-t_SUBCLASSOF = r'SubClassOf:'
-t_INDIVIDUALS = r'Individuals:' 
-t_DISJOINTCLASSES = r'DisjointClasses:'
 t_ignore = ' \t' #ESPAÇOS EM BRANCO E TABULAÇOES
 
 def t_newline(t):
@@ -84,10 +114,11 @@ def p_programa(p):
                 | tipo_classe_primaria"""
     pass
 
+
 def p_tipo_classe_primaria(p):
     """
     tipo_classe_primaria : declaracao_classe_definida
-                        | declaracao_classe_primitiva
+                         | declaracao_classe_primitiva
     """
     pass
 
@@ -104,26 +135,35 @@ def p_tipo_classe_secundaria(p):
 
 def p_declaracao_classe_primitiva(p):
     """
-    declaracao_classe_primitiva : PALAVRA_RESERVADA CLASSE caso_subclassof caso_individuals_opcional caso_disjoint_opcional
+    declaracao_classe_primitiva : PALAVRA_RESERVADA CLASSE caso_subclassof caso_disjoint_opcional caso_individuals_opcional 
     """
     pass
 
 def p_caso_subclassof(p):
     """
-    caso_subclassof : SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA CLASSE
-                   | SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO
-                   | SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL continuacao_subclassof 
-                   | SUBCLASSOF PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof
+    caso_subclassof : SUBCLASSOF PROPRIEDADE SOME CLASSE
+                   | SUBCLASSOF PROPRIEDADE SOME NAMESPACE TIPO
+                   | SUBCLASSOF PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL continuacao_subclassof 
+                   | SUBCLASSOF PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof
                    | SUBCLASSOF declaracao_classe_axioma_fechamento
     """
     pass
+    # if len(p) == 5:
+    #     p[0] = [p[1]] + [p[2]] + [p[3]] + [p[4]]
+    # elif len(p) == 6:
+    #     p[0] = [p[1]] + [p[2]] + [p[3]] + [p[4]] + [p[5]]
+    # elif len(p) == 7:
+    #     p[0] = [p[1]] + [p[2]]
+    # else:
+    #     p[0] = [p[1]] + [p[2]]
 
 def p_caso_individuals_opcional(p):
     """
     caso_individuals_opcional : NOME_INDIVIDUO CARACTERE_ESPECIAL caso_individuals_opcional
-                             | NOME_INDIVIDUO
-                             | INDIVIDUALS NOME_INDIVIDUO
-                             | INDIVIDUALS NOME_INDIVIDUO CARACTERE_ESPECIAL caso_individuals_opcional
+                              | NOME_INDIVIDUO
+                              | INDIVIDUALS NOME_INDIVIDUO
+                              | INDIVIDUALS NOME_INDIVIDUO CARACTERE_ESPECIAL caso_individuals_opcional
+                              |
     """
     pass
 
@@ -133,14 +173,15 @@ def p_caso_disjoint_opcional(p):
                          |  CLASSE
                          |  DISJOINTCLASSES CLASSE 
                          |  DISJOINTCLASSES CLASSE CARACTERE_ESPECIAL caso_disjoint_opcional
+                         |
     """
     pass
 
 def p_continuacao_subclassof(p):
-    """continuacao_subclassof : PROPRIEDADE PALAVRA_RESERVADA CLASSE
-                   | PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO
-                   | PROPRIEDADE PALAVRA_RESERVADA CLASSE CARACTERE_ESPECIAL continuacao_subclassof 
-                   | PROPRIEDADE PALAVRA_RESERVADA NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof
+    """continuacao_subclassof : PROPRIEDADE SOME CLASSE
+                   | PROPRIEDADE SOME NAMESPACE TIPO
+                   | PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL continuacao_subclassof 
+                   | PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof
     """
     pass
 
@@ -225,9 +266,10 @@ def p_declaracao_classe_coberta(p):
 # Erro sintático
 def p_error(p):
     if p:
-        print(f"Erro sintático: token inesperado '{p.value}', linha {p.lineno}")
+        print(f"Erro sintático: token inesperado '{p.value}' do tipo '{p.type}' na linha {p.lineno}")
     else:
-        print("Erro sintático: fim inesperado da entrada.")
+        print("Erro sintático: fim inesperado do arquivo")
+
 
 # Construir o analisador sintático
 parser = yacc.yacc()
@@ -239,6 +281,36 @@ def executar_analisador(codigo):
         print("Análise sintática concluída com sucesso.")
     else:
         print("Erros encontrados na análise sintática.")
+
+def executar_analisador_manual(cod_teste):
+    lexer.input(cod_teste)
+    print("\n### Tokens Identificados ###")
+    while True:
+            token = lexer.token()
+            if not token:
+                break
+            print(f"Token: {token.type}, Valor: {token.value}, Linha: {token.lineno}, Posição: {token.lexpos}")
+        
+        # Processa o parser
+    print("\n### Análise Sintática ###")
+    result = parser.parse(cod_teste, lexer=lexer)
+    if result:
+        for token in result:
+            print(token)
+    else:
+        print("Nenhum resultado retornado pelo parser.")
+
+
+
+cod_teste = """ Class: Pizza
+ SubClassOf:
+ hasBase some PizzaBase,
+ hasCaloricContent some xsd:integer
+ DisjointClasses:
+ Pizza, PizzaBase, PizzaTopping
+ Individuals:
+ CustomPizza1,
+ CustomPizza2"""
 
 # Função principal
 def main():
@@ -257,9 +329,9 @@ def main():
             print("Erro: O arquivo 'codigo.txt' não foi encontrado.")
 
     elif opcao == "2":
-        print("Digite o código:")
-        codigo = input()
-        executar_analisador(codigo)
+        # print("Digite o código:")
+        # codigo = input()
+        executar_analisador_manual(cod_teste)
 
     elif opcao == "3":
         exit()

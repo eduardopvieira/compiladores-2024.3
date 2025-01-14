@@ -405,7 +405,7 @@ def main():
 
     if opcao == "1":
         try:
-            with open('codigo4.txt', 'r') as arquivo:
+            with open('codigo.txt', 'r') as arquivo:
                 codigo = arquivo.read()
             executar_analisador(codigo)
         except FileNotFoundError:

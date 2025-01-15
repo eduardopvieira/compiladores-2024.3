@@ -114,15 +114,18 @@ parser = yacc.yacc()
 def p_programa(p):
     """programa : tipo_classe_primaria programa
                 | tipo_classe_primaria"""
-    p[0] = {"tipo": "programa", "conteudo": p[1]}
-
+    
+    if len(p) == 3:
+        p[0] = [p[1]] + p[2]
+    else:
+        p[0] = [p[1]]
 
 def p_tipo_classe_primaria(p):
     """
     tipo_classe_primaria : declaracao_classe_definida
                          | declaracao_classe_primitiva
     """
-    pass
+    p[0] = p[1]
 
 def p_tipo_classe_secundaria(p):
     """
@@ -131,7 +134,7 @@ def p_tipo_classe_secundaria(p):
                           | declaracao_classe_coberta
                           | declaracao_classe_axioma_fechamento
     """
-    pass
+    p[0] = p[1]
 
 #!===================== CLASSE PRIMITIVA ================
 
@@ -139,8 +142,7 @@ def p_declaracao_classe_primitiva(p):
     """
     declaracao_classe_primitiva : PALAVRA_RESERVADA CLASSE caso_subclassof caso_disjoint_opcional caso_individuals_opcional 
     """
-    p[0] = {"tipo": "declaracao_classe_primitiva", "valores": p[1:]}
-    pass
+    p[0] = {"tipo": "Classe Primitiva", "valores": p[1:]}
 
 def p_caso_subclassof(p):
     """
@@ -150,15 +152,23 @@ def p_caso_subclassof(p):
                    | SUBCLASSOF PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof
                    | SUBCLASSOF declaracao_classe_axioma_fechamento
     """
-    pass
     # if len(p) == 5:
-    #     p[0] = [p[1]] + [p[2]] + [p[3]] + [p[4]]
+    #     p[0] = {"subclassof": {"propriedade": p[2], "some": p[3], "classe": p[4]}}
     # elif len(p) == 6:
-    #     p[0] = [p[1]] + [p[2]] + [p[3]] + [p[4]] + [p[5]]
+    #     p[0] = {"subclassof": {"propriedade": p[2], "some": p[3], "namespace": p[4], "tipo": p[5]}}
     # elif len(p) == 7:
-    #     p[0] = [p[1]] + [p[2]]
+    #     p[0] = {"subclassof": {"propriedade": p[2], "some": p[3], "classe": p[4], "continuacao": p[6]}}
     # else:
-    #     p[0] = [p[1]] + [p[2]]
+    #     p[0] = p[2]
+
+    if len(p) == 5:
+        p[0] = [p[1]] + [p[2]] + [p[3]] + [p[4]]
+    elif len(p) == 6:
+        p[0] = [p[1]] + [p[2]] + [p[3]] + [p[4]] + [p[5]]
+    elif len(p) == 7:
+        p[0] = [p[1]] + [p[2]] + [p[3]] + [p[4]] + [p[5]] + [p[6]]
+    else:
+        p[0] = [p[1]] + [p[2]]
 
 def p_caso_individuals_opcional(p):
     """
@@ -168,7 +178,14 @@ def p_caso_individuals_opcional(p):
                               | INDIVIDUALS NOME_INDIVIDUO CARACTERE_ESPECIAL caso_individuals_opcional
                               |
     """
-    pass
+    if len(p) == 5:
+        p[0] = [p[1]] + [p[2]] + [p[3]] + [p[4]]
+    elif len(p) == 4:
+        p[0] = [p[1]] + [p[2]] + [p[3]]
+    elif len(p) == 3:
+        p[0] = [p[1]] + [p[2]]
+    else:
+        p[0] = [p[1]]
 
 def p_caso_disjoint_opcional(p):
     """

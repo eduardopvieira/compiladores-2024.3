@@ -1,17 +1,6 @@
 import ply.lex as lex
 import ply.yacc as yacc
 
-# class TabelaDeSimbolos:
-#     def __init__(self):
-#         self.simbolos = []
-
-#     def adicionar_simbolo(self, lexema, tipo):
-#         self.simbolos.append((lexema, tipo))
-
-#     def exibir(self):
-#         print("Tabela de Símbolos:")
-#         for simbolo in self.simbolos:
-#             print(simbolo)
 
 #!======================================
 #! DEFINIÇÕES DO LEXER
@@ -119,12 +108,13 @@ def t_error(t):
 
 # INSTANCIANDO O LEXER
 lexer = lex.lex()
+parser = yacc.yacc()
 
 #?======================== REGRAS PRIMÁRIAS ============================= 
 def p_programa(p):
     """programa : tipo_classe_primaria programa
                 | tipo_classe_primaria"""
-    pass
+    p[0] = {"tipo": "programa", "conteudo": p[1]}
 
 
 def p_tipo_classe_primaria(p):
@@ -149,6 +139,7 @@ def p_declaracao_classe_primitiva(p):
     """
     declaracao_classe_primitiva : PALAVRA_RESERVADA CLASSE caso_subclassof caso_disjoint_opcional caso_individuals_opcional 
     """
+    p[0] = {"tipo": "declaracao_classe_primitiva", "valores": p[1:]}
     pass
 
 def p_caso_subclassof(p):
@@ -347,24 +338,20 @@ def p_error(p):
         print("Erro sintático: fim inesperado do arquivo")
 
 
-# Construir o analisador sintático
-parser = yacc.yacc()
-
 def executar_analisador(codigo):
     lexer.input(codigo)
     print("\n### Tokens Identificados ###")
     while True:
-            token = lexer.token()
-            if not token:
-                break
-            print(f"Token: {token.type}, Valor: {token.value}, Linha: {token.lineno}, Posição: {token.lexpos}")
-        
-        # Processa o parser
+        token = lexer.token()
+        if not token:
+            break
+        print(f"Token: {token.type}, Valor: {token.value}, Linha: {token.lineno}, Posição: {token.lexpos}")
+    
+    parser = yacc.yacc()
     print("\n### Análise Sintática ###")
     result = parser.parse(codigo, lexer=lexer)
-    if result:
-        for token in result:
-            print(token)
+    for token in result:
+        print(token)
     else:
         print("Nenhum resultado retornado pelo parser.")
 
@@ -379,7 +366,7 @@ def executar_analisador_manual(cod_teste):
                 break
             print(f"Token: {token.type}, Valor: {token.value}, Linha: {token.lineno}, Posição: {token.lexpos}")
         
-        # Processa o parser
+    # Processa o parser
     print("\n### Análise Sintática ###")
     result = parser.parse(cod_teste, lexer=lexer)
     if result:

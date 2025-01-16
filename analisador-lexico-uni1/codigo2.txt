@@ -1,25 +1,8 @@
-Class: RegulatoryActivity
-    EquivalentTo: ValueActivity
-        and (
-            (bundles some 
-            (CnAObject or CoreObject or PoPObject)
-            ) 
-            or 
-            (consumes some CounterObject)
-            )
-        and ((grants some CnAObject) or (transfers some (CoreObject or PoPObject)))
-        and (isAuthorityOf some Regulator)
-        and (hasTransaction some ValueTransaction)
-        and (bundles only (CnAObject or CoreObject or PoPObject))
-        and (consumes only CounterObject)
-        and (grants only CnAObject)
-        and (isAuthorityOf only Regulator)
-        and (transfers only (CoreObject or PoPObject))
-
-
 Class: OffereeUnconditionalAgreement
     SubClassOf: 
         IntrinsicMode,
+        
+        
         (externallyDependsOn only CounterpartContributionType) 
         and (historicallyDependsOn only Counterpart) 
         and (inheresIn only DataCustomer),

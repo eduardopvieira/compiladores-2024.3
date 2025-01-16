@@ -4,11 +4,8 @@ Este projeto implementa um analisador léxico e sintático em Python utilizando 
 
 ## Funcionalidades
 
-- **Análise Léxica:** Identificação de tokens como palavras-chave, operadores, classes, propriedades e mais.
-- **Análise Sintática:** Construção e validação da estrutura gramatical com base em regras definidas.
-- **Suporte a Classes:** Declaração e diferenciação entre classes primitivas e definidas.
-- **Axiomas de Fechamento:** Identificação de regras e propriedades para fechamento semântico.
-- **Tratamento de Erros:** Registro de erros léxicos em um arquivo separado para facilitar a depuração.
+- **Análise Léxica:** Identifica tokens como palavras reservadas, classes, propriedades, operadores e caracteres especiais.
+- **Análise Sintática:** Processa as regras gramaticais e valida a sintaxe de classes definidas e primitivas, além de construções complexas como hierarquias de classes especializadas (enumerada, axioma de fechamento, aninhada e coberta).
 
 ## Estrutura do Código
 
@@ -18,7 +15,7 @@ Este projeto implementa um analisador léxico e sintático em Python utilizando 
 - **Parser:** Implementa as regras gramaticais da linguagem utilizando produções como:
   - Declaração de classes primitivas e definidas
   - Conjuntos de disjunção e indivíduos
-  - Expressões complexas com axiomas de fechamento
+  - Expressões complexas com axiomas de fechamento e tipos secundarios ...
 
 ## Principais Tokens
 
@@ -33,9 +30,24 @@ Este projeto implementa um analisador léxico e sintático em Python utilizando 
 | `PROPRIEDADE`      | Define propriedades de classe ou relação                    |
 | `AND`, `OR`, `SOME`| Conectivos lógicos                                           |
 
+
+
+
+## Como executar 
+
+Recomendado o uso de uma IDE como o VSCode para facilitar a visualização das saídas:
+
+Se ainda não tem o VSCode instalado, baixe e instale a partir do site oficial: 
+https://code.visualstudio.com/.
+
+Abra o Projeto no VSCode, navegue até a pasta onde você clonou o repositório e selecione-a e 
+execute o arquivo analisador_sintatico.py.
+
 ## Requisitos
 
 Para executar este projeto, é necessário ter o Python 3 instalado e a biblioteca PLY. Você pode instalá-la usando o seguinte comando:
 
 ```bash
 pip install ply
+
+

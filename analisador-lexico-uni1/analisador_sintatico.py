@@ -154,6 +154,7 @@ def p_continuacao_subclassof(p):
                    | PROPRIEDADE SOME NAMESPACE TIPO
                    | PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL continuacao_subclassof 
                    | PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof
+                   | CLASSE
     """
 
 #!==================== CLASSE DEFINIDA ==================
@@ -166,16 +167,16 @@ def p_declaracao_classe_definida(p):
                                | PALAVRA_RESERVADA CLASSE continuacao_subclassof EQUIVALENT_TO continuacao_equivalentto
     """
 
-    #p[0] = ("{p[2]} : Classe Definida ")
-    lista_tipos.append(f"{p[2]}: Classe Definida")
+    p[0] = "Classe definida"
+    lista_tipos.append(f"{p[2]}: {p[0]}")
 
 
 def p_continuacao_equivalentto(p):
     """
         continuacao_equivalentto : CLASSE AND ABRE_PARENT PROPRIEDADE SOME CLASSE FECHA_PARENT
-                                 | CLASSE AND ABRE_PARENT PROPRIEDADE SOME restricoes_aninhada FECHA_PARENT
+                                 | CLASSE AND ABRE_PARENT PROPRIEDADE SOME adicionar_tag_aninhada FECHA_PARENT
                                  | CLASSE AND ABRE_PARENT PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL FECHA_PARENT
-                                 | CLASSE AND restricoes_aninhada caso_ands
+                                 | CLASSE AND adicionar_tag_aninhada caso_ands
                                  | CLASSE OR declaracao_classe_coberta
                                  
     """
@@ -191,30 +192,36 @@ def p_declaracao_classe_aninhada(p):
     declaracao_classe_aninhada : caso_ands
     """
 
+
 def p_caso_ands(p):
     """
     caso_ands : AND restricoes_aninhada caso_ands
-              | AND restricoes_aninhada
+              | AND restricoes_aninhada 
               | AND restricoes_aninhada_sem_parentese caso_ands
               | AND restricoes_aninhada_sem_parentese              
     """
 
+def p_adicionar_tag_aninhada(p):
+    """
+    adicionar_tag_aninhada : restricoes_aninhada
+    """
+    p[0] = " aninhada "
+    lista_tipos.append(f"{p[0]}: {p[0]}")
+
 def p_restricoes_aninhada(p):
     """
-    restricoes_aninhada : ABRE_PARENT PROPRIEDADE ONLY CLASSE FECHA_PARENT
-                        | ABRE_PARENT PROPRIEDADE ONLY ABRE_PARENT classes_or FECHA_PARENT FECHA_PARENT
-                        | ABRE_PARENT PROPRIEDADE SOME CLASSE FECHA_PARENT
-                        | ABRE_PARENT PROPRIEDADE SOME ABRE_PARENT classes_or FECHA_PARENT FECHA_PARENT
+    restricoes_aninhada : ABRE_PARENT PROPRIEDADE SOME_ONLY CLASSE FECHA_PARENT
+                        | ABRE_PARENT PROPRIEDADE SOME_ONLY ABRE_PARENT classes_or FECHA_PARENT FECHA_PARENT
                         | ABRE_PARENT PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE FECHA_PARENT
                         | ABRE_PARENT restricoes_aninhada OR restricoes_aninhada FECHA_PARENT
+                        | ABRE_PARENT restricoes_aninhada AND restricoes_aninhada FECHA_PARENT
+                        | ABRE_PARENT restricoes_aninhada FECHA_PARENT
     """
-    lista_tipos.append(" aninhada ")
-    #p[0] = (" aninhada ")
+
 
 def p_restricoes_aninhada_sem_parentese(p):
     """
-    restricoes_aninhada_sem_parentese :  PROPRIEDADE SOME CLASSE 
-                                     |  PROPRIEDADE ONLY CLASSE 
+    restricoes_aninhada_sem_parentese : PROPRIEDADE SOME_ONLY CLASSE 
                                      |  PROPRIEDADE ONLY restricoes_aninhada 
                                      |  PROPRIEDADE PALAVRA_RESERVADA CLASSE 
                                      |  PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE 
@@ -235,8 +242,10 @@ def p_declaracao_classe_axioma_fechamento(p):
     """
     declaracao_classe_axioma_fechamento : regras_classe_axioma_fechamento
     """
-    lista_tipos.append(f"{p[0]}: fechamento ")
-    #p[0] = (" fechamento ")
+    #lista_tipos.append(f"{p[0]}: fechamento ")
+    p[0] = (" fechamento ")
+    #p[0] = "Axioma de fechamento"
+    lista_tipos.append(f"{p[0]}: {p[0]}")
 
 def p_regras_classe_axioma_fechamento(p):
     """
@@ -282,8 +291,10 @@ def p_declaracao_classe_enumerada(p):
     """
     declaracao_classe_enumerada : ABRE_CHAVE classes_enumeradas FECHA_CHAVE
     """
-    lista_tipos.append(" enumerada ")
+    #lista_tipos.append(" enumerada ")
     #p[0] = (" enumerada ")
+    p[0] = "Classe enumerada"
+    lista_tipos.append(f"{p[2]}: {p[0]}")
 
 def p_classes_enumeradas(p):
     """
@@ -298,7 +309,9 @@ def p_declaracao_classe_coberta(p):
     declaracao_classe_coberta : classes_or 
     """
     #p[0] = (" coberta ")
-    lista_tipos.append(" coberta ")
+    #lista_tipos.append(" coberta ")
+    p[0] = "Classe coberta"
+    lista_tipos.append(f"{p[2]}: {p[0]}")
     
 
 # Erro sintático
@@ -311,7 +324,7 @@ def p_error(p):
 
 parser = yacc.yacc(debug=True)
 
-
+#!============================= MAIN ===================================
 def executar_analisador(codigo):
     lexer.input(codigo)
     print("\n### Tokens Identificados ###")
@@ -325,8 +338,11 @@ def executar_analisador(codigo):
     print("\n### Análise Sintática ###")
     result = parser.parse(codigo, lexer=lexer)   
 
-    print("\n".join(lista_tipos))
-    
+    #print("\n".join(lista_tipos))  #ISSO RETORNA A LISTA DE DESCRIÇAO DE CLASSES
+
+    for tipo in lista_tipos:
+        print(tipo)
+
     if result:
         for token in result:
             print(token)

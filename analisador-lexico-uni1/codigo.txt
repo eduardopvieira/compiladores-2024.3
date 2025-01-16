@@ -103,7 +103,7 @@ Class: Counterpart
     SubClassOf: 
         Resource,
         historicallyDependsOn some OffereeUnconditionalAgreement
-    
+========================================================================================    
     
 Class: CounterpartContribution
 

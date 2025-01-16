@@ -1,7 +1,6 @@
 import ply.lex as lex
 import ply.yacc as yacc
 
-
 #!======================================
 #! DEFINIÇÕES DO LEXER
 #!======================================
@@ -11,6 +10,7 @@ tokens = [
     "OR", "AND", "SOME", "ONLY", "VALUE"
 ]
 
+dicionario_classes = {}
 lista_tipos = []
 #!========================== FUNÇÃO AUXILIAR DE PALAVRAS RESERVADAS ==========================
 def t_SUBCLASSOF(t):
@@ -112,10 +112,10 @@ def p_declaracao_classe_primitiva(p):
                                 | PALAVRA_RESERVADA CLASSE SUBCLASSOF continuacao_subclassof caso_individuals_opcional
                                 | PALAVRA_RESERVADA CLASSE SUBCLASSOF continuacao_subclassof
     """
-    #p[0] = ("{p[2]} : Classe primitiva ")
-    #lista_tipos.append(f"{p[2]}: Classe primitiva ")
+ 
     p[0] = "Classe primitiva "
-    lista_tipos.append(f"{p[2]}: {p[0]}")
+    dicionario_classes[p[2]] = p[0]
+    #lista_tipos.append(f"{p[2]}: {p[0]}")
 
 
 def p_caso_individuals_opcional(p):
@@ -159,25 +159,15 @@ def p_declaracao_classe_definida(p):
     """
     declaracao_classe_definida : PALAVRA_RESERVADA CLASSE EQUIVALENT_TO continuacao_equivalentto caso_individuals_opcional
                                | PALAVRA_RESERVADA CLASSE EQUIVALENT_TO continuacao_equivalentto
+                               | PALAVRA_RESERVADA CLASSE EQUIVALENT_TO declaracao_classe_enumerada
                                | PALAVRA_RESERVADA CLASSE EQUIVALENT_TO continuacao_equivalentto SUBCLASSOF continuacao_subclassof
                                | PALAVRA_RESERVADA CLASSE continuacao_subclassof EQUIVALENT_TO continuacao_equivalentto
     """
 
     p[0] = "Classe definida"
-    lista_tipos.append(f"{p[2]}: {p[0]}")
+    dicionario_classes[p[2]] = p[0]
+   #lista_tipos.append(f"{p[2]}: {p[0]}")
 
-    
-# Class: Offer
-
-        
-#     EquivalentTo: 
-#         Event
-#          and participatedIn only (DataCustomer or DataSupplier)
-#          and wasCreatedIn only EconomicOffering
-#          and participatedIn min 1 DataCustomer
-#          and participatedIn min 1 DataSupplier
-#          and wasCreatedIn exactly 1 EconomicOffering
-    
 
 def p_continuacao_equivalentto(p):
     """
@@ -188,15 +178,16 @@ def p_continuacao_equivalentto(p):
                                  | CLASSE AND PROPRIEDADE SOME_ONLY classes_or caso_ands
                                  | CLASSE AND ABRE_PARENT PROPRIEDADE SOME_ONLY adicionar_tag_aninhada FECHA_PARENT
                                  | CLASSE AND ABRE_PARENT PROPRIEDADE SOME_ONLY NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL FECHA_PARENT
-                                 
+                                        
     """
 
 def p_declaracao_classe_aninhada(p):
     """
     declaracao_classe_aninhada : caso_ands
     """
-    p[0] = " aninhada "
-    lista_tipos.append(f"{p[0]}: {p[0]}")
+    p[0] = "aninhada"
+    dicionario_classes[p[0]] = "aninhada"
+    #lista_tipos.append(f"{p[0]}: {p[0]}")
 
 def p_caso_ands(p):
     """
@@ -211,8 +202,6 @@ def p_adicionar_tag_aninhada(p):
     adicionar_tag_aninhada : casos_parentese
                 
     """
-    # p[0] = " aninhada "
-    # lista_tipos.append(f"{p[0]}: {p[0]}")
 
 def p_casos_parentese(p):
     """
@@ -223,11 +212,6 @@ def p_casos_parentese(p):
                         | ABRE_PARENT casos_parentese AND casos_parentese FECHA_PARENT
                         | ABRE_PARENT casos_parentese FECHA_PARENT
     """
-    # p[0] = " aninhada "
-    # lista_tipos.append(f"{p[0]}: {p[0]}")
-
-
-
 
 def p_casos_sem_parentese(p):
     """
@@ -236,8 +220,6 @@ def p_casos_sem_parentese(p):
                         |  PROPRIEDADE PALAVRA_RESERVADA CLASSE 
                         |  PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE 
     """
-    
-
 
 #!===================== CLASSE AXIOMA DE FECHAMENTO ========================
 
@@ -245,10 +227,9 @@ def p_declaracao_classe_axioma_fechamento(p):
     """
     declaracao_classe_axioma_fechamento : regras_classe_axioma_fechamento
     """
-    #lista_tipos.append(f"{p[0]}: fechamento ")
-    p[0] = (" fechamento ")
-    #p[0] = "Axioma de fechamento"
-    lista_tipos.append(f"{p[0]}: {p[0]}")
+    p[0] = ("fechamento")
+    dicionario_classes[p[0]] = "fechamento"
+    #lista_tipos.append(f"{p[0]}: {p[0]}")
 
 def p_regras_classe_axioma_fechamento(p):
     """
@@ -280,13 +261,11 @@ def p_rec_propriedade(p):
                     | PROPRIEDADE PROPRIEDADE
     """
 
-
 def p_SOME_ONLY(p):
     """
     SOME_ONLY : SOME
               | ONLY
     """
-
 
 def p_classes_or(p):
     """
@@ -295,14 +274,13 @@ def p_classes_or(p):
                | ABRE_PARENT classes_or FECHA_PARENT
     """    
 
-
 #!======================== CLASSE ENUMERADA ==========================
 def p_declaracao_classe_enumerada(p):
     """
     declaracao_classe_enumerada : ABRE_CHAVE classes_enumeradas FECHA_CHAVE
     """
-    p[0] = "Classe enumerada"
-    lista_tipos.append(f"{p[0]}: {p[0]}")
+    p[0] = "enumerada"
+    dicionario_classes[p[0]] = "enumerada"
 
 def p_classes_enumeradas(p):
     """
@@ -316,12 +294,9 @@ def p_declaracao_classe_coberta(p):
     """
     declaracao_classe_coberta : classes_or 
     """
-    #p[0] = (" coberta ")
-    #lista_tipos.append(" coberta ")
-    p[0] = "Classe coberta"
-    lista_tipos.append(f"{p[0]}: {p[0]}")
+    p[0] = "coberta"
+    dicionario_classes[p[0]] = "coberta"
     
-
 # Erro sintático
 def p_error(p):
     if p:
@@ -346,16 +321,49 @@ def executar_analisador(codigo):
     print("\n### Análise Sintática ###")
     result = parser.parse(codigo, lexer=lexer)   
 
-    #print("\n".join(lista_tipos))  #ISSO RETORNA A LISTA DE DESCRIÇAO DE CLASSES
+    # chaves = list(dicionario_classes.keys())
+    # dicionario_atualizado = {}
 
-    for tipo in lista_tipos:
-        print(tipo)
+    # for i, classe in enumerate(chaves):
+    #     tipo_atual = dicionario_classes[classe]
+    #     if classe == tipo_atual: 
+    #         if i + 1 < len(chaves):
+    #             tipo_atual += f", {dicionario_classes[chaves[i + 1]]}"
+    #     dicionario_atualizado[classe] = tipo_atual
+
+
+chaves = list(dicionario_classes.keys())
+
+# Novo dicionário atualizado
+dicionario_atualizado = {}
+
+# Iterar sobre as chaves
+i = 0
+while i < len(chaves):
+    classe = chaves[i]
+    tipo_atual = dicionario_classes[classe]
+    
+    if classe == tipo_atual:
+        if i + 1 < len(chaves):
+            tipo_atual += f" {dicionario_classes[chaves[i + 1]]}"
+        i += 1
+    else:
+        i += 1
+    
+    # Adicionar ao novo dicionário
+    dicionario_atualizado[classe] = tipo_atual
+
+
+
+    for classe, tipo in dicionario_atualizado.items():
+        print(f"Classe: {classe} | Tipo: {tipo} ")
 
     if result:
         for token in result:
             print(token)
     else:
-        print("Nenhum resultado retornado pelo parser.")
+        print("Não há mais resultado retornado pelo parser.")
+        print("Analise concluida.")
 
 # Função principal
 def main():

@@ -110,3 +110,6 @@ Class: Resource
     SubClassOf: 
         FunctionalComplex,
         participatedIn some DataExchange
+
+Class: Teste
+    EquivalentTo: {Hot, Mild, Medium}

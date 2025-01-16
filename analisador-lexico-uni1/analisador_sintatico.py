@@ -32,7 +32,7 @@ tokens = [
 ]
 
 
-#!========================== PALAVRAS RESERVADAS ==========================
+#!========================== FUNÇÃO AUXILIAR DE PALAVRAS RESERVADAS ==========================
 def t_SUBCLASSOF(t):
     r'SubClassOf:'
     return t
@@ -48,7 +48,6 @@ def t_DISJOINTCLASSES(t):
 def t_EQUIVALENT_TO(t):
     r'EquivalentTo:'
     return t
-
 
 def t_OR(t):
     r'or'
@@ -92,8 +91,7 @@ t_ABRE_PARENT = r'\('
 t_FECHA_PARENT = r'\)'
 t_ABRE_CHAVE = r'\{'
 t_FECHA_CHAVE = r'\}'
-
-t_ignore = ' \t' #ESPAÇOS EM BRANCO E TABULAÇOES
+t_ignore = ' \t' 
 
 def t_newline(t):
     r'\n+'
@@ -108,17 +106,15 @@ def t_error(t):
 
 # INSTANCIANDO O LEXER
 lexer = lex.lex()
-parser = yacc.yacc()
 
 #?======================== REGRAS PRIMÁRIAS ============================= 
 def p_programa(p):
     """programa : tipo_classe_primaria programa
                 | tipo_classe_primaria"""
-    
-    if len(p) == 3:
-        p[0] = [p[1]] + p[2]
-    else:
+    if len(p) == 2:
         p[0] = [p[1]]
+    else:
+        p[0] = (p[1], p[2])
 
 def p_tipo_classe_primaria(p):
     """
@@ -136,13 +132,23 @@ def p_tipo_classe_secundaria(p):
     """
     p[0] = p[1]
 
+
 #!===================== CLASSE PRIMITIVA ================
 
 def p_declaracao_classe_primitiva(p):
     """
-    declaracao_classe_primitiva : PALAVRA_RESERVADA CLASSE caso_subclassof caso_disjoint_opcional caso_individuals_opcional 
+    declaracao_classe_primitiva : PALAVRA_RESERVADA CLASSE caso_subclassof caso_disjoint_opcional caso_individuals_opcional
+                                | PALAVRA_RESERVADA CLASSE caso_subclassof caso_disjoint_opcional
+                                | PALAVRA_RESERVADA CLASSE caso_subclassof caso_individuals_opcional
+                                | PALAVRA_RESERVADA CLASSE caso_subclassof
     """
-    p[0] = {"tipo": "Classe Primitiva", "valores": p[1:]}
+    if len(p) == 6:  # Com caso_subclassof, caso_disjoint_opcional e caso_individuals_opcional
+        p[0] = ("Classe Primitiva ", p[2], p[3], p[4], p[5])
+    elif len(p) == 5:  # Com caso_subclassof e caso_disjoint_opcional
+        p[0] = ("Classe Primitiva ", p[2], p[3], p[4])
+    else:  # Com caso_subclassof e caso_individuals_opcional
+        p[0] = ("Classe Primitiva ", p[2], p[3])
+
 
 def p_caso_subclassof(p):
     """
@@ -152,40 +158,39 @@ def p_caso_subclassof(p):
                    | SUBCLASSOF PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof
                    | SUBCLASSOF declaracao_classe_axioma_fechamento
     """
-    # if len(p) == 5:
-    #     p[0] = {"subclassof": {"propriedade": p[2], "some": p[3], "classe": p[4]}}
-    # elif len(p) == 6:
-    #     p[0] = {"subclassof": {"propriedade": p[2], "some": p[3], "namespace": p[4], "tipo": p[5]}}
-    # elif len(p) == 7:
-    #     p[0] = {"subclassof": {"propriedade": p[2], "some": p[3], "classe": p[4], "continuacao": p[6]}}
-    # else:
-    #     p[0] = p[2]
-
-    if len(p) == 5:
-        p[0] = [p[1]] + [p[2]] + [p[3]] + [p[4]]
+    if len(p) == 3:
+        p[0] = p[2]
+    elif len(p) == 5:
+        p[0] = (p[2], p[4])
     elif len(p) == 6:
-        p[0] = [p[1]] + [p[2]] + [p[3]] + [p[4]] + [p[5]]
+        p[0] = (p[2], p[4], p[5])
     elif len(p) == 7:
-        p[0] = [p[1]] + [p[2]] + [p[3]] + [p[4]] + [p[5]] + [p[6]]
+        p[0] = (p[2], p[4], p[5], p[6])
     else:
-        p[0] = [p[1]] + [p[2]]
+        p[0] = (p[2], p[4], p[5], p[6], p[7])
 
 def p_caso_individuals_opcional(p):
     """
-    caso_individuals_opcional : NOME_INDIVIDUO CARACTERE_ESPECIAL caso_individuals_opcional
-                              | NOME_INDIVIDUO
-                              | INDIVIDUALS NOME_INDIVIDUO
-                              | INDIVIDUALS NOME_INDIVIDUO CARACTERE_ESPECIAL caso_individuals_opcional
-                              |
+    caso_individuals_opcional : INDIVIDUALS NOME_INDIVIDUO
+                              | INDIVIDUALS NOME_INDIVIDUO CARACTERE_ESPECIAL continuacao_individuals
     """
-    if len(p) == 5:
-        p[0] = [p[1]] + [p[2]] + [p[3]] + [p[4]]
-    elif len(p) == 4:
-        p[0] = [p[1]] + [p[2]] + [p[3]]
-    elif len(p) == 3:
-        p[0] = [p[1]] + [p[2]]
-    else:
-        p[0] = [p[1]]
+    
+def p_continuacao_individuals(p):
+    """
+    continuacao_individuals : NOME_INDIVIDUO CARACTERE_ESPECIAL continuacao_individuals
+                            | NOME_INDIVIDUO
+    """
+    
+    if len(p) == 2:  # Apenas NOME_INDIVIDUO
+        p[0] = p[1]
+    elif len(p) == 3:  # INDIVIDUALS seguido de NOME_INDIVIDUO
+        p[0] = (p[1], p[2])
+    elif len(p) == 4:  # NOME_INDIVIDUO seguido de CARACTERE_ESPECIAL e caso_individuals_opcional
+        p[0] = (p[1], p[2], p[3])
+    elif len(p) == 5:  # INDIVIDUALS seguido de NOME_INDIVIDUO, CARACTERE_ESPECIAL e caso_individuals_opcional
+        p[0] = (p[1], p[2], p[3], p[4])
+    else:  # Caso vazio (regra sem tokens)
+        p[0] = None
 
 def p_caso_disjoint_opcional(p):
     """
@@ -195,9 +200,20 @@ def p_caso_disjoint_opcional(p):
                          |  DISJOINTCLASSES CLASSE CARACTERE_ESPECIAL caso_disjoint_opcional
                          |  DISJOINTWITH CLASSE 
                          |  DISJOINTWITH CLASSE CARACTERE_ESPECIAL caso_disjoint_opcional
-                         |
     """
-    pass
+                         #|  empty
+    
+    
+    if len(p) == 2:  # Apenas CLASSE
+        p[0] = p[1]
+    elif len(p) == 3:  # DISJOINTWITH ou DISJOINTCLASSES seguido de CLASSE
+        p[0] = (p[1], p[2])
+    elif len(p) == 4:  # CLASSE seguido de CARACTERE_ESPECIAL e caso_disjoint_opcional
+        p[0] = (p[1], p[2], p[3])
+    elif len(p) == 5:  # DISJOINTWITH ou DISJOINTCLASSES seguido de CLASSE, CARACTERE_ESPECIAL e caso_disjoint_opcional
+        p[0] = (p[1], p[2], p[3], p[4])
+    else:  # Caso vazio
+        p[0] = None
 
 def p_continuacao_subclassof(p):
     """continuacao_subclassof : PROPRIEDADE SOME CLASSE
@@ -205,7 +221,10 @@ def p_continuacao_subclassof(p):
                    | PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL continuacao_subclassof 
                    | PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof
     """
-    pass
+    if len(p) == 4:  # PROPRIEDADE SOME CLASSE ou NAMESPACE TIPO
+        p[0] = (p[1], p[2], p[3])
+    elif len(p) == 6:  # PROPRIEDADE SOME CLASSE ou NAMESPACE TIPO com CARACTERE_ESPECIAL e continuacao_subclassof
+        p[0] = (p[1], p[2], p[3], p[4], p[5])
 
 #!==================== CLASSE DEFINIDA ==================
 
@@ -214,29 +233,39 @@ def p_declaracao_classe_definida(p):
     declaracao_classe_definida : PALAVRA_RESERVADA CLASSE EQUIVALENT_TO caso_simples_opcional estrutura_definida
                                | PALAVRA_RESERVADA CLASSE EQUIVALENT_TO estrutura_definida
     """
-    pass
+    if len(p) == 5:  # Com estrutura_definida apenas
+        p[0] = ("Classe Definida: ", p[1], p[2], p[3], p[4])
+    elif len(p) == 6:  # Com caso_simples_opcional e estrutura_definida
+        p[0] = ("Classe Definida: ", p[1], p[2], p[3], p[4], p[5])
 
 def p_estrutura_definida(p): 
     """
     estrutura_definida : caso_individuals_opcional estrutura_definida
                        | tipo_classe_secundaria estrutura_definida
                        | declaracao_classe_coberta 
-                       |
     """
-    pass
+    if len(p) == 3:  # caso_individuals_opcional ou tipo_classe_secundaria seguido de estrutura_definida
+        p[0] = (p[1], p[2])
+    elif len(p) == 2:  # Apenas declaracao_classe_coberta
+        p[0] = p[1]
+    else:  # Caso vazio
+        p[0] = None
 
 def p_caso_simples_opcional(p):
     """
     caso_simples_opcional : CLASSE caso_ands
-                          |
     """
-    pass
+                          #| empty
+    if len(p) == 3:  # CLASSE seguido de caso_ands
+        p[0] = (p[1], p[2])
+    else:  # Caso vazio
+        p[0] = None
 
 def p_declaracao_classe_aninhada(p):
     """
     declaracao_classe_aninhada : caso_ands
     """
-    pass
+    p[0] = p[1]
 
 def p_caso_ands(p):
     """
@@ -246,7 +275,10 @@ def p_caso_ands(p):
               | AND restricoes_aninhada_sem_parentese              
 
     """
-    pass
+    if len(p) == 3:  # AND seguido de restricoes_aninhada ou restricoes_aninhada_sem_parentese
+        p[0] = (p[1], p[2])
+    elif len(p) == 4:  # AND seguido de restricoes_aninhada ou restricoes_aninhada_sem_parentese e caso_ands
+        p[0] = (p[1], p[2], p[3])
 
 def p_restricoes_aninhada(p):
     """
@@ -263,7 +295,26 @@ def p_restricoes_aninhada(p):
                         | ABRE_PARENT restricoes_aninhada FECHA_PARENT
                         | ABRE_PARENT restricoes_aninhada caso_ands FECHA_PARENT
                         | ABRE_PARENT classes_or FECHA_PARENT"""
-    pass
+    if len(p) == 6:  # Casos básicos com FECHA_PARENT
+        p[0] = (p[2], p[3], p[4])
+    elif len(p) == 7:  # restricoes_aninhada com ABRE_PARENT ou casos com ONLY/SOME
+        p[0] = (p[2], p[3], p[4], p[5])
+    elif len(p) == 8:  # Casos com restricoes_aninhada e CARDINALIDADE
+        p[0] = (p[2], p[3], p[4], p[5], p[6])
+    elif len(p) == 9:  # NAMESPACE e TIPO com CARACTERE_ESPECIAL
+        p[0] = (p[2], p[3], p[4], p[5], p[6], p[7], p[8])
+    elif len(p) == 10:  # NAMESPACE com TIPO, OPERADORES e CARDINALIDADE
+        p[0] = (p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9])
+    elif len(p) == 11:  # NAMESPACE e TIPO com operadores extras
+        p[0] = (p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9], p[10])
+    elif len(p) == 12:  # Casos aninhados com CARACTERE_ESPECIAL e restricoes_aninhada
+        p[0] = (p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9], p[10], p[11])
+    elif len(p) == 4:  # restricoes_aninhada simples entre parênteses
+        p[0] = (p[2],)
+    elif len(p) == 5:  # restricoes_aninhada com caso_ands
+        p[0] = (p[2], p[3])
+    else:  # Caso com classes_or
+        p[0] = p[2]
 
 def p_restricoes_aninhada_sem_parentese(p):
     """
@@ -273,27 +324,30 @@ def p_restricoes_aninhada_sem_parentese(p):
                                      |  PROPRIEDADE PALAVRA_RESERVADA CLASSE 
                                      |  PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE 
     """
-    pass
-
-# |  PROPRIEDADE SOME classes_and 
-#                         |  PROPRIEDADE SOME restricoes_aninhada 
-#                         |  PROPRIEDADE SOME CARDINALIDADE CLASSE restricoes_aninhada
-#                         |  PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL 
-#                         |  PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL CARACTERE_ESPECIAL restricoes_aninhada
-#                         |  restricoes_aninhada 
-#                         |  restricoes_aninhada caso_ands 
-#                         |  classes_or
+    if len(p) == 4: 
+        p[0] = (p[1], p[2], p[3])
+    elif len(p) == 5:
+        p[0] = (p[1], p[2], p[3], p[4])
+    else:
+        p[0] = None
 
 def p_classes_and(p):
     """
     classes_and : CLASSE AND classes_and
                 | CLASSE
     """
+    if len(p) == 2:
+        p[0] = [p[1]]
+    elif len(p) == 4:
+        p[0] = [p[1]] + p[3]
+
+
 #!===================== CLASSE AXIOMA DE FECHAMENTO ========================
 
 def p_declaracao_classe_axioma_fechamento(p):
     """declaracao_classe_axioma_fechamento : CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento"""
-    pass
+    if len(p) == 4:  # CLASSE seguida de CARACTERE_ESPECIAL e restrições
+        p[0] = (p[1], p[2], p[3])
 
 def p_restricoes_axioma_fechamento(p):
     """
@@ -309,34 +363,63 @@ def p_restricoes_axioma_fechamento(p):
                                  | ABRE_PARENT restricoes_axioma_fechamento FECHA_PARENT CARACTERE_ESPECIAL restricoes_axioma_fechamento
                                  
     """
-    pass
+    if len(p) == 6 and p[2] == "ONLY" and p[3] == "ABRE_PARENT":  # casos_propriedade ONLY (classes_or)
+        p[0] = (p[1], p[2], p[4])
+    elif len(p) == 6:  # casos_propriedade SOME CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
+        p[0] = (p[1], p[2], p[3], p[5])
+    elif len(p) == 4:  # casos_propriedade SOME/ONLY CLASSE
+        p[0] = (p[1], p[2], p[3])
+    elif len(p) == 7:  # casos_propriedade COMPARADORES CARDINALIDADE CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento
+        p[0] = (p[1], p[2], p[3], p[4], p[6])
+    elif len(p) == 5:  # casos_propriedade COMPARADORES CARDINALIDADE CLASSE
+        p[0] = (p[1], p[2], p[3], p[4])
+    elif len(p) == 4 and p[1] == "ABRE_PARENT":  # (restricoes_axioma_fechamento)
+        p[0] = p[2]
+    elif len(p) == 6 and p[4] == "AND":  # (restricoes_axioma_fechamento) AND restricoes_axioma_fechamento
+        p[0] = (p[2], "AND", p[5])
+    elif len(p) == 6:  # (restricoes_axioma_fechamento) CARACTERE_ESPECIAL restricoes_axioma_fechamento
+        p[0] = (p[2], p[4])
+    else:
+        p[0] = None
 
 def p_casos_propriedade(p):
     """
     casos_propriedade : PROPRIEDADE PROPRIEDADE
                       | PROPRIEDADE
     """
-    pass
+    if len(p) == 3:  # Dois PROPRIEDADE
+        p[0] = (p[1], p[2])
+    elif len(p) == 2:  # Um PROPRIEDADE
+        p[0] = p[1]
 
 def p_classes_or(p):
     """
     classes_or : CLASSE OR classes_or
               | CLASSE 
     """
-    pass
+    if len(p) == 2:  # Uma única classe
+        p[0] = [p[1]]
+    elif len(p) == 4:  # CLASSE OR outras classes
+        p[0] = [p[1]] + p[3]
+
 
 #!======================== CLASSE ENUMERADA ==========================
 def p_declaracao_classe_enumerada(p):
     """
     declaracao_classe_enumerada : ABRE_CHAVE classes_enumeradas FECHA_CHAVE
     """
-    pass
+    if len(p) == 4:  # { classes_enumeradas }
+        p[0] = p[2]
 
 def p_classes_enumeradas(p):
     """
     classes_enumeradas : CLASSE CARACTERE_ESPECIAL classes_enumeradas
                        | CLASSE
     """
+    if len(p) == 2:  # Uma única classe
+        p[0] = [p[1]]
+    elif len(p) == 4:  # CLASSE CARACTERE_ESPECIAL outras classes
+        p[0] = [p[1]] + p[3]
 
 #!======================== CLASSE COBERTA ============================
 
@@ -344,16 +427,19 @@ def p_declaracao_classe_coberta(p):
     """
     declaracao_classe_coberta : classes_or 
     """
-    pass
+    if len(p) == 2:  # Apenas classes_or
+        p[0] = p[1]
 
 
 # Erro sintático
 def p_error(p):
     if p:
-        print(f"Erro sintático: token inesperado '{p.value}' do tipo '{p.type}' na linha {p.lineno}")
+        linha_erro = p.lineno
+        print(f"Erro sintático: token inesperado '{p.value}' do tipo '{p.type}' na linha {linha_erro}")
     else:
         print("Erro sintático: fim inesperado do arquivo")
 
+parser = yacc.yacc(debug=True)
 
 def executar_analisador(codigo):
     lexer.input(codigo)
@@ -364,33 +450,34 @@ def executar_analisador(codigo):
             break
         print(f"Token: {token.type}, Valor: {token.value}, Linha: {token.lineno}, Posição: {token.lexpos}")
     
-    parser = yacc.yacc()
+    lexer.lineno = 1
     print("\n### Análise Sintática ###")
     result = parser.parse(codigo, lexer=lexer)
-    for token in result:
-        print(token)
-    else:
-        print("Nenhum resultado retornado pelo parser.")
-
-
-
-def executar_analisador_manual(cod_teste):
-    lexer.input(cod_teste)
-    print("\n### Tokens Identificados ###")
-    while True:
-            token = lexer.token()
-            if not token:
-                break
-            print(f"Token: {token.type}, Valor: {token.value}, Linha: {token.lineno}, Posição: {token.lexpos}")
-        
-    # Processa o parser
-    print("\n### Análise Sintática ###")
-    result = parser.parse(cod_teste, lexer=lexer)
     if result:
         for token in result:
             print(token)
     else:
         print("Nenhum resultado retornado pelo parser.")
+
+
+
+# def executar_analisador_manual(cod_teste):
+#     lexer.input(cod_teste)
+#     print("\n### Tokens Identificados ###")
+#     while True:
+#             token = lexer.token()
+#             if not token:
+#                 break
+#             print(f"Token: {token.type}, Valor: {token.value}, Linha: {token.lineno}, Posição: {token.lexpos}")
+        
+#     # Processa o parser
+#     print("\n### Análise Sintática ###")
+#     result = parser.parse(cod_teste, lexer=lexer)
+#     if result:
+#         for token in result:
+#             print(token)
+#     else:
+#         print("Nenhum resultado retornado pelo parser.")
 
 
 
@@ -403,8 +490,7 @@ cod_teste = """ Class: SpicyPizza
 def main():
     print("Escolha uma opção:")
     print("1 - Ler código do arquivo 'codigo.txt'")
-    print("2 - Escrever código manualmente")
-    print("3 - Sair")
+    print("2 - Sair")
     opcao = input()
 
     if opcao == "1":
@@ -416,11 +502,6 @@ def main():
             print("Erro: O arquivo 'codigo.txt' não foi encontrado.")
 
     elif opcao == "2":
-        # print("Digite o código:")
-        # codigo = input()
-        executar_analisador_manual(cod_teste)
-
-    elif opcao == "3":
         exit()
 
     else:

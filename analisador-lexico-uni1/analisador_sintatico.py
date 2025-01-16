@@ -32,7 +32,7 @@ tokens = [
     "VALUE"
 ]
 
-
+lista_tipos = []
 #!========================== FUNÇÃO AUXILIAR DE PALAVRAS RESERVADAS ==========================
 def t_SUBCLASSOF(t):
     r'SubClassOf:'
@@ -115,17 +115,14 @@ lexer = lex.lex()
 def p_programa(p):
     """programa : tipo_classe_primaria programa
                 | tipo_classe_primaria"""
-    if len(p) == 2:
-        p[0] = [p[1]]
-    else:
-        p[0] = (p[1], p[2])
+    pass
 
 def p_tipo_classe_primaria(p):
     """
     tipo_classe_primaria : declaracao_classe_definida
                          | declaracao_classe_primitiva
     """
-    p[0] = p[1]
+    pass
 
 def p_tipo_classe_secundaria(p):
     """
@@ -134,7 +131,7 @@ def p_tipo_classe_secundaria(p):
                           | declaracao_classe_coberta
                           | declaracao_classe_axioma_fechamento
     """
-    p[0] = p[1]
+    pass
 
 
 #!===================== CLASSE PRIMITIVA ================
@@ -147,7 +144,7 @@ def p_declaracao_classe_primitiva(p):
                                 | PALAVRA_RESERVADA CLASSE SUBCLASSOF continuacao_subclassof caso_individuals_opcional
                                 | PALAVRA_RESERVADA CLASSE SUBCLASSOF continuacao_subclassof
     """
-    p[0] = (p[2], ": Classe primitiva ")
+    lista_tipos.append(f"{p[0]}: Classe primitiva ")
         
 
 def p_caso_individuals_opcional(p):
@@ -155,12 +152,14 @@ def p_caso_individuals_opcional(p):
     caso_individuals_opcional : INDIVIDUALS NOME_INDIVIDUO
                               | INDIVIDUALS NOME_INDIVIDUO CARACTERE_ESPECIAL continuacao_individuals
     """
+    pass
     
 def p_continuacao_individuals(p):
     """
     continuacao_individuals : NOME_INDIVIDUO CARACTERE_ESPECIAL continuacao_individuals
                             | NOME_INDIVIDUO
     """
+    pass
 
 def p_caso_disjoint_opcional(p):
     """
@@ -171,6 +170,7 @@ def p_caso_disjoint_opcional(p):
                          |  DISJOINTWITH CLASSE 
                          |  DISJOINTWITH CLASSE CARACTERE_ESPECIAL caso_disjoint_opcional
     """
+    pass
 
 def p_continuacao_subclassof(p):
     """continuacao_subclassof : PROPRIEDADE SOME CLASSE
@@ -179,6 +179,7 @@ def p_continuacao_subclassof(p):
                    | PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL continuacao_subclassof 
                    | PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof
     """
+    pass
 
 #!==================== CLASSE DEFINIDA ==================
 
@@ -189,19 +190,19 @@ def p_declaracao_classe_definida(p):
                                | PALAVRA_RESERVADA CLASSE EQUIVALENT_TO continuacao_equivalentto SUBCLASSOF continuacao_subclassof
                                | PALAVRA_RESERVADA CLASSE continuacao_subclassof EQUIVALENT_TO continuacao_equivalentto
     """
-    if "SUBCLASSOF" in p.slice and "declaracao_classe_coberta" in p.slice:
-        p[0] = (p[2], "Classe Definida coberta")
-    else:
-        p[0] = (p[2], "Classe Definida")
+
+    lista_tipos.append(f"{p[0]}: Classe Definida")
 
 
 def p_continuacao_equivalentto(p):
     """
         continuacao_equivalentto : CLASSE AND ABRE_PARENT PROPRIEDADE SOME CLASSE FECHA_PARENT
+                                 | CLASSE AND ABRE_PARENT PROPRIEDADE SOME restricoes_aninhada FECHA_PARENT
                                  | CLASSE AND ABRE_PARENT PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL FECHA_PARENT
-                                 | CLASSE declaracao_classe_aninhada
+                                 | CLASSE AND restricoes_aninhada caso_ands
                                  | CLASSE OR declaracao_classe_coberta
     """
+    pass
 
 def p_fechamento(p):
     """
@@ -216,13 +217,14 @@ def p_caso_simples_opcional(p):
     """
     caso_simples_opcional : CLASSE caso_ands
     """
+    pass
 
 
 def p_declaracao_classe_aninhada(p):
     """
     declaracao_classe_aninhada : caso_ands
     """
-    p[0] = (" aninhada ")
+    pass
 
 def p_caso_ands(p):
     """
@@ -231,22 +233,18 @@ def p_caso_ands(p):
               | AND restricoes_aninhada_sem_parentese caso_ands
               | AND restricoes_aninhada_sem_parentese              
     """
-
+    pass
 
 def p_restricoes_aninhada(p):
     """
     restricoes_aninhada : ABRE_PARENT PROPRIEDADE ONLY CLASSE FECHA_PARENT
                         | ABRE_PARENT PROPRIEDADE ONLY ABRE_PARENT classes_or FECHA_PARENT FECHA_PARENT
+                        | ABRE_PARENT PROPRIEDADE SOME CLASSE FECHA_PARENT
+                        | ABRE_PARENT PROPRIEDADE SOME ABRE_PARENT classes_or FECHA_PARENT FECHA_PARENT
                         | ABRE_PARENT PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE FECHA_PARENT
                         | ABRE_PARENT restricoes_aninhada OR restricoes_aninhada FECHA_PARENT
     """
-
-# Class: RegulatoryActivity
-#     EquivalentTo: ValueActivity
-                #( prop some ())
-#         and ((bundles some (CnAObject or CoreObject or PoPObject)) or 
-#                 (consumes some CounterObject)
-#                 )
+    lista_tipos.append(f" aninhada ")
 
 def p_restricoes_aninhada_sem_parentese(p):
     """
@@ -256,19 +254,21 @@ def p_restricoes_aninhada_sem_parentese(p):
                                      |  PROPRIEDADE PALAVRA_RESERVADA CLASSE 
                                      |  PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE 
     """
+    pass
 
 def p_classes_and(p):
     """
     classes_and : CLASSE AND classes_and
                 | CLASSE
     """
+    pass
 
 
 #!===================== CLASSE AXIOMA DE FECHAMENTO ========================
 
 def p_declaracao_classe_axioma_fechamento(p):
     """declaracao_classe_axioma_fechamento : CLASSE CARACTERE_ESPECIAL restricoes_axioma_fechamento fechamento """
-    p[0] = (" fechamento ")
+    lista_tipos.append(f"{p[0]}: fechamento ")
 
 def p_restricoes_axioma_fechamento(p):
     """
@@ -281,13 +281,14 @@ def p_restricoes_axioma_fechamento(p):
                                  | ABRE_PARENT restricoes_axioma_fechamento FECHA_PARENT CARACTERE_ESPECIAL restricoes_axioma_fechamento
                                  
     """
+    pass
 
 def p_casos_propriedade(p):
     """
     casos_propriedade : PROPRIEDADE PROPRIEDADE
                       | PROPRIEDADE
     """
-
+    pass
 
 def p_classes_or(p):
     """
@@ -295,13 +296,14 @@ def p_classes_or(p):
                | CLASSE
                | ABRE_PARENT classes_or FECHA_PARENT
     """
-
+    pass
 
 def p_classes_virgula(p):
     """
     classes_virgula : CLASSE CARACTERE_ESPECIAL classes_virgula
                     | CLASSE
     """
+    pass
 
 
 #!======================== CLASSE ENUMERADA ==========================
@@ -316,7 +318,7 @@ def p_classes_enumeradas(p):
     classes_enumeradas : CLASSE CARACTERE_ESPECIAL classes_enumeradas
                        | CLASSE
     """
-
+    pass
 
 #!======================== CLASSE COBERTA ============================
 
@@ -324,7 +326,7 @@ def p_declaracao_classe_coberta(p):
     """
     declaracao_classe_coberta : classes_or 
     """
-    p[0] = (" coberta ")
+    lista_tipos.append(f"{p[0]}: coberta ")
 
 
 # Erro sintático
@@ -336,6 +338,7 @@ def p_error(p):
         print("Erro sintático: fim inesperado do arquivo")
 
 parser = yacc.yacc(debug=True)
+
 
 def executar_analisador(codigo):
     lexer.input(codigo)
@@ -355,32 +358,6 @@ def executar_analisador(codigo):
     else:
         print("Nenhum resultado retornado pelo parser.")
 
-
-
-# def executar_analisador_manual(cod_teste):
-#     lexer.input(cod_teste)
-#     print("\n### Tokens Identificados ###")
-#     while True:
-#             token = lexer.token()
-#             if not token:
-#                 break
-#             print(f"Token: {token.type}, Valor: {token.value}, Linha: {token.lineno}, Posição: {token.lexpos}")
-        
-#     # Processa o parser
-#     print("\n### Análise Sintática ###")
-#     result = parser.parse(cod_teste, lexer=lexer)
-#     if result:
-#         for token in result:
-#             print(token)
-#     else:
-#         print("Nenhum resultado retornado pelo parser.")
-
-
-
-cod_teste = """ Class: SpicyPizza
- EquivalentTo:
- Pizza
- and (hasTopping some (hasSpiciness value Hot))"""
 
 # Função principal
 def main():

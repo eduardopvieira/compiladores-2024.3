@@ -115,7 +115,6 @@ def p_declaracao_classe_primitiva(p):
  
     p[0] = "Classe primitiva "
     lista_tuplas.append((p[2], p[0]))
-    #lista_tipos.append(f"{p[2]}: {p[0]}")
 
 
 def p_caso_individuals_opcional(p):
@@ -172,10 +171,11 @@ def p_continuacao_equivalentto(p):
     """
         continuacao_equivalentto : CLASSE OR declaracao_classe_coberta
                                  | PALAVRA_RESERVADA CLASSE EQUIVALENT_TO CLASSE declaracao_classe_aninhada 
-                                 | CLASSE AND PROPRIEDADE SOME_ONLY casos_parentese 
+                                 | CLASSE AND PROPRIEDADE SOME_ONLY casos_parentese
+                                 | CLASSE AND PROPRIEDADE SOME_ONLY CLASSE casos_parentese 
                                  | CLASSE AND PROPRIEDADE SOME_ONLY classes_or 
                                  | CLASSE AND PROPRIEDADE SOME_ONLY classes_or caso_ands
-                                 | CLASSE AND ABRE_PARENT PROPRIEDADE SOME_ONLY adicionar_tag_aninhada FECHA_PARENT
+                                 | CLASSE AND ABRE_PARENT PROPRIEDADE SOME_ONLY casos_parentese FECHA_PARENT
                                  | CLASSE AND ABRE_PARENT PROPRIEDADE SOME_ONLY NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL FECHA_PARENT
                                         
     """
@@ -195,12 +195,6 @@ def p_caso_ands(p):
               | AND casos_sem_parentese    
     """
 
-def p_adicionar_tag_aninhada(p):
-    """
-    adicionar_tag_aninhada : casos_parentese
-                
-    """
-
 def p_casos_parentese(p):
     """
     casos_parentese :   ABRE_PARENT PROPRIEDADE SOME_ONLY CLASSE FECHA_PARENT
@@ -209,6 +203,7 @@ def p_casos_parentese(p):
                         | ABRE_PARENT casos_parentese OR casos_parentese FECHA_PARENT
                         | ABRE_PARENT casos_parentese AND casos_parentese FECHA_PARENT
                         | ABRE_PARENT casos_parentese FECHA_PARENT
+                        | ABRE_PARENT PROPRIEDADE VALUE CLASSE FECHA_PARENT
     """
 
 def p_casos_sem_parentese(p):
@@ -295,7 +290,6 @@ def p_declaracao_classe_coberta(p):
     p[0] = "coberta"
     lista_tuplas.append((p[0], p[0]))
     
-# Erro sintático
 def p_error(p):
     if p:
         linha_erro = p.lineno
@@ -305,7 +299,7 @@ def p_error(p):
 
 parser = yacc.yacc(debug=True)
 
-#!============================= MAIN ===================================
+#!============================= EXECUTAVEL ===================================
 def executar_analisador(codigo):
     lexer.input(codigo)
     print("\n### Tokens Identificados ###")
@@ -323,24 +317,18 @@ def executar_analisador(codigo):
     while i < len(lista_tuplas):
         chave, valor = lista_tuplas[i]
         
-        # Verificando se a chave é igual ao valor
         if chave == valor:
-            if i + 1 < len(lista_tuplas):  # Se não for a última tupla
-                # Concatenando o valor atual ao valor da próxima tupla
+            if i + 1 < len(lista_tuplas):
                 proxima_chave, proximo_valor = lista_tuplas[i + 1]
                 lista_tuplas[i + 1] = (proxima_chave, proximo_valor + ', ' + valor)
-            
-            # Removendo a tupla atual
             del lista_tuplas[i]
-            # Não incrementa 'i', pois removemos a tupla e a lista foi reajustada
         else:
-            # Se não for igual, apenas passa para a próxima tupla
             i += 1
 
     for chave, valor in lista_tuplas:
         print(f"Classe: {chave} | Tipos: {valor}")
 
-# Função principal
+#!============================= MAIN ===================================
 def main():
     print("Escolha uma opção:")
     print("1 - Ler código do arquivo 'codigo.txt'")

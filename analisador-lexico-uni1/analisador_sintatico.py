@@ -101,14 +101,6 @@ def p_tipo_classe_primaria(p):
                          | declaracao_classe_primitiva
     """
 
-def p_tipo_classe_secundaria(p):
-    """
-    tipo_classe_secundaria : declaracao_classe_aninhada
-                          | declaracao_classe_enumerada
-                          | declaracao_classe_coberta
-                          | declaracao_classe_axioma_fechamento
-    """
-
 
 #!===================== CLASSE PRIMITIVA ================
 
@@ -122,9 +114,9 @@ def p_declaracao_classe_primitiva(p):
     """
     #p[0] = ("{p[2]} : Classe primitiva ")
     #lista_tipos.append(f"{p[2]}: Classe primitiva ")
-    p[0] = "Classe primitiva"
+    p[0] = "Classe primitiva "
     lista_tipos.append(f"{p[2]}: {p[0]}")
-        
+
 
 def p_caso_individuals_opcional(p):
     """
@@ -145,6 +137,7 @@ def p_caso_disjoint_opcional(p):
                          |  DISJOINTCLASSES CLASSE 
                          |  DISJOINTCLASSES CLASSE CARACTERE_ESPECIAL caso_disjoint_opcional
                          |  DISJOINTWITH CLASSE 
+                         |  DISJOINTWITH CLASSE CARACTERE_ESPECIAL
                          |  DISJOINTWITH CLASSE CARACTERE_ESPECIAL caso_disjoint_opcional
     """
 
@@ -154,8 +147,11 @@ def p_continuacao_subclassof(p):
                    | PROPRIEDADE SOME NAMESPACE TIPO
                    | PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL continuacao_subclassof 
                    | PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof
+                   | CLASSE caso_ands
                    | CLASSE
     """
+
+    
 
 #!==================== CLASSE DEFINIDA ==================
 
@@ -170,68 +166,75 @@ def p_declaracao_classe_definida(p):
     p[0] = "Classe definida"
     lista_tipos.append(f"{p[2]}: {p[0]}")
 
+    
+# Class: Offer
+
+        
+#     EquivalentTo: 
+#         Event
+#          and participatedIn only (DataCustomer or DataSupplier)
+#          and wasCreatedIn only EconomicOffering
+#          and participatedIn min 1 DataCustomer
+#          and participatedIn min 1 DataSupplier
+#          and wasCreatedIn exactly 1 EconomicOffering
+    
 
 def p_continuacao_equivalentto(p):
     """
-        continuacao_equivalentto : CLASSE AND ABRE_PARENT PROPRIEDADE SOME CLASSE FECHA_PARENT
-                                 | CLASSE AND ABRE_PARENT PROPRIEDADE SOME adicionar_tag_aninhada FECHA_PARENT
-                                 | CLASSE AND ABRE_PARENT PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL FECHA_PARENT
-                                 | CLASSE AND adicionar_tag_aninhada caso_ands
-                                 | CLASSE OR declaracao_classe_coberta
+        continuacao_equivalentto : CLASSE OR declaracao_classe_coberta
+                                 | PALAVRA_RESERVADA CLASSE EQUIVALENT_TO CLASSE declaracao_classe_aninhada 
+                                 | CLASSE AND PROPRIEDADE SOME_ONLY casos_parentese 
+                                 | CLASSE AND PROPRIEDADE SOME_ONLY classes_or 
+                                 | CLASSE AND PROPRIEDADE SOME_ONLY classes_or caso_ands
+                                 | CLASSE AND ABRE_PARENT PROPRIEDADE SOME_ONLY adicionar_tag_aninhada FECHA_PARENT
+                                 | CLASSE AND ABRE_PARENT PROPRIEDADE SOME_ONLY NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL FECHA_PARENT
                                  
     """
-
-def p_caso_simples_opcional(p):
-    """
-    caso_simples_opcional : CLASSE caso_ands
-    """
-
 
 def p_declaracao_classe_aninhada(p):
     """
     declaracao_classe_aninhada : caso_ands
     """
-
+    p[0] = " aninhada "
+    lista_tipos.append(f"{p[0]}: {p[0]}")
 
 def p_caso_ands(p):
     """
-    caso_ands : AND restricoes_aninhada caso_ands
-              | AND restricoes_aninhada 
-              | AND restricoes_aninhada_sem_parentese caso_ands
-              | AND restricoes_aninhada_sem_parentese              
+    caso_ands : AND casos_parentese caso_ands
+              | AND casos_sem_parentese caso_ands
+              | AND casos_parentese
+              | AND casos_sem_parentese    
     """
 
 def p_adicionar_tag_aninhada(p):
     """
-    adicionar_tag_aninhada : restricoes_aninhada
+    adicionar_tag_aninhada : casos_parentese
+                
     """
-    p[0] = " aninhada "
-    lista_tipos.append(f"{p[0]}: {p[0]}")
+    # p[0] = " aninhada "
+    # lista_tipos.append(f"{p[0]}: {p[0]}")
 
-def p_restricoes_aninhada(p):
+def p_casos_parentese(p):
     """
-    restricoes_aninhada : ABRE_PARENT PROPRIEDADE SOME_ONLY CLASSE FECHA_PARENT
+    casos_parentese :   ABRE_PARENT PROPRIEDADE SOME_ONLY CLASSE FECHA_PARENT
                         | ABRE_PARENT PROPRIEDADE SOME_ONLY ABRE_PARENT classes_or FECHA_PARENT FECHA_PARENT
                         | ABRE_PARENT PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE FECHA_PARENT
-                        | ABRE_PARENT restricoes_aninhada OR restricoes_aninhada FECHA_PARENT
-                        | ABRE_PARENT restricoes_aninhada AND restricoes_aninhada FECHA_PARENT
-                        | ABRE_PARENT restricoes_aninhada FECHA_PARENT
+                        | ABRE_PARENT casos_parentese OR casos_parentese FECHA_PARENT
+                        | ABRE_PARENT casos_parentese AND casos_parentese FECHA_PARENT
+                        | ABRE_PARENT casos_parentese FECHA_PARENT
     """
+    # p[0] = " aninhada "
+    # lista_tipos.append(f"{p[0]}: {p[0]}")
 
 
-def p_restricoes_aninhada_sem_parentese(p):
-    """
-    restricoes_aninhada_sem_parentese : PROPRIEDADE SOME_ONLY CLASSE 
-                                     |  PROPRIEDADE ONLY restricoes_aninhada 
-                                     |  PROPRIEDADE PALAVRA_RESERVADA CLASSE 
-                                     |  PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE 
-    """
-    
 
-def p_classes_and(p):
+
+def p_casos_sem_parentese(p):
     """
-    classes_and : CLASSE AND classes_and
-                | CLASSE
+    casos_sem_parentese : PROPRIEDADE SOME_ONLY CLASSE 
+                        |  PROPRIEDADE ONLY casos_parentese 
+                        |  PROPRIEDADE PALAVRA_RESERVADA CLASSE 
+                        |  PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE 
     """
     
 
@@ -250,19 +253,33 @@ def p_declaracao_classe_axioma_fechamento(p):
 def p_regras_classe_axioma_fechamento(p):
     """
     regras_classe_axioma_fechamento : PROPRIEDADE SOME_ONLY CLASSE
+                                    | PROPRIEDADE rec_propriedade SOME_ONLY CLASSE
+                                    | PROPRIEDADE rec_propriedade SOME_ONLY CLASSE CARACTERE_ESPECIAL regras_classe_axioma_fechamento
                                     | PROPRIEDADE SOME_ONLY CLASSE CARACTERE_ESPECIAL regras_classe_axioma_fechamento
                                     | ABRE_PARENT PROPRIEDADE SOME_ONLY CLASSE FECHA_PARENT
                                     | ABRE_PARENT PROPRIEDADE SOME_ONLY CLASSE FECHA_PARENT AND regras_classe_axioma_fechamento
                                     | ABRE_PARENT PROPRIEDADE SOME_ONLY CLASSE FECHA_PARENT CARACTERE_ESPECIAL regras_classe_axioma_fechamento
 
-                                            
+                                    | PROPRIEDADE rec_propriedade COMPARADORES CARDINALIDADE CLASSE
+                                    | PROPRIEDADE rec_propriedade COMPARADORES CARDINALIDADE CLASSE CARACTERE_ESPECIAL regras_classe_axioma_fechamento
                                     | PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE 
                                     | PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE CARACTERE_ESPECIAL regras_classe_axioma_fechamento
+                                    
                                     | ABRE_PARENT PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE FECHA_PARENT
+                                    | ABRE_PARENT PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE FECHA_PARENT CARACTERE_ESPECIAL regras_classe_axioma_fechamento
+                                    | ABRE_PARENT PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE FECHA_PARENT AND regras_classe_axioma_fechamento
                                     | ABRE_PARENT PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE CARACTERE_ESPECIAL FECHA_PARENT regras_classe_axioma_fechamento
+                                    | ABRE_PARENT PROPRIEDADE rec_propriedade COMPARADORES CARDINALIDADE CLASSE FECHA_PARENT
+                                    | ABRE_PARENT PROPRIEDADE rec_propriedade COMPARADORES CARDINALIDADE CLASSE CARACTERE_ESPECIAL FECHA_PARENT regras_classe_axioma_fechamento
                                         
     """
-    
+
+def p_rec_propriedade(p):
+    """
+    rec_propriedade : PROPRIEDADE
+                    | PROPRIEDADE PROPRIEDADE
+    """
+
 
 def p_SOME_ONLY(p):
     """
@@ -276,14 +293,7 @@ def p_classes_or(p):
     classes_or : CLASSE OR classes_or
                | CLASSE
                | ABRE_PARENT classes_or FECHA_PARENT
-    """
-
-def p_classes_virgula(p):
-    """
-    classes_virgula : CLASSE CARACTERE_ESPECIAL classes_virgula
-                    | CLASSE
-    """
-    
+    """    
 
 
 #!======================== CLASSE ENUMERADA ==========================
@@ -291,10 +301,8 @@ def p_declaracao_classe_enumerada(p):
     """
     declaracao_classe_enumerada : ABRE_CHAVE classes_enumeradas FECHA_CHAVE
     """
-    #lista_tipos.append(" enumerada ")
-    #p[0] = (" enumerada ")
     p[0] = "Classe enumerada"
-    lista_tipos.append(f"{p[2]}: {p[0]}")
+    lista_tipos.append(f"{p[0]}: {p[0]}")
 
 def p_classes_enumeradas(p):
     """
@@ -311,7 +319,7 @@ def p_declaracao_classe_coberta(p):
     #p[0] = (" coberta ")
     #lista_tipos.append(" coberta ")
     p[0] = "Classe coberta"
-    lista_tipos.append(f"{p[2]}: {p[0]}")
+    lista_tipos.append(f"{p[0]}: {p[0]}")
     
 
 # Erro sintático

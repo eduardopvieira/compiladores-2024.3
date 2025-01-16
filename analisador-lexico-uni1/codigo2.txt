@@ -1,105 +1,112 @@
-Class: Activity
-   
-    SubClassOf: 
-        FunctionalComplex,
-        participatedIn some DataExchange
-    
-    
-Class: Actor
-  
-    SubClassOf: 
-        FunctionalComplex,
-        participatedIn some DataExchange
-    
-    
-Class: BrokerServiceProvider
+Class: InvokeDataOperation
 
         
     SubClassOf: 
-        IntermediaryParticipant,
-        mediates some MetadataAssignment,
-        mediates some MetadataRetrival
+        Relator,
+        mediates some Data,
+        mediates min 1 Connector,
+        mediates min 1 DataCustomer,
+        mediates min 1 DataOperation,
+        mediates min 1 DataSupplier,
+        mediates min 1 DataUsagePolicy
     
     
-Class: Certificate
-    
+Class: Metadata
+
+        
     SubClassOf: 
         Resource,
-        mediates some CertificationAct
+        describes some Data,
+        mediates exactly 1 MetadataAssignment,
+        mediates exactly 1 MetadataRetrival
     
     
-Class: Certification
+Class: MetadataAssignment
 
         
     SubClassOf: 
-        Activity,
-        historicallyDependsOn only CertificationAct,
-        historicallyDependsOn exactly 1 CertificationAct
+        Relator,
+        inheresIn min 1 ConditionalCommitment,
+        mediates min 1 BrokerServiceProvider,
+        mediates min 1 DataSupplier,
+        mediates min 1 Metadata
     
     
-Class: CertificationAct
+Class: MetadataRetrival
+
+        
+    SubClassOf: 
+        Relator,
+        inheresIn some ConditionalClaim,
+        mediates min 1 BrokerServiceProvider,
+        mediates min 1 DataCustomer,
+        mediates min 1 Metadata
+    
+    
+Class: Offer
 
         
     EquivalentTo: 
-        Relator
-         and (historicallyDependsOn only EvaluationReport)
-         and (mediates only (Certificate or CertificationBody or Evaluated))
-         and (mediates min 1 Certificate)
-         and (mediates min 1 CertificationBody)
-         and (mediates min 1 Evaluated)
-         and (historicallyDependsOn min 1 Certification)
-         and (historicallyDependsOn exactly 1 EvaluationReport)
+        Event
+         and participatedIn only (DataCustomer or DataSupplier)
+         and wasCreatedIn only EconomicOffering
+         and participatedIn min 1 DataCustomer
+         and participatedIn min 1 DataSupplier
+         and wasCreatedIn exactly 1 EconomicOffering
     
     
-Class: CertificationBody
+Class: OfferedContribution
 
         
     SubClassOf: 
-        IntermediaryParticipant,
-        emitsCertificate some Certificate,
-        mediates some CertificationAct
+        Event,
+        participatedIn only DataSupplier,
+        participatedIn min 1 DataSupplier
     
     
-Class: ConditionalClaim
+Class: OfferedContributionType
+
+        
+    SubClassOf: 
+        ConcreteIndividualType,
+        instantiate some OfferedContribution,
+        instantiate only OfferedContribution
+    
+    
+Class: OffereeUnconditionalAgreement
 
         
     SubClassOf: 
         IntrinsicMode,
-        (inheresIn only DataCustomer) and (externallyDependsOn only DataSupplier) and (historicallyDependsOn only MetadataRetrival),
-        historicallyDependsOn min 1 MetadataRetrival,
-        inheresIn exactly 1 DataCustomer,
-        externallyDependsOn exactly 1 DataSupplier
+        (externallyDependsOn only CounterpartContributionType) and (historicallyDependsOn only Counterpart) and (inheresIn only DataCustomer),
+        externallyDependsOn some CounterpartContributionType,
+        historicallyDependsOn min 1 Counterpart,
+        inheresIn exactly 1 DataCustomer
     
     
-Class: ConditionalCommitment
-    
+Class: OfferorUnconditionalAgreement
+
+        
     SubClassOf: 
         IntrinsicMode,
-        (inheresIn only DataSupplier) and (externallyDependsOn only DataCustomer) and (historicallyDependsOn only MetadataAssignment),
-       	historicallyDependsOn some MetadataAssignment,
-        inheresIn exactly 1 DataSupplier,
-        externallyDependsOn exactly 1 DataCustomer
+        (externallyDependsOn only OfferedContributionType) and (historicallyDependsOn only DigitalAsset) and (inheresIn only DataSupplier),
+        externallyDependsOn some OfferedContributionType,
+        historicallyDependsOn min 1 DigitalAsset,
+        inheresIn exactly 1 DataSupplier
     
     
-Class: Connector
+Class: Ownership
 
         
     SubClassOf: 
-        Resource,
-        mediates some InvokeDataOperation,
-        enforces min 1 DataUsagePolicy
+        Relator,
+        mediates some Data,
+        mediates min 1 DataSupplier
     
     
-Class: CoreParticipant
+Class: Resource
 
         
     SubClassOf: 
-        Actor
-    
-    
-Class: Counterpart
-
-        
-    SubClassOf: 
-        Resource,
-        historicallyDependsOn some OffereeUnconditionalAgreement
+        FunctionalComplex,
+        participatedIn some DataExchange

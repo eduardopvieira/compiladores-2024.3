@@ -207,7 +207,7 @@ Class: DataSupplier
     DisjointWith: 
         DataCustomer
     
-    
+    ___________________________________________________________________
 Class: DataUsagePolicy
 
         
@@ -306,6 +306,7 @@ Class: IntermediaryParticipant
     SubClassOf: 
         Actor
     
+    ________________________________________________________________________________________________________________________________
     
 Class: InvokeDataOperation
 

@@ -1,40 +1,41 @@
-Analisador Sintático com PLY
-##Descrição
-Este projeto implementa um analisador léxico e sintático utilizando a biblioteca PLY (Python Lex-Yacc), projetado para processar e interpretar uma linguagem específica baseada em classes, propriedades e axiomas. A aplicação realiza a análise sintática de entradas textuais, identificando e validando estruturas como classes definidas, classes primitivas e axiomas de fechamento.
+# Analisador Sintático e Léxico com PLY
 
-#Funcionalidades
-Analisador Léxico: Identifica tokens como palavras reservadas, classes, propriedades, operadores e caracteres especiais.
-Analisador Sintático: Processa as regras gramaticais e valida a sintaxe de classes definidas e primitivas, além de construções complexas como axiomas de fechamento e hierarquias de classes.
-Mensagens de Erro: Reporta erros léxicos e sintáticos para ajudar na depuração.
-Estrutura Modular: Separação clara entre análise léxica e sintática, permitindo fácil extensão.
-Tokens Suportados
-Os principais tokens reconhecidos pelo analisador incluem:
+Este projeto implementa um analisador léxico e sintático em Python utilizando a biblioteca [PLY (Python Lex-Yacc)](http://www.dabeaz.com/ply/). O analisador é responsável por reconhecer e validar a sintaxe de uma linguagem específica, estruturada com classes, propriedades, axiomas e outras entidades.
 
-Palavras Reservadas: SubClassOf, EquivalentTo, Individuals, DisjointClasses, DisjointWith.
-Operadores: and, or, some, only, value, operadores de cardinalidade (min, exactly, max).
-Identificadores: Classes, propriedades, nomes de indivíduos, namespaces e tipos de dados.
+## Funcionalidades
 
-#Requisitos
-Python 3.8+
-Biblioteca ply
+- **Análise Léxica:** Identificação de tokens como palavras-chave, operadores, classes, propriedades e mais.
+- **Análise Sintática:** Construção e validação da estrutura gramatical com base em regras definidas.
+- **Suporte a Classes:** Declaração e diferenciação entre classes primitivas e definidas.
+- **Axiomas de Fechamento:** Identificação de regras e propriedades para fechamento semântico.
+- **Tratamento de Erros:** Registro de erros léxicos em um arquivo separado para facilitar a depuração.
 
-Para instalar o PLY, use o seguinte comando: 
+## Estrutura do Código
+
+- **Lexer:** Define os tokens utilizando expressões regulares. Exemplos de tokens:
+  - `SUBCLASSOF`, `EQUIVALENT_TO`, `AND`, `OR`
+  - Identificadores como `CLASSE`, `NOME_INDIVIDUO` e `PROPRIEDADE`
+- **Parser:** Implementa as regras gramaticais da linguagem utilizando produções como:
+  - Declaração de classes primitivas e definidas
+  - Conjuntos de disjunção e indivíduos
+  - Expressões complexas com axiomas de fechamento
+
+## Principais Tokens
+
+| Token              | Descrição                                                    |
+|--------------------|------------------------------------------------------------|
+| `SUBCLASSOF`       | Define uma relação de subclasse entre classes                |
+| `EQUIVALENT_TO`    | Declara classes equivalentes                                 |
+| `INDIVIDUALS`      | Lista indivíduos de uma classe                               |
+| `DISJOINTCLASSES`  | Declara classes disjuntas                                    |
+| `NOME_INDIVIDUO`   | Identificador de indivíduos                                  |
+| `CLASSE`           | Identificador de classes                                    |
+| `PROPRIEDADE`      | Define propriedades de classe ou relação                    |
+| `AND`, `OR`, `SOME`| Conectivos lógicos                                           |
+
+## Requisitos
+
+Para executar este projeto, é necessário ter o Python 3 instalado e a biblioteca PLY. Você pode instalá-la usando o seguinte comando:
+
+```bash
 pip install ply
-
-#Estrutura do Código
-Analisador Léxico (tokens)
-
-Define os padrões de regex para identificar os diferentes componentes da linguagem.
-Implementa funções para tokens específicos como SubClassOf, EquivalentTo, e outros.
-Analisador Sintático
-
-Contém regras gramaticais principais que são :
-Declarações de classes primitivas (declaracao_classe_primitiva).
-Declarações de classes definidas (declaracao_classe_definida). 
-
-As demais classes derivam delas e são:
-
-Axioma de fechamento
-classe enumerada
-classe aninhada 
-classe coberta

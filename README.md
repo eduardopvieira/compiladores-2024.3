@@ -45,7 +45,7 @@ O arquivo principal analisador_sintatico.py faz a leitura de um arquivo txt que 
 certifique-se que o arquivo codigo.txt tem o conteudo que deseja analisar. 
 Após essas verificações execute o arquivo analisador_sintatico.py.
 
-## OBservação: 
+## Observação: 
 caso queira rodar mais de uma vez o programa é recomendado excluir o terminal anterior e executar novamente o arquivo analisador_sintatico para que a saida seja correta.
 A saida pode sofrer distorções caso executada mais de uma vez no mesmo terminal (possivelmente por conta da lib ply). 
 

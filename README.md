@@ -51,6 +51,7 @@ A saida pode sofrer distorções caso executada mais de uma vez no mesmo termina
 ## Exemplo de saída esperada: 
 "
 ...
+
 Classe: IntermediaryParticipant | Tipos: Classe primitiva
 
 Classe: InvokeDataOperation | Tipos: Classe primitiva , fechamento
@@ -58,8 +59,10 @@ Classe: InvokeDataOperation | Tipos: Classe primitiva , fechamento
 Classe: Metadata | Tipos: Classe primitiva , fechamento
 
 Classe: Offer | Tipos: Classe definida
+
 ...
 "
+
 Onde é descrito a classe, Tipo principal e derivações. 
 
 ## Requisitos

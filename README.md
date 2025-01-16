@@ -1,5 +1,5 @@
 Analisador Sintático com PLY
-#Descrição
+##Descrição
 Este projeto implementa um analisador léxico e sintático utilizando a biblioteca PLY (Python Lex-Yacc), projetado para processar e interpretar uma linguagem específica baseada em classes, propriedades e axiomas. A aplicação realiza a análise sintática de entradas textuais, identificando e validando estruturas como classes definidas, classes primitivas e axiomas de fechamento.
 
 #Funcionalidades

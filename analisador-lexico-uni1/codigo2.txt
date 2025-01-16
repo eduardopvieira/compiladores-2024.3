@@ -1,0 +1,64 @@
+ Class: Pizza
+    SubClassOf:
+    hasBase some PizzaBase,
+    hasCaloricContent some xsd:integer
+    DisjointClasses:
+    Pizza, PizzaBase, PizzaTopping
+    Individuals:
+    CustomPizza1,
+    CustomPizza2
+
+
+
+
+
+Class: DataCustomer
+
+        
+    SubClassOf: 
+        CoreParticipant,
+        externallyDependsOn some ConditionalCommitment,
+        externallyDependsOn some OfferorUnconditionalAgreement,
+        participatedIn some Offer,
+        calls some DataOperation,
+        inheresIn some ConditionalClaim,
+        inheresIn some OffereeUnconditionalAgreement,
+        mediates some EconomicOffering,
+        mediates some InvokeDataOperation,
+        mediates some MetadataRetrival
+
+    DisjointWith: 
+        DataSupplier
+
+
+
+
+Class: CheesyPizza
+ EquivalentTo:
+ Pizza and (hasTopping some CheeseTopping)
+ 
+ Individuals:
+ CheesyPizza1
+ 
+ 
+ Class: HighCaloriePizza
+ EquivalentTo:
+ Pizza and (hasCaloricContent some xsd:integer[>= 400])
+
+ Class: Evaluated
+
+    EquivalentTo: 
+        BrokerServiceProvider or Connector or CoreParticipant
+
+
+
+
+Class: EvaluationAct
+
+    EquivalentTo: 
+        Relator
+         and (mediates only (Evaluated or EvaluationFacility or EvaluationReport))
+         and (mediates min 1 Evaluated)
+         and (mediates min 1 EvaluationFacility)
+         and (mediates min 1 EvaluationReport)
+         and (historicallyDependsOn min 1 Evaluation)

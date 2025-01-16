@@ -10,8 +10,8 @@ tokens = [
     "OR", "AND", "SOME", "ONLY", "VALUE"
 ]
 
-dicionario_classes = {}
-lista_tipos = []
+
+lista_tuplas = []
 #!========================== FUNÇÃO AUXILIAR DE PALAVRAS RESERVADAS ==========================
 def t_SUBCLASSOF(t):
     r'SubClassOf:'
@@ -114,7 +114,7 @@ def p_declaracao_classe_primitiva(p):
     """
  
     p[0] = "Classe primitiva "
-    dicionario_classes[p[2]] = p[0]
+    lista_tuplas.append((p[2], p[0]))
     #lista_tipos.append(f"{p[2]}: {p[0]}")
 
 
@@ -165,8 +165,7 @@ def p_declaracao_classe_definida(p):
     """
 
     p[0] = "Classe definida"
-    dicionario_classes[p[2]] = p[0]
-   #lista_tipos.append(f"{p[2]}: {p[0]}")
+    lista_tuplas.append((p[2], p[0]))
 
 
 def p_continuacao_equivalentto(p):
@@ -186,8 +185,7 @@ def p_declaracao_classe_aninhada(p):
     declaracao_classe_aninhada : caso_ands
     """
     p[0] = "aninhada"
-    dicionario_classes[p[0]] = "aninhada"
-    #lista_tipos.append(f"{p[0]}: {p[0]}")
+    lista_tuplas.append((p[0], p[0]))
 
 def p_caso_ands(p):
     """
@@ -228,8 +226,8 @@ def p_declaracao_classe_axioma_fechamento(p):
     declaracao_classe_axioma_fechamento : regras_classe_axioma_fechamento
     """
     p[0] = ("fechamento")
-    dicionario_classes[p[0]] = "fechamento"
-    #lista_tipos.append(f"{p[0]}: {p[0]}")
+    lista_tuplas.append((p[0], p[0]))
+
 
 def p_regras_classe_axioma_fechamento(p):
     """
@@ -280,7 +278,7 @@ def p_declaracao_classe_enumerada(p):
     declaracao_classe_enumerada : ABRE_CHAVE classes_enumeradas FECHA_CHAVE
     """
     p[0] = "enumerada"
-    dicionario_classes[p[0]] = "enumerada"
+    lista_tuplas.append((p[0], p[0]))
 
 def p_classes_enumeradas(p):
     """
@@ -295,7 +293,7 @@ def p_declaracao_classe_coberta(p):
     declaracao_classe_coberta : classes_or 
     """
     p[0] = "coberta"
-    dicionario_classes[p[0]] = "coberta"
+    lista_tuplas.append((p[0], p[0]))
     
 # Erro sintático
 def p_error(p):
@@ -321,49 +319,26 @@ def executar_analisador(codigo):
     print("\n### Análise Sintática ###")
     result = parser.parse(codigo, lexer=lexer)   
 
-    # chaves = list(dicionario_classes.keys())
-    # dicionario_atualizado = {}
+    i = 0
+    while i < len(lista_tuplas):
+        chave, valor = lista_tuplas[i]
+        
+        # Verificando se a chave é igual ao valor
+        if chave == valor:
+            if i + 1 < len(lista_tuplas):  # Se não for a última tupla
+                # Concatenando o valor atual ao valor da próxima tupla
+                proxima_chave, proximo_valor = lista_tuplas[i + 1]
+                lista_tuplas[i + 1] = (proxima_chave, proximo_valor + ', ' + valor)
+            
+            # Removendo a tupla atual
+            del lista_tuplas[i]
+            # Não incrementa 'i', pois removemos a tupla e a lista foi reajustada
+        else:
+            # Se não for igual, apenas passa para a próxima tupla
+            i += 1
 
-    # for i, classe in enumerate(chaves):
-    #     tipo_atual = dicionario_classes[classe]
-    #     if classe == tipo_atual: 
-    #         if i + 1 < len(chaves):
-    #             tipo_atual += f", {dicionario_classes[chaves[i + 1]]}"
-    #     dicionario_atualizado[classe] = tipo_atual
-
-
-chaves = list(dicionario_classes.keys())
-
-# Novo dicionário atualizado
-dicionario_atualizado = {}
-
-# Iterar sobre as chaves
-i = 0
-while i < len(chaves):
-    classe = chaves[i]
-    tipo_atual = dicionario_classes[classe]
-    
-    if classe == tipo_atual:
-        if i + 1 < len(chaves):
-            tipo_atual += f" {dicionario_classes[chaves[i + 1]]}"
-        i += 1
-    else:
-        i += 1
-    
-    # Adicionar ao novo dicionário
-    dicionario_atualizado[classe] = tipo_atual
-
-
-
-    for classe, tipo in dicionario_atualizado.items():
-        print(f"Classe: {classe} | Tipo: {tipo} ")
-
-    if result:
-        for token in result:
-            print(token)
-    else:
-        print("Não há mais resultado retornado pelo parser.")
-        print("Analise concluida.")
+    for chave, valor in lista_tuplas:
+        print(f"Classe: {chave} | Tipos: {valor}")
 
 # Função principal
 def main():
@@ -374,7 +349,7 @@ def main():
 
     if opcao == "1":
         try:
-            with open('codigo2.txt', 'r') as arquivo:
+            with open('codigo.txt', 'r') as arquivo:
                 codigo = arquivo.read()
             executar_analisador(codigo)
         except FileNotFoundError:

@@ -37,16 +37,22 @@ Este projeto implementa um analisador léxico e sintático em Python utilizando 
 
 Recomendado o uso de uma IDE como o VSCode para facilitar a visualização das saídas:
 
+No GitHub, acesse o repositório que deseja clonar e clone o repositorio na branch  alternative-main-2.
+
 Se ainda não tem o VSCode instalado, baixe e instale a partir do site oficial: 
 https://code.visualstudio.com/.
 
+Inicie o VSCode.
+
 Abra o Projeto no VSCode, navegue até a pasta onde você clonou o repositório e selecione-a: 
+
 O arquivo principal analisador_sintatico.py faz a leitura de um arquivo txt que contem a linguagem que irá ser analisada,
 certifique-se que o arquivo codigo.txt tem o conteudo que deseja analisar. 
+
 Após essas verificações execute o arquivo analisador_sintatico.py.
 
 ## Observação: 
-caso queira rodar mais de uma vez o programa é recomendado excluir o terminal anterior e executar novamente o arquivo analisador_sintatico para que a saida seja correta.
+Caso queira rodar mais de uma vez o programa é recomendado excluir o terminal anterior e executar novamente o arquivo analisador_sintatico para que a saida seja correta.
 A saida pode sofrer distorções caso executada mais de uma vez no mesmo terminal (possivelmente por conta da lib ply). 
 
 ## Exemplo de saída esperada: 

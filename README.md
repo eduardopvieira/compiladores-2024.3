@@ -37,8 +37,10 @@ Este projeto implementa um analisador léxico e sintático em Python utilizando 
 
 Recomendado o uso de uma IDE como o VSCode para facilitar a visualização das saídas:
 
-No GitHub, acesse o repositório que deseja clonar e clone o repositorio na branch  alternative-main-2.
-
+No GitHub, acesse o repositório que deseja clonar e clone o repositorio na branch alternative-main-2. Para isso, copie o código:
+```bash
+git clone https://github.com/eduardopvieira/compiladores-2024.3.git -b alternative-main-2 --single-branch
+```
 Se ainda não tem o VSCode instalado, baixe e instale a partir do site oficial: 
 https://code.visualstudio.com/.
 

@@ -166,13 +166,7 @@ def p_declaracao_classe_definida(p):
     p[0] = "Classe definida"
     lista_tuplas.append((p[2], p[0]))
 
-# Class: EconomicAgreement
-#     EquivalentTo: 
-#         Relator
-#          and ((composedBy some OffereeUnconditionalAgreement) and (composedBy some OfferorUnconditionalAgreement))
-#          and (historicallyDependsOn only EconomicOffering)
-#          and (composedBy only (OffereeUnconditionalAgreement or OfferorUnconditionalAgreement))
-#          and (historicallyDependsOn min 1 EconomicOffering)
+
 
 def p_continuacao_equivalentto(p):
     """

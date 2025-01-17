@@ -336,7 +336,7 @@ Class: MetadataAssignment
         inheresIn min 1 ConditionalCommitment,
         mediates min 1 BrokerServiceProvider,
         mediates min 1 DataSupplier,
-        mediates min 1 Metadata,
+        mediates min 1 Metadata
     
     
 Class: MetadataRetrival
@@ -366,7 +366,7 @@ Class: OfferedContribution
 
         
     SubClassOf: 
-        Event,,,,
+        Event,
         participatedIn only DataSupplier,
         participatedIn min 1 DataSupplier
     

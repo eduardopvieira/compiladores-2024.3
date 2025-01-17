@@ -166,6 +166,13 @@ def p_declaracao_classe_definida(p):
     p[0] = "Classe definida"
     lista_tuplas.append((p[2], p[0]))
 
+# Class: EconomicAgreement
+#     EquivalentTo: 
+#         Relator
+#          and ((composedBy some OffereeUnconditionalAgreement) and (composedBy some OfferorUnconditionalAgreement))
+#          and (historicallyDependsOn only EconomicOffering)
+#          and (composedBy only (OffereeUnconditionalAgreement or OfferorUnconditionalAgreement))
+#          and (historicallyDependsOn min 1 EconomicOffering)
 
 def p_continuacao_equivalentto(p):
     """
@@ -173,9 +180,13 @@ def p_continuacao_equivalentto(p):
                                  | PALAVRA_RESERVADA CLASSE EQUIVALENT_TO CLASSE declaracao_classe_aninhada 
                                  | CLASSE AND PROPRIEDADE SOME_ONLY casos_parentese
                                  | CLASSE AND PROPRIEDADE SOME_ONLY CLASSE casos_parentese 
-                                 | CLASSE AND PROPRIEDADE SOME_ONLY classes_or 
                                  | CLASSE AND PROPRIEDADE SOME_ONLY classes_or caso_ands
+                                 | CLASSE AND PROPRIEDADE SOME_ONLY classes_or 
                                  | CLASSE AND ABRE_PARENT PROPRIEDADE SOME_ONLY casos_parentese FECHA_PARENT
+                                 | CLASSE AND ABRE_PARENT PROPRIEDADE SOME_ONLY classes_or FECHA_PARENT 
+                                 | CLASSE AND ABRE_PARENT casos_parentese declaracao_classe_aninhada FECHA_PARENT
+                                 | CLASSE AND ABRE_PARENT casos_parentese declaracao_classe_aninhada FECHA_PARENT caso_ands
+                                 | CLASSE AND ABRE_PARENT PROPRIEDADE SOME_ONLY classes_or FECHA_PARENT caso_ands
                                  | CLASSE AND ABRE_PARENT PROPRIEDADE SOME_ONLY NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL FECHA_PARENT
                                         
     """
@@ -208,7 +219,7 @@ def p_casos_parentese(p):
 
 def p_casos_sem_parentese(p):
     """
-    casos_sem_parentese : PROPRIEDADE SOME_ONLY CLASSE 
+    casos_sem_parentese :  PROPRIEDADE SOME_ONLY CLASSE 
                         |  PROPRIEDADE ONLY casos_parentese 
                         |  PROPRIEDADE PALAVRA_RESERVADA CLASSE 
                         |  PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE 

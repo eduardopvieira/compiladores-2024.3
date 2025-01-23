@@ -1,0 +1,15 @@
+Class: Activity
+   
+    SubClassOf: 
+        FunctionalComplex,
+        participatedIn some DataExchange
+    
+
+
+Class: PizzaTopping
+   
+    DisjointClasses: 
+        Classe, ClasseDia, ClasseCoisa
+
+    Individuals:
+        Classe, ClasseDia, ClasseCoisa

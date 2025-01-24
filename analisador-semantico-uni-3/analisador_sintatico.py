@@ -15,8 +15,8 @@ tokens = [
 
 lista_tuplas = []
 lista_classes = []
-
 lista_erros = []
+lista_classes_fechamento = []
 
 tabela_simbolos = TabelaSimbolos()
 
@@ -352,7 +352,7 @@ def p_regras_classe_axioma_fechamento(p):
                                     | ABRE_PARENT PROPRIEDADE SOME_ONLY CLASSE FECHA_PARENT
                                     | ABRE_PARENT PROPRIEDADE SOME_ONLY CLASSE FECHA_PARENT AND regras_classe_axioma_fechamento
                                     | ABRE_PARENT PROPRIEDADE SOME_ONLY CLASSE FECHA_PARENT CARACTERE_ESPECIAL regras_classe_axioma_fechamento
-                                    | PROPRIEDADE SOME_ONLY ABRE_PARENT classes_or FECHA_PARENT
+                                    | fechamento_final
 
 
                                     | PROPRIEDADE rec_propriedade COMPARADORES CARDINALIDADE CLASSE
@@ -368,6 +368,21 @@ def p_regras_classe_axioma_fechamento(p):
                                     | ABRE_PARENT PROPRIEDADE rec_propriedade COMPARADORES CARDINALIDADE CLASSE CARACTERE_ESPECIAL FECHA_PARENT regras_classe_axioma_fechamento
                                         
     """
+    
+
+def p_fechamento_final(p):
+    """
+    fechamento_final : PROPRIEDADE ONLY ABRE_PARENT classes_or_fechamento FECHA_PARENT
+    """
+
+def p_classes_or_fechamento(p):
+    """
+    classes_or_fechamento : CLASSE OR classes_or_fechamento
+                          | CLASSE
+    """
+
+
+
 # Class: MargheritaPizza 
     
 #       SubClassOf: 

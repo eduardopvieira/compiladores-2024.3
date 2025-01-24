@@ -1,15 +1,10 @@
-Class: Activity
-   
-    SubClassOf: 
-        FunctionalComplex,
-        participatedIn some DataExchange
-    
+Class: Pizza
+    SubClassOf:
+        hasBase some PizzaBase,
+        hasCaloricContent some xsd:integer
 
-
-Class: PizzaTopping
-   
-    DisjointClasses: 
-        Classe, ClasseDia, ClasseCoisa
-
+    DisjointClasses:
+        PizzaBase, PizzaTopping
     Individuals:
-        Classe, ClasseDia, ClasseCoisa
+        CustomPizza1,
+        CustomPizza2

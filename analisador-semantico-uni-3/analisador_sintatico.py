@@ -76,7 +76,7 @@ def t_VALUE(t):
 #!======================== REGEX GENERICOS =====================
 
 t_NOME_INDIVIDUO = r'([A-Z][a-z]+)+[0-9]+'
-t_PALAVRA_RESERVADA = r'[Aa][Ll][Ll]|[Tt][Hh][Aa][Tt]|[Nn][Oo][Tt]|Class:'
+t_PALAVRA_RESERVADA = r'[Aa][Ll][Ll]|[Tt][Hh][Aa][Tt]|[Nn][Oo][Tt]'
 t_CLASSE = r'\b([A-Z]+[a-z]+[_]?)+\b' 
 t_TIPO = r'\b(rational|real|langString|PlainLiteral|XMLLiteral|Literal|anyURI|base64Binary|boolean|byte|dateTime|dateTimeStamp|decimal|double|float|hexBinary|integer|int|language|long|Name|NCName|negativeInteger|NMTOKEN|nonNegativeInteger|nonPositiveInteger|normalizedString|positiveInteger|short|string|token|unsignedByte|unsignedInt|unsignedLong|unsignedShort)\b'
 t_PROPRIEDADE = r'has([A-Z][a-z]+)+|is([A-Z][a-z]+)+Of|[a-z]+([A-Z][a-z]+)*' 
@@ -109,12 +109,31 @@ def p_programa(p):
     """programa : declaracao_classe programa
                 | declaracao_classe"""
 
+def p_programa_error(p):
+    """
+    programa : error programa
+             | error
+    """
+    lista_erros.append("Linha {}:  A CLASSE NÃO FOI DECLARADA CORRETAMENTE")
 
 def p_declaracao_classe(p):
     """
     declaracao_classe : PALAVRA_CLASS CLASSE tipo_classe_primaria
     """
     lista_classes.append("Classe: " + p[2])
+
+# def p_declaracao_classe_error(p):
+#     """
+#     declaracao_classe : PALAVRA_CLASS error tipo_classe_primaria
+#                       | error CLASSE tipo_classe_primaria        
+    
+#     """
+#     if p.slice[2].type == 'error':
+#         lista_erros.append(f"Linha {p.lineno(2)}: Escreva o nome da classe.")
+#     elif p.slice[1].type == 'error':
+#         lista_erros.append(f"Linha {p.lineno(1)}: É necessária a palavra reservada 'Class'.")
+#     else:
+#         lista_erros.append(f"Linha {p.lineno(1)}: Erro na declaração da classe.")
 
 def p_tipo_classe_primaria(p):
     """
@@ -131,8 +150,10 @@ def p_declaracao_classe_primitiva(p):
     declaracao_classe_primitiva : SUBCLASSOF continuacao_subclassof caso_disjoint_opcional
                                 | SUBCLASSOF continuacao_subclassof
                                 | SUBCLASSOF caso_disjoint_opcional
+                                
+               
     """
-
+    # EQUIVALENT_TO continuacao_equivalentto SUBCLASSOF continuacao_subclassof caso_disjoint_opcional
     p[0] = "Classe primitiva "
     lista_tuplas.append((p[2], p[0]))
 
@@ -144,16 +165,17 @@ def p_declaracao_classe_primitiva(p):
     #     p[0] = ['declaracao_classe_primitiva', p[2], p[4], p[5], p[6]]
  
 
-def p_declaracao_classe_primitiva_error(p):
-    """
-    declaracao_classe_primitiva : error continuacao_subclassof caso_disjoint_opcional
-                                | error continuacao_subclassof
-                                | SUBCLASSOF error
-    """
-    if (p[1] == "SUBCLASSOF"):
-        lista_erros.append("Linha {}: Coloque algo valido após SubClassOf")
-    else:
-        lista_erros.append("Linha {}: Necessario escrever a palavra reservada SubClassOf")
+# def p_declaracao_classe_primitiva_error(p):
+#     """
+#     declaracao_classe_primitiva : error continuacao_subclassof caso_disjoint_opcional
+#                                 | error continuacao_subclassof
+#                                 | error continuacao_disjoint_opcional
+#                                 | SUBCLASSOF error
+#     """
+#     if (p[1] == "SUBCLASSOF"):
+#         lista_erros.append("Linha {}: Coloque algo valido após SubClassOf")
+#     else:
+#         lista_erros.append("Linha {}: Necessario escrever a palavra reservada SubClassOf")
 
     
 
@@ -190,11 +212,11 @@ def p_continuacao_individuals(p):
     else:
         p[0] = (p[1], p[3])
 
-def p_continuacao_individuals_error(p):
-    """
-    continuacao_individuals : error 
-                            | error CARACTERE_ESPECIAL continuacao_individuals
-    """
+# def p_continuacao_individuals_error(p):
+#     """
+#     continuacao_individuals : error 
+#                             | error CARACTERE_ESPECIAL continuacao_individuals
+#     """
 
 #!==================== CASO DISJOINT OPCIONAL ====================================
 
@@ -204,18 +226,18 @@ def p_caso_disjoint_opcional(p):
                            | DISJOINTWITH continuacao_disjoint_opcional caso_individuals_opcional
     """
 
-def p_caso_disjoint_opcional_error(p):
-    """
-    caso_disjoint_opcional : DISJOINTCLASSES continuacao_disjoint_opcional error
-                           | DISJOINTWITH continuacao_disjoint_opcional error
-                           | error continuacao_disjoint_opcional caso_individuals_opcional
-    """
-    print('Erro em "caso_disjoint_opcional"')
+# def p_caso_disjoint_opcional_error(p):
+#     """
+#     caso_disjoint_opcional : DISJOINTCLASSES continuacao_disjoint_opcional error
+#                            | DISJOINTWITH continuacao_disjoint_opcional error
+#                            | error continuacao_disjoint_opcional caso_individuals_opcional
+#     """
+#     print('Erro em "caso_disjoint_opcional"')
     
-    if len(p) > 1 and isinstance(p[1], str):
-        lista_erros.append("É necessário declarar classes.")
-    else:
-        lista_erros.append("É necessário colocar a palavra-chave DisjointClasses ou DisjointWith.")
+#     if len(p) > 1 and isinstance(p[1], str):
+#         lista_erros.append("É necessário declarar classes.")
+#     else:
+#         lista_erros.append("É necessário colocar a palavra-chave DisjointClasses ou DisjointWith.")
     
 
 def p_continuacao_disjoint_opcional(p):
@@ -224,13 +246,13 @@ def p_continuacao_disjoint_opcional(p):
                                   | CLASSE CARACTERE_ESPECIAL continuacao_disjoint_opcional
     """
 
-def p_continuacao_disjoint_opcional_error(p):
-    """
-    continuacao_disjoint_opcional : error
-                                  | CLASSE CARACTERE_ESPECIAL error
-    """
-    print('chegou no erro continuacao_disjoint_opcional_error')
-    lista_erros.append("Linha {}: É necessario colocar uma classe.")
+# def p_continuacao_disjoint_opcional_error(p):
+#     """
+#     continuacao_disjoint_opcional : error
+#                                   | CLASSE CARACTERE_ESPECIAL error
+#     """
+#     print('chegou no erro continuacao_disjoint_opcional_error')
+#     lista_erros.append("Linha {}: É necessario colocar uma classe.")
 
 
 def p_continuacao_subclassof(p):
@@ -243,7 +265,6 @@ def p_continuacao_subclassof(p):
                    | CLASSE
     """
 
-    
 
 #!==================== CLASSE DEFINIDA ==================
 
@@ -331,6 +352,8 @@ def p_regras_classe_axioma_fechamento(p):
                                     | ABRE_PARENT PROPRIEDADE SOME_ONLY CLASSE FECHA_PARENT
                                     | ABRE_PARENT PROPRIEDADE SOME_ONLY CLASSE FECHA_PARENT AND regras_classe_axioma_fechamento
                                     | ABRE_PARENT PROPRIEDADE SOME_ONLY CLASSE FECHA_PARENT CARACTERE_ESPECIAL regras_classe_axioma_fechamento
+                                    | PROPRIEDADE SOME_ONLY ABRE_PARENT classes_or FECHA_PARENT
+
 
                                     | PROPRIEDADE rec_propriedade COMPARADORES CARDINALIDADE CLASSE
                                     | PROPRIEDADE rec_propriedade COMPARADORES CARDINALIDADE CLASSE CARACTERE_ESPECIAL regras_classe_axioma_fechamento
@@ -345,7 +368,13 @@ def p_regras_classe_axioma_fechamento(p):
                                     | ABRE_PARENT PROPRIEDADE rec_propriedade COMPARADORES CARDINALIDADE CLASSE CARACTERE_ESPECIAL FECHA_PARENT regras_classe_axioma_fechamento
                                         
     """
-
+# Class: MargheritaPizza 
+    
+#       SubClassOf: 
+#           NamedPizza, 
+#           hasTopping some MozzarellaTopping, 
+#           hasTopping some TomatoTopping, 
+#           hasTopping only (MozzarellaTopping or TomatoTopping) 
 def p_rec_propriedade(p):
     """
     rec_propriedade : PROPRIEDADE

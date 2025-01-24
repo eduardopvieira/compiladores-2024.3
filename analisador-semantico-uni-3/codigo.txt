@@ -1,10 +1,6 @@
-Class: Pizza
-    SubClassOf:
-        hasBase some PizzaBase,
-        hasCaloricContent some xsd:integer
+Class: MargheritaPizza 
 
-    DisjointClasses:
-        PizzaBase, PizzaTopping
-    Individuals:
-        CustomPizza1,
-        CustomPizza2
+    SubClassOf: 
+            NamedPizza,
+            MozzarellaTopping, 
+            hasTopping only (NamedPizza or MozzarellaTopping)

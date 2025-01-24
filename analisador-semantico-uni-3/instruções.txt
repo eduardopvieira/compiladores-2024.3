@@ -1,0 +1,71 @@
+ANÁLISE DA PRECEDÊNCIA DOS OPERADORES 
+
+
+o projeto consiste estender o analisador sintático com análise semântica de forma a ajudar um
+ontologista a: (1) escrever as declarações usando a ordem correta dos operadores de cabeçalho (Class,
+EquivalentTo, SubclassOf, DisjointClasses, Individuals); (2) escrever corretamente os tipos e seus respectivos
+intervalos que compõem as data properties; e (3) classificar as propriedades em data properties e object
+properties, por sobrecarregamento.
+ 
+Exemplo 1: as palavras-chave que encabeçam a descrição de uma classe de uma ontologia em 
+OWL devem aparecer em uma determinada ordem: 
+a. Class: (termo obrigatório) 
+b. EquivalentTo: (termo necessário, que pode ou não ser sucedido por SubClassOf:) 
+c. SubClassOf: (termo necessário, que pode ou não ser precedido por EquivalentTo:) 
+d. DisjointClasses: (termo opcional, mas que sempre precede Individuals:) 
+e. Individuals: (termo opcional, mas que sempre sucede DisjointClasses:)
+
+
+
+PRIMEIRO CASO ( CLASS , EquivalentTo e SubClassOf )
+Exemplo: Classe completa (Primitiva pq aparece SubClassOf:)
+
+Class: Evaluated 
+ 
+     EquivalentTo:  
+          BrokerServiceProvider or Connector or CoreParticipant 
+     
+      SubClassOf:  
+          FunctionalComplex
+
+
+
+SEGUNDO CASO ( CLASS , SubClassOf e TERMOS opcionais  )
+Exemplo: Classe incompleta (Primitiva pq aparece SubClassOf:) mas nao tem o EquivalentTo antes, 
+
+Class: Pizza 
+ 
+     SubClassOf: 
+         hasBase some PizzaBase, 
+        hasCaloricContent some xsd:integer 
+     
+     DisjointClasses:  
+        PizzaBase, PizzaTopping 
+     
+      Individuals:  
+        CustomPizza1, 
+        CustomPizza2 
+
+
+primeira parte correta !!!!
+
+Exemplo 2: axiomas de fechamento só podem aparecer depois de declarações existenciais de 
+propriedades, pois não tem como fechar as imagens das propriedades sem tê-las declarado 
+antes explicitamente.
+
+classe correta
+
+Class: MargheritaPizza 
+    
+      SubClassOf: 
+          NamedPizza, 
+          hasTopping some MozzarellaTopping, 
+          hasTopping some TomatoTopping, 
+          hasTopping only (MozzarellaTopping or TomatoTopping) 
+     
+      DisjointClasses: 
+          AmericanaHotPizza, AmericanaPizza, SohoPizza 
+     
+      Individuals:  
+          MargheritaPizza1, 
+          MargheritaPizza2 

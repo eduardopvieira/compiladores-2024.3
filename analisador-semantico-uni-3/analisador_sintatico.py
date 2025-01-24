@@ -210,11 +210,12 @@ def p_caso_disjoint_opcional_error(p):
                            | DISJOINTWITH continuacao_disjoint_opcional error
                            | error continuacao_disjoint_opcional caso_individuals_opcional
     """
-    print('oi')
-    if (p[1] == p_error):
-        lista_erros.append("É necessario colocar a palavra chave DisjointClasses ou DisjointWith")
+    print('Erro em "caso_disjoint_opcional"')
+    
+    if len(p) > 1 and isinstance(p[1], str):
+        lista_erros.append("É necessário declarar classes.")
     else:
-        lista_erros.append("É necessário declarar individuos.")
+        lista_erros.append("É necessário colocar a palavra-chave DisjointClasses ou DisjointWith.")
     
 
 def p_continuacao_disjoint_opcional(p):
@@ -228,6 +229,7 @@ def p_continuacao_disjoint_opcional_error(p):
     continuacao_disjoint_opcional : error
                                   | CLASSE CARACTERE_ESPECIAL error
     """
+    print('chegou no erro continuacao_disjoint_opcional_error')
     lista_erros.append("Linha {}: É necessario colocar uma classe.")
 
 

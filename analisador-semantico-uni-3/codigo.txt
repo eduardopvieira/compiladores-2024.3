@@ -1,6 +1,9 @@
-Class: MargheritaPizza 
+
+Class: DataCustomer
 
     SubClassOf: 
-            NamedPizza,
-            MozzarellaTopping, 
-            hasTopping only (NamedPizza or MozzarellaTopping)
+        CoreParticipant,
+        externallyDependsOn some ConditionalCommitment,
+        externallyDependsOn some OfferorUnconditionalAgreement,
+        externallyDependsOn only (ConditionalCommitment or OfferorUnconditionalAgreement)
+

@@ -20,6 +20,9 @@ lista_classes_fechamento = []
 
 tabela_simbolos = TabelaSimbolos()
 
+fila_propriedades = []
+
+
 #!========================== FUNÇÃO AUXILIAR DE PALAVRAS RESERVADAS ==========================
 def t_SUBCLASSOF(t):
     r'SubClassOf:'
@@ -121,6 +124,11 @@ def p_declaracao_classe(p):
     declaracao_classe : PALAVRA_CLASS CLASSE tipo_classe_primaria
     """
     lista_classes.append("Classe: " + p[2])
+    
+    while fila_propriedades:
+        fila_propriedades.pop(0)
+
+
 
 # def p_declaracao_classe_error(p):
 #     """
@@ -153,6 +161,7 @@ def p_declaracao_classe_primitiva(p):
                                 
                
     """
+
     # EQUIVALENT_TO continuacao_equivalentto SUBCLASSOF continuacao_subclassof caso_disjoint_opcional
     p[0] = "Classe primitiva "
     lista_tuplas.append((p[2], p[0]))
@@ -256,15 +265,51 @@ def p_continuacao_disjoint_opcional(p):
 
 
 def p_continuacao_subclassof(p):
-    """continuacao_subclassof : PROPRIEDADE SOME CLASSE
-                   | CLASSE CARACTERE_ESPECIAL declaracao_classe_axioma_fechamento
-                   | PROPRIEDADE SOME NAMESPACE TIPO
-                   | PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL continuacao_subclassof 
-                   | PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof
-                   | CLASSE caso_ands
-                   | CLASSE
-    """
+    """continuacao_subclassof :  rec_propriedade SOME NAMESPACE TIPO
+                                | rec_propriedade SOME NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof
+                                | CLASSE caso_ands
+                                | CLASSE
+                                
+                                | declaracao_propriedades
+                                | CLASSE CARACTERE_ESPECIAL continuacao_subclassof
+                                
 
+                                | ABRE_PARENT rec_propriedade SOME_ONLY CLASSE FECHA_PARENT
+                                | ABRE_PARENT rec_propriedade SOME_ONLY CLASSE FECHA_PARENT AND continuacao_subclassof
+                                | ABRE_PARENT rec_propriedade SOME_ONLY CLASSE FECHA_PARENT CARACTERE_ESPECIAL continuacao_subclassof
+                                
+                                | rec_propriedade COMPARADORES CARDINALIDADE CLASSE
+                                | rec_propriedade COMPARADORES CARDINALIDADE CLASSE CARACTERE_ESPECIAL continuacao_subclassof
+                            
+                                | ABRE_PARENT rec_propriedade COMPARADORES CARDINALIDADE CLASSE FECHA_PARENT CARACTERE_ESPECIAL continuacao_subclassof
+                                | ABRE_PARENT rec_propriedade COMPARADORES CARDINALIDADE CLASSE FECHA_PARENT AND continuacao_subclassof
+                                | ABRE_PARENT rec_propriedade COMPARADORES CARDINALIDADE CLASSE CARACTERE_ESPECIAL FECHA_PARENT continuacao_subclassof
+                                | ABRE_PARENT rec_propriedade COMPARADORES CARDINALIDADE CLASSE FECHA_PARENT
+                   
+    """
+    # | rec_propriedade SOME CLASSE CARACTERE_ESPECIAL continuacao_subclassof
+    # | rec_propriedade SOME CLASSE
+    
+def p_declaracao_propriedades(p):
+   """
+    declaracao_propriedades : declaracao_existencial declaracao_propriedades
+                            | declaracao_existencial
+    """
+       
+def p_declaracao_existencial(p):
+    """
+    declaracao_existencial : rec_propriedade SOME CLASSE
+                           | rec_propriedade SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial
+                           | PROPRIEDADE ONLY declaracao_classe_axioma_fechamento
+    """
+    if len(p) > 3 and p[2] == "some":
+        classe = p[3]
+        if classe in fila_propriedades:
+            fila_propriedades.remove(classe)
+        else:
+            print(f"Erro: a classe {classe} não estava declarada para fechamento.")
+
+ 
 
 #!==================== CLASSE DEFINIDA ==================
 
@@ -337,59 +382,23 @@ def p_casos_sem_parentese(p):
 
 def p_declaracao_classe_axioma_fechamento(p):
     """
-    declaracao_classe_axioma_fechamento : regras_classe_axioma_fechamento
-    """
-    p[0] = ("fechamento")
-    lista_tuplas.append((p[0], p[0]))
-
-
-def p_regras_classe_axioma_fechamento(p):
-    """
-    regras_classe_axioma_fechamento : PROPRIEDADE SOME_ONLY CLASSE
-                                    | PROPRIEDADE rec_propriedade SOME_ONLY CLASSE
-                                    | PROPRIEDADE rec_propriedade SOME_ONLY CLASSE CARACTERE_ESPECIAL regras_classe_axioma_fechamento
-                                    | PROPRIEDADE SOME_ONLY CLASSE CARACTERE_ESPECIAL regras_classe_axioma_fechamento
-                                    | ABRE_PARENT PROPRIEDADE SOME_ONLY CLASSE FECHA_PARENT
-                                    | ABRE_PARENT PROPRIEDADE SOME_ONLY CLASSE FECHA_PARENT AND regras_classe_axioma_fechamento
-                                    | ABRE_PARENT PROPRIEDADE SOME_ONLY CLASSE FECHA_PARENT CARACTERE_ESPECIAL regras_classe_axioma_fechamento
-                                    | fechamento_final
-
-
-                                    | PROPRIEDADE rec_propriedade COMPARADORES CARDINALIDADE CLASSE
-                                    | PROPRIEDADE rec_propriedade COMPARADORES CARDINALIDADE CLASSE CARACTERE_ESPECIAL regras_classe_axioma_fechamento
-                                    | PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE 
-                                    | PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE CARACTERE_ESPECIAL regras_classe_axioma_fechamento
-                                    
-                                    | ABRE_PARENT PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE FECHA_PARENT
-                                    | ABRE_PARENT PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE FECHA_PARENT CARACTERE_ESPECIAL regras_classe_axioma_fechamento
-                                    | ABRE_PARENT PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE FECHA_PARENT AND regras_classe_axioma_fechamento
-                                    | ABRE_PARENT PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE CARACTERE_ESPECIAL FECHA_PARENT regras_classe_axioma_fechamento
-                                    | ABRE_PARENT PROPRIEDADE rec_propriedade COMPARADORES CARDINALIDADE CLASSE FECHA_PARENT
-                                    | ABRE_PARENT PROPRIEDADE rec_propriedade COMPARADORES CARDINALIDADE CLASSE CARACTERE_ESPECIAL FECHA_PARENT regras_classe_axioma_fechamento
+    declaracao_classe_axioma_fechamento : ABRE_PARENT classes_or_fechamento FECHA_PARENT
                                         
     """
-    
+    lista_tuplas.append(("fechamento", "fechamento"))
 
-def p_fechamento_final(p):
-    """
-    fechamento_final : PROPRIEDADE ONLY ABRE_PARENT classes_or_fechamento FECHA_PARENT
-    """
 
 def p_classes_or_fechamento(p):
     """
     classes_or_fechamento : CLASSE OR classes_or_fechamento
                           | CLASSE
-    """
+    """   
+
+    if p[1]:
+        print(f"{p[1]} ADICIONADO A FILA DE PROPRIEDADES NO INICIO MASSA")
+        fila_propriedades.append(p[1])
 
 
-
-# Class: MargheritaPizza 
-    
-#       SubClassOf: 
-#           NamedPizza, 
-#           hasTopping some MozzarellaTopping, 
-#           hasTopping some TomatoTopping, 
-#           hasTopping only (MozzarellaTopping or TomatoTopping) 
 def p_rec_propriedade(p):
     """
     rec_propriedade : PROPRIEDADE
@@ -445,14 +454,7 @@ parser = yacc.yacc(debug=True)
 
 def executar_analisador(codigo):
     lexer.input(codigo)
-    # print("\n### Tokens Identificados ###")
-    # while True:
-    #     token = lexer.token()
-    #     if not token:
-    #         break
-    #     print(f"Token: {token.type}, Valor: {token.value}, Linha: {token.lineno}, Posição: {token.lexpos}")
-    
-    # lexer.lineno = 1
+   
     print("\n### Análise Sintática ###")
     result = parser.parse(codigo, lexer=lexer)   
 

@@ -263,6 +263,9 @@ def p_continuacao_disjoint_opcional(p):
 #     print('chegou no erro continuacao_disjoint_opcional_error')
 #     lista_erros.append("Linha {}: É necessario colocar uma classe.")
 
+    # Class: Employee 
+ 
+  
 
 def p_continuacao_subclassof(p):
     """continuacao_subclassof :  rec_propriedade SOME NAMESPACE TIPO
@@ -289,7 +292,14 @@ def p_continuacao_subclassof(p):
     """
     # | rec_propriedade SOME CLASSE CARACTERE_ESPECIAL continuacao_subclassof
     # | rec_propriedade SOME CLASSE
-    
+
+    # Class: Employee 
+ 
+    # SubClassOf: 
+    #     Person 
+    #      and (ssn min 1 xsd:string) 
+
+
 def p_declaracao_propriedades(p):
    """
     declaracao_propriedades : declaracao_existencial declaracao_propriedades
@@ -341,11 +351,11 @@ def p_continuacao_equivalentto(p):
                                  | CLASSE AND ABRE_PARENT casos_parentese declaracao_classe_aninhada FECHA_PARENT caso_ands
                                  | CLASSE AND ABRE_PARENT PROPRIEDADE SOME_ONLY classes_or FECHA_PARENT caso_ands
                                  | CLASSE AND ABRE_PARENT PROPRIEDADE SOME_ONLY NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL FECHA_PARENT
+                                 | CLASSE AND ABRE_PARENT PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE FECHA_PARENT 
+                                 | CLASSE AND ABRE_PARENT PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE FECHA_PARENT continuacao_equivalentto
 
                                         
     """
-
-
 
 def p_declaracao_classe_aninhada(p):
     """
@@ -361,12 +371,15 @@ def p_caso_ands(p):
               | AND casos_parentese
               | AND casos_sem_parentese    
     """
-
+  # SubClassOf: 
+    #     Person 
+    #      and (ssn min 1 xsd:string) 
 def p_casos_parentese(p):
     """
     casos_parentese :   ABRE_PARENT PROPRIEDADE SOME_ONLY CLASSE FECHA_PARENT
                         | ABRE_PARENT PROPRIEDADE SOME_ONLY ABRE_PARENT classes_or FECHA_PARENT FECHA_PARENT
                         | ABRE_PARENT PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE FECHA_PARENT
+                        | ABRE_PARENT PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO FECHA_PARENT
                         | ABRE_PARENT casos_parentese OR casos_parentese FECHA_PARENT
                         | ABRE_PARENT casos_parentese AND casos_parentese FECHA_PARENT
                         | ABRE_PARENT casos_parentese FECHA_PARENT

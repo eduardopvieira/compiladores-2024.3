@@ -341,8 +341,11 @@ def p_continuacao_equivalentto(p):
                                  | CLASSE AND ABRE_PARENT casos_parentese declaracao_classe_aninhada FECHA_PARENT caso_ands
                                  | CLASSE AND ABRE_PARENT PROPRIEDADE SOME_ONLY classes_or FECHA_PARENT caso_ands
                                  | CLASSE AND ABRE_PARENT PROPRIEDADE SOME_ONLY NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL FECHA_PARENT
+
                                         
     """
+
+
 
 def p_declaracao_classe_aninhada(p):
     """

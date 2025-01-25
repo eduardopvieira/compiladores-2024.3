@@ -161,7 +161,7 @@ Class: DataExchange
          and (participatedIn some Activity)
          and (participatedIn some Resource)
          and (participatedIn min 1 DataCustomer)
-         and (participatedIn min 1 DataSupplier)
+         and (participatedIn min xsd DataSupplier)
          and (participatedIn min 2 Actor)
          and (composedBy exactly 1 CounterpartContribution)
          and (composedBy exactly 1 OfferedContribution)
@@ -354,7 +354,6 @@ Class: MetadataRetrival
     
 Class: Offer
 
-        
     EquivalentTo: 
         Event
          and participatedIn only (DataCustomer or DataSupplier)

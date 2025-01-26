@@ -270,12 +270,9 @@ def p_continuacao_subclassof(p):
                                 | declaracao_propriedades
                                 | CLASSE CARACTERE_ESPECIAL continuacao_subclassof
                                 | caso_ands
-                                
                                 | ABRE_PARENT declaracao_existencial FECHA_PARENT
                                 | ABRE_PARENT declaracao_existencial FECHA_PARENT AND continuacao_subclassof
-                                | ABRE_PARENT declaracao_existencial FECHA_PARENT CARACTERE_ESPECIAL continuacao_subclassof
-                            
-           
+                                | ABRE_PARENT declaracao_existencial FECHA_PARENT CARACTERE_ESPECIAL continuacao_subclassof                     
     """
 
 
@@ -294,80 +291,67 @@ def p_declaracao_existencial(p):
                            | PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE
 
                            | PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO
+                           
                            | PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial
                            | PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO
 
                            | PROPRIEDADE PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial
                            | PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial
+                           | PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL
                            | PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial
+
+
     """
-# Class: Employee 
- 
-#     SubClassOf: 
-#         Person 
-#          and (ssn min 1 xsd:string) 
 
+  # Regra de tamanho 4
+    if len(p) == 4:
+        print(f"{p[1]} e {p[3]} entraram na regra 2 (tamanho 4)")
+        lista_objectproperty.append((p[1]))
 
+    # Regra de tamanho 5 (trata cardinalidade e tipo)
+    elif len(p) == 5:
+        if p[2] in ["min", "max", "exactly"]:  # Cardinalidade com tipo
+            print(f"{p[1]} e {p[4]} entraram na regra 3.5 (tamanho 5)")
+            if p[4] in t_TIPO:
+                lista_dataproperty.append((p[1], p[4]))
+            else:
+                lista_objectproperty.append(p[1])
+        elif p[3] == "some":
+            print(f"{p[2]} e {p[4]} entraram na regra 3 (tamanho 5)")
+            lista_dataproperty.append((p[2], p[4]))
 
+    # Regra de tamanho 6
+    elif len(p) == 6:
+        if p[2] in ["min", "max", "exactly"] and p[5] in t_TIPO:  # Cardinalidade com tipo
+            print(f"{p[1]} e {p[5]} entraram na regra 6 (tamanho 6)")
+            lista_dataproperty.append((p[1], p[5]))
+        elif p[2] == "some":
+            namespace_tipo = f"{p[3]}{p[4]}"  # Combina namespace e tipo
+            if namespace_tipo in t_TIPO:
+                print(f"{p[1]} e {namespace_tipo} entraram na regra 5 (tamanho 6)")
+                lista_dataproperty.append((p[1], namespace_tipo))
+            else:
+                print(f"{p[1]} entrou na regra 6 (tamanho 6)")
+                lista_objectproperty.append(p[1])
 
-
-    # Class: DataCustomer
-
-        
-    # SubClassOf: 
-    #     CoreParticipant,
-    #     externallyDependsOn some ConditionalCommitment,
-    #     externallyDependsOn some OfferorUnconditionalAgreement,
-    #     participatedIn some Offer,
-    #     calls some DataOperation,
-    #     inheresIn some ConditionalClaim,
-    #     inheresIn some OffereeUnconditionalAgreement,
-    #     mediates some EconomicOffering,
-    #     mediates some InvokeDataOperation,
-    #     mediates some MetadataRetrival,
-    #     prop some Teste
-   # Regra de tamanho 3
-    if len(p) == 3 and p[2] == "some":
-        
-        print(f"{p[3]} entrou na regra 1")
-        lista_objectproperty.append(p[3])
-
-
-    # Regra de tamanho 4
-    elif len(p) == 4:
-        print(p[0], p[1], p[2], p[3])
-        print ("TAMANHO: ", len(p))
-        print(f"{p[1]} e {p[3]} entrou na regra 2")
-        lista_dataproperty.append((p[1], p[3]))
-
-    # Regra de tamanho 5
-    elif len(p) == 5 and p[3] == "some":
-        print(f"{p[2]} e {p[5]} entrou na regra 3")
-        lista_dataproperty.append((p[2], p[5]))
-    elif len(p) == 5 and p[2] == "some":
-        print(f"{p[1]} entrou na regra 4")
-        lista_objectproperty.append(p[1])
-
-    # Regra de tamanho 6: Filtrar apenas tipos válidos
-    elif len(p) == 6 and p[2] == "some":
-        namespace_tipo = f"{p[3]}{p[4]}"  # Combina o namespace e o tipo
-        if namespace_tipo in t_TIPO:
-            lista_dataproperty.append((p[1], namespace_tipo))
-        else:
-            lista_objectproperty.append(p[1])
-
-    # Regra de tamanho 7: Filtrar apenas tipos válidos
+    # Regra de tamanho 7
     elif len(p) == 7:
-        namespace_tipo = f"{p[4]}{p[5]}"  # Combina o namespace e o tipo
+        namespace_tipo = f"{p[4]}{p[5]}"  # Combina namespace e tipo
         if namespace_tipo in t_TIPO:
+            print(f"{p[2]} e {namespace_tipo} entraram na regra 7 (tamanho 7)")
             lista_dataproperty.append((p[2], namespace_tipo))
         else:
+            print(f"{p[2]} entrou na regra 8 (tamanho 7)")
             lista_objectproperty.append(p[2])
 
+    else:
+        print("NAO ENTROU EM NENHUMA REGRA")
+
     # Para depuração
+    print("\nAtualização das listas:")
     print("Object Properties:", lista_objectproperty)
     print("Data Properties:", lista_dataproperty)
-   
+
 
     if len(p) > 3 and p[2] == "some":
         classe = p[3]
@@ -397,21 +381,23 @@ def p_continuacao_equivalentto(p):
     """
         continuacao_equivalentto : CLASSE OR declaracao_classe_coberta
                                  | PALAVRA_RESERVADA CLASSE EQUIVALENT_TO CLASSE declaracao_classe_aninhada 
-                                 | CLASSE AND PROPRIEDADE SOME_ONLY casos_parentese
-                                 | CLASSE AND PROPRIEDADE SOME_ONLY CLASSE casos_parentese 
-                                 | CLASSE AND PROPRIEDADE SOME_ONLY classes_or caso_ands
-                                 | CLASSE AND PROPRIEDADE SOME_ONLY classes_or 
-                                 | CLASSE AND ABRE_PARENT PROPRIEDADE SOME_ONLY casos_parentese FECHA_PARENT
-                                 | CLASSE AND ABRE_PARENT PROPRIEDADE SOME_ONLY classes_or FECHA_PARENT 
+                                 
+                                 | CLASSE AND ABRE_PARENT declaracao_existencial casos_parentese FECHA_PARENT
+                                 | CLASSE AND declaracao_existencial casos_parentese 
+                                 | CLASSE AND declaracao_existencial classes_or 
+                                 | CLASSE AND declaracao_existencial classes_or caso_ands
+                                 | CLASSE AND ABRE_PARENT declaracao_existencial classes_or FECHA_PARENT 
+                                 | CLASSE AND ABRE_PARENT declaracao_existencial classes_or FECHA_PARENT caso_ands
                                  | CLASSE AND ABRE_PARENT casos_parentese declaracao_classe_aninhada FECHA_PARENT
                                  | CLASSE AND ABRE_PARENT casos_parentese declaracao_classe_aninhada FECHA_PARENT caso_ands
-                                 | CLASSE AND ABRE_PARENT PROPRIEDADE SOME_ONLY classes_or FECHA_PARENT caso_ands
-                                 | CLASSE AND ABRE_PARENT PROPRIEDADE SOME_ONLY NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL FECHA_PARENT
-                                 | CLASSE AND ABRE_PARENT PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE FECHA_PARENT 
-                                 | CLASSE AND ABRE_PARENT PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE FECHA_PARENT continuacao_equivalentto
+                                 
+                                 | CLASSE AND ABRE_PARENT declaracao_existencial FECHA_PARENT 
+                                 
+                                 | CLASSE AND ABRE_PARENT declaracao_existencial FECHA_PARENT continuacao_equivalentto
 
-                                        
+                                                                     
     """
+
 
 def p_declaracao_classe_aninhada(p):
     """
@@ -432,7 +418,7 @@ def p_caso_ands(p):
     #      and (ssn min 1 xsd:string) 
 def p_casos_parentese(p):
     """
-    casos_parentese : ABRE_PARENT PROPRIEDADE SOME ABRE_PARENT classes_or FECHA_PARENT FECHA_PARENT
+    casos_parentese :  ABRE_PARENT PROPRIEDADE SOME ABRE_PARENT CLASSE classes_or FECHA_PARENT FECHA_PARENT
                       | ABRE_PARENT declaracao_existencial FECHA_PARENT
                       | ABRE_PARENT casos_parentese OR casos_parentese FECHA_PARENT
                       | ABRE_PARENT casos_parentese AND casos_parentese FECHA_PARENT
@@ -468,17 +454,11 @@ def p_classes_or_fechamento(p):
         fila_propriedades.append(p[1])
 
 
-def p_SOME_ONLY(p):
-    """
-    SOME_ONLY : SOME
-              | ONLY
-    """
-
 def p_classes_or(p):
     """
-    classes_or : CLASSE OR classes_or
-               | CLASSE
-               | ABRE_PARENT classes_or FECHA_PARENT
+    classes_or : OR CLASSE classes_or
+               | OR CLASSE
+               
     """    
 
 #!======================== CLASSE ENUMERADA ==========================
@@ -499,7 +479,7 @@ def p_classes_enumeradas(p):
 
 def p_declaracao_classe_coberta(p):
     """
-    declaracao_classe_coberta : classes_or 
+    declaracao_classe_coberta : CLASSE classes_or 
     """
     p[0] = "coberta"
     lista_tuplas.append((p[0], p[0]))

@@ -1,13 +1,28 @@
-Class: InterestingPizza 
- 
-    EquivalentTo:  
-        Pizza 
-         and (hasTopping min 3 PizzaTopping) 
- 
+
 Class: Employee 
  
     SubClassOf: 
         Person 
          and (ssn min 1 xsd:string) 
 
+Class: InterestingPizza 
+ 
+    EquivalentTo:  
+        Pizza 
+         and (hasTopping min 3 PizzaTopping) 
 
+
+Class: DataCustomer
+
+        
+    SubClassOf: 
+        CoreParticipant,
+        externallyDependsOn some ConditionalCommitment,
+        externallyDependsOn some OfferorUnconditionalAgreement,
+        participatedIn some Offer,
+        calls some DataOperation,
+        inheresIn some ConditionalClaim,
+        inheresIn some OffereeUnconditionalAgreement,
+        mediates some EconomicOffering,
+        mediates some InvokeDataOperation,
+        mediates some MetadataRetrival

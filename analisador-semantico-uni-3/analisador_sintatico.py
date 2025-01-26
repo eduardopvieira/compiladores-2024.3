@@ -133,7 +133,6 @@ def p_declaracao_classe(p):
         fila_propriedades.pop(0)
 
 
-
 # def p_declaracao_classe_error(p):
 #     """
 #     declaracao_classe : PALAVRA_CLASS error tipo_classe_primaria
@@ -162,8 +161,6 @@ def p_declaracao_classe_primitiva(p):
     declaracao_classe_primitiva : SUBCLASSOF continuacao_subclassof caso_disjoint_opcional
                                 | SUBCLASSOF continuacao_subclassof
                                 | SUBCLASSOF caso_disjoint_opcional
-                                
-               
     """
 
     # EQUIVALENT_TO continuacao_equivalentto SUBCLASSOF continuacao_subclassof caso_disjoint_opcional
@@ -267,28 +264,18 @@ def p_continuacao_disjoint_opcional(p):
 #     print('chegou no erro continuacao_disjoint_opcional_error')
 #     lista_erros.append("Linha {}: É necessario colocar uma classe.")
 
-    # Class: Employee 
- 
-  
 
 def p_continuacao_subclassof(p):
     """continuacao_subclassof :   CLASSE caso_ands
                                 | declaracao_propriedades
                                 | CLASSE CARACTERE_ESPECIAL continuacao_subclassof
+                                | caso_ands
                                 
-
-                                | ABRE_PARENT rec_propriedade SOME CLASSE FECHA_PARENT
-                                | ABRE_PARENT rec_propriedade SOME CLASSE FECHA_PARENT AND continuacao_subclassof
-                                | ABRE_PARENT rec_propriedade SOME CLASSE FECHA_PARENT CARACTERE_ESPECIAL continuacao_subclassof
-                                
-                                | rec_propriedade COMPARADORES CARDINALIDADE CLASSE
-                                | rec_propriedade COMPARADORES CARDINALIDADE CLASSE CARACTERE_ESPECIAL continuacao_subclassof
+                                | ABRE_PARENT declaracao_existencial FECHA_PARENT
+                                | ABRE_PARENT declaracao_existencial FECHA_PARENT AND continuacao_subclassof
+                                | ABRE_PARENT declaracao_existencial FECHA_PARENT CARACTERE_ESPECIAL continuacao_subclassof
                             
-                                | ABRE_PARENT rec_propriedade COMPARADORES CARDINALIDADE CLASSE FECHA_PARENT CARACTERE_ESPECIAL continuacao_subclassof
-                                | ABRE_PARENT rec_propriedade COMPARADORES CARDINALIDADE CLASSE FECHA_PARENT AND continuacao_subclassof
-                                | ABRE_PARENT rec_propriedade COMPARADORES CARDINALIDADE CLASSE CARACTERE_ESPECIAL FECHA_PARENT continuacao_subclassof
-                                | ABRE_PARENT rec_propriedade COMPARADORES CARDINALIDADE CLASSE FECHA_PARENT
-                   
+           
     """
 
 
@@ -304,28 +291,61 @@ def p_declaracao_existencial(p):
                            | PROPRIEDADE ONLY declaracao_classe_axioma_fechamento
                            
                            | PROPRIEDADE SOME NAMESPACE TIPO
+                           | PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE
 
+                           | PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO
                            | PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial
                            | PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO
 
                            | PROPRIEDADE PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial
                            | PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial
-                           
                            | PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial
     """
-    
+# Class: Employee 
+ 
+#     SubClassOf: 
+#         Person 
+#          and (ssn min 1 xsd:string) 
+
+
+
+
+
+    # Class: DataCustomer
+
+        
+    # SubClassOf: 
+    #     CoreParticipant,
+    #     externallyDependsOn some ConditionalCommitment,
+    #     externallyDependsOn some OfferorUnconditionalAgreement,
+    #     participatedIn some Offer,
+    #     calls some DataOperation,
+    #     inheresIn some ConditionalClaim,
+    #     inheresIn some OffereeUnconditionalAgreement,
+    #     mediates some EconomicOffering,
+    #     mediates some InvokeDataOperation,
+    #     mediates some MetadataRetrival,
+    #     prop some Teste
    # Regra de tamanho 3
     if len(p) == 3 and p[2] == "some":
+        
+        print(f"{p[3]} entrou na regra 1")
         lista_objectproperty.append(p[3])
+
 
     # Regra de tamanho 4
     elif len(p) == 4:
+        print(p[0], p[1], p[2], p[3])
+        print ("TAMANHO: ", len(p))
+        print(f"{p[1]} e {p[3]} entrou na regra 2")
         lista_dataproperty.append((p[1], p[3]))
 
     # Regra de tamanho 5
     elif len(p) == 5 and p[3] == "some":
+        print(f"{p[2]} e {p[5]} entrou na regra 3")
         lista_dataproperty.append((p[2], p[5]))
     elif len(p) == 5 and p[2] == "some":
+        print(f"{p[1]} entrou na regra 4")
         lista_objectproperty.append(p[1])
 
     # Regra de tamanho 6: Filtrar apenas tipos válidos
@@ -348,18 +368,6 @@ def p_declaracao_existencial(p):
     print("Object Properties:", lista_objectproperty)
     print("Data Properties:", lista_dataproperty)
    
-    # def t_NAMESPACE(t):
-    # r'[a-z]{3,4}:'
-    # return t
-
-    # OBJECT PROPERTIES 
-    # if len(p) == 6:
-    #     lista_objectproperty.append(p[2])
-    # else:
-    #     lista_objectproperty.append(p[1])
-
-    # print(lista_objectproperty)
-
 
     if len(p) > 3 and p[2] == "some":
         classe = p[3]
@@ -424,22 +432,19 @@ def p_caso_ands(p):
     #      and (ssn min 1 xsd:string) 
 def p_casos_parentese(p):
     """
-    casos_parentese :   ABRE_PARENT PROPRIEDADE SOME_ONLY CLASSE FECHA_PARENT
-                        | ABRE_PARENT PROPRIEDADE SOME_ONLY ABRE_PARENT classes_or FECHA_PARENT FECHA_PARENT
-                        | ABRE_PARENT PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE FECHA_PARENT
-                        | ABRE_PARENT PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO FECHA_PARENT
-                        | ABRE_PARENT casos_parentese OR casos_parentese FECHA_PARENT
-                        | ABRE_PARENT casos_parentese AND casos_parentese FECHA_PARENT
-                        | ABRE_PARENT casos_parentese FECHA_PARENT
-                        | ABRE_PARENT PROPRIEDADE VALUE CLASSE FECHA_PARENT
+    casos_parentese : ABRE_PARENT PROPRIEDADE SOME ABRE_PARENT classes_or FECHA_PARENT FECHA_PARENT
+                      | ABRE_PARENT declaracao_existencial FECHA_PARENT
+                      | ABRE_PARENT casos_parentese OR casos_parentese FECHA_PARENT
+                      | ABRE_PARENT casos_parentese AND casos_parentese FECHA_PARENT
+                      | ABRE_PARENT casos_parentese FECHA_PARENT
+                      | ABRE_PARENT PROPRIEDADE VALUE CLASSE FECHA_PARENT
     """
 
 def p_casos_sem_parentese(p):
     """
-    casos_sem_parentese :  PROPRIEDADE SOME_ONLY CLASSE 
-                        |  PROPRIEDADE ONLY casos_parentese 
-                        |  PROPRIEDADE PALAVRA_RESERVADA CLASSE 
-                        |  PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE 
+    casos_sem_parentese :  PROPRIEDADE ONLY casos_parentese 
+                        |  PROPRIEDADE PALAVRA_RESERVADA CLASSE
+                        |  declaracao_existencial
     """
 
 #!===================== CLASSE AXIOMA DE FECHAMENTO ========================
@@ -462,12 +467,6 @@ def p_classes_or_fechamento(p):
         print(f"{p[1]} ADICIONADO A FILA DE PROPRIEDADES NO INICIO MASSA")
         fila_propriedades.append(p[1])
 
-
-def p_rec_propriedade(p):
-    """
-    rec_propriedade : PROPRIEDADE
-                    | PROPRIEDADE PROPRIEDADE
-    """
 
 def p_SOME_ONLY(p):
     """

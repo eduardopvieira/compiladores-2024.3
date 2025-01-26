@@ -1,5 +1,6 @@
 import ply.lex as lex
 import ply.yacc as yacc
+import re
 
 from tabela_de_simbolos import TabelaSimbolos
 
@@ -17,6 +18,9 @@ lista_tuplas = []
 lista_classes = []
 lista_erros = []
 lista_classes_fechamento = []
+
+lista_dataproperty = []
+lista_objectproperty = []
 
 tabela_simbolos = TabelaSimbolos()
 
@@ -268,18 +272,14 @@ def p_continuacao_disjoint_opcional(p):
   
 
 def p_continuacao_subclassof(p):
-    """continuacao_subclassof :  rec_propriedade SOME NAMESPACE TIPO
-                                | rec_propriedade SOME NAMESPACE TIPO CARACTERE_ESPECIAL continuacao_subclassof
-                                | CLASSE caso_ands
-                                | CLASSE
-                                
+    """continuacao_subclassof :   CLASSE caso_ands
                                 | declaracao_propriedades
                                 | CLASSE CARACTERE_ESPECIAL continuacao_subclassof
                                 
 
-                                | ABRE_PARENT rec_propriedade SOME_ONLY CLASSE FECHA_PARENT
-                                | ABRE_PARENT rec_propriedade SOME_ONLY CLASSE FECHA_PARENT AND continuacao_subclassof
-                                | ABRE_PARENT rec_propriedade SOME_ONLY CLASSE FECHA_PARENT CARACTERE_ESPECIAL continuacao_subclassof
+                                | ABRE_PARENT rec_propriedade SOME CLASSE FECHA_PARENT
+                                | ABRE_PARENT rec_propriedade SOME CLASSE FECHA_PARENT AND continuacao_subclassof
+                                | ABRE_PARENT rec_propriedade SOME CLASSE FECHA_PARENT CARACTERE_ESPECIAL continuacao_subclassof
                                 
                                 | rec_propriedade COMPARADORES CARDINALIDADE CLASSE
                                 | rec_propriedade COMPARADORES CARDINALIDADE CLASSE CARACTERE_ESPECIAL continuacao_subclassof
@@ -290,14 +290,6 @@ def p_continuacao_subclassof(p):
                                 | ABRE_PARENT rec_propriedade COMPARADORES CARDINALIDADE CLASSE FECHA_PARENT
                    
     """
-    # | rec_propriedade SOME CLASSE CARACTERE_ESPECIAL continuacao_subclassof
-    # | rec_propriedade SOME CLASSE
-
-    # Class: Employee 
- 
-    # SubClassOf: 
-    #     Person 
-    #      and (ssn min 1 xsd:string) 
 
 
 def p_declaracao_propriedades(p):
@@ -307,11 +299,68 @@ def p_declaracao_propriedades(p):
     """
        
 def p_declaracao_existencial(p):
-    """
-    declaracao_existencial : rec_propriedade SOME CLASSE
-                           | rec_propriedade SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial
+    """""""""
+    declaracao_existencial : PROPRIEDADE SOME CLASSE
                            | PROPRIEDADE ONLY declaracao_classe_axioma_fechamento
+                           
+                           | PROPRIEDADE SOME NAMESPACE TIPO
+
+                           | PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial
+                           | PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO
+
+                           | PROPRIEDADE PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial
+                           | PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial
+                           
+                           | PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial
     """
+    
+   # Regra de tamanho 3
+    if len(p) == 3 and p[2] == "some":
+        lista_objectproperty.append(p[3])
+
+    # Regra de tamanho 4
+    elif len(p) == 4:
+        lista_dataproperty.append((p[1], p[3]))
+
+    # Regra de tamanho 5
+    elif len(p) == 5 and p[3] == "some":
+        lista_dataproperty.append((p[2], p[5]))
+    elif len(p) == 5 and p[2] == "some":
+        lista_objectproperty.append(p[1])
+
+    # Regra de tamanho 6: Filtrar apenas tipos válidos
+    elif len(p) == 6 and p[2] == "some":
+        namespace_tipo = f"{p[3]}{p[4]}"  # Combina o namespace e o tipo
+        if namespace_tipo in t_TIPO:
+            lista_dataproperty.append((p[1], namespace_tipo))
+        else:
+            lista_objectproperty.append(p[1])
+
+    # Regra de tamanho 7: Filtrar apenas tipos válidos
+    elif len(p) == 7:
+        namespace_tipo = f"{p[4]}{p[5]}"  # Combina o namespace e o tipo
+        if namespace_tipo in t_TIPO:
+            lista_dataproperty.append((p[2], namespace_tipo))
+        else:
+            lista_objectproperty.append(p[2])
+
+    # Para depuração
+    print("Object Properties:", lista_objectproperty)
+    print("Data Properties:", lista_dataproperty)
+   
+    # def t_NAMESPACE(t):
+    # r'[a-z]{3,4}:'
+    # return t
+
+    # OBJECT PROPERTIES 
+    # if len(p) == 6:
+    #     lista_objectproperty.append(p[2])
+    # else:
+    #     lista_objectproperty.append(p[1])
+
+    # print(lista_objectproperty)
+
+
     if len(p) > 3 and p[2] == "some":
         classe = p[3]
         if classe in fila_propriedades:
@@ -319,7 +368,6 @@ def p_declaracao_existencial(p):
         else:
             print(f"Erro: a classe {classe} não estava declarada para fechamento.")
 
- 
 
 #!==================== CLASSE DEFINIDA ==================
 

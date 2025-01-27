@@ -90,3 +90,15 @@ Erro léxico: token não reconhecido perto de 'ClasseB
 Erro léxico: token não reconhecido perto de 'B
 
        '
+Erro léxico: token não reconhecido perto de 'CAVALO'
+Erro léxico: token não reconhecido perto de 'AVALO'
+Erro léxico: token não reconhecido perto de 'VALO'
+Erro léxico: token não reconhecido perto de 'ALO'
+Erro léxico: token não reconhecido perto de 'LO'
+Erro léxico: token não reconhecido perto de 'O'
+Erro léxico: token não reconhecido perto de 'CAVALO'
+Erro léxico: token não reconhecido perto de 'AVALO'
+Erro léxico: token não reconhecido perto de 'VALO'
+Erro léxico: token não reconhecido perto de 'ALO'
+Erro léxico: token não reconhecido perto de 'LO'
+Erro léxico: token não reconhecido perto de 'O'

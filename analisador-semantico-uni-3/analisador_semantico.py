@@ -122,26 +122,6 @@ def p_programa(p):
     """programa : declaracao_classe programa
                 | declaracao_classe"""
     
-    
-    
-    # for chave, valor in zip(lista_classes, lista_tuplas):
-    #     print("")
-    #     print("======================================================")
-    #     print(f"{chave}")
-    #     print("======================================================")
-    #     if valor is not None:
-    #         if valor[0] is None and valor[1] is not None:
-    #             print(f"Tipos: {valor[1]}")
-    #         elif valor[0] is not None:
-    #             print(f"Tipos: {valor[0]}")
-    #         else:
-    #             print("Tipos: Valor não especificado")
-    #     else:
-    #         print("Tipos: Valor não especificado")
-        
-    # print("Object Properties:", lista_objectproperty)
-    # print("Data Properties:", lista_dataproperty)
-
 def p_programa_error(p):
     """
     programa : error programa
@@ -153,13 +133,15 @@ def p_declaracao_classe(p):
     """
     declaracao_classe : PALAVRA_CLASS CLASSE tipo_classe_primaria
     """
-
-    lista_classes.append(p[2])
     
-    for classe, valor in zip(lista_classes, lista_tuplas):
-        print("============================")
-        print(f"\nClasse lida: {classe}")
-        print("============================")
+    lista_classes.append(p[2])
+   
+    print("============================")
+    print(f"\nClasse lida: {p[2]}")
+    print("============================")   
+    
+    for valor in lista_tuplas:
+       
         if valor is not None:
             if valor[0] is None and valor[1] is not None:
                 print(f"Tipos: {valor[1]}")
@@ -169,20 +151,23 @@ def p_declaracao_classe(p):
                 print("Tipos: Valor não especificado")
         else:
             print("Tipos: Valor não especificado")
-        print("Object Properties:")
-        for op in lista_objectproperty:
-            print(f" - {op}")
-        print("Data Properties:")
-        for dp in lista_dataproperty:
-            print(f" - {dp}")
-
-    lista_objectproperty.clear()
+    print(" ")
+    print("Object Properties:")
+    for op in lista_objectproperty:
+        print(f" - {op}")
+    print(" ")
+    print("Data Properties:")
+    for dp in lista_dataproperty:
+        print(f" - {dp}")
+    print("ERROS: ")
+    
     lista_dataproperty.clear()
-
+    lista_objectproperty.clear()
 
     while fila_propriedades:
         fila_propriedades.pop(0)
 
+    lista_tuplas.clear()
 
 
 # def p_declaracao_classe_error(p):
@@ -204,7 +189,6 @@ def p_tipo_classe_primaria(p):
                          | declaracao_classe_primitiva
     """
 
-
 #!===================== CLASSE PRIMITIVA ================
 
 def p_declaracao_classe_primitiva(p):
@@ -215,7 +199,6 @@ def p_declaracao_classe_primitiva(p):
     """
 
     lista_tuplas.append((p[2], "Classe primitiva "))
-   
 
 #!===================== CASO INDIVIDUALS OPCIONAL ============================
 
@@ -232,7 +215,6 @@ def p_caso_individuals_opcional_error(p):
     """
     if p:
         lista_erros.append("Linha {}: Coloque um individuo valido.")
-
 
 
 def p_continuacao_individuals(p):
@@ -288,7 +270,6 @@ def p_continuacao_subclassof(p):
                                 | ABRE_PARENT declaracao_existencial FECHA_PARENT CARACTERE_ESPECIAL continuacao_subclassof                     
     """
 
-
 def p_declaracao_propriedades(p):
    """
     declaracao_propriedades : declaracao_existencial declaracao_propriedades
@@ -326,7 +307,6 @@ def p_declaracao_existencial(p):
                            
 
     """
-
 
     if len(p) == 4:
         lista_objectproperty.append((p[1]))
@@ -389,10 +369,6 @@ def p_declaracao_classe_definida(p):
     """
 
     lista_tuplas.append((p[2], "Classe definida"))
-
-
-
-
 
 def p_continuacao_equivalentto(p):
     """
@@ -506,8 +482,7 @@ def executar_analisador(codigo):
     print("\n### Análise Sintática ###")
     result = parser.parse(codigo, lexer=lexer)
 
-    print("AQUI É A LISTA DE TUPLA LA embaixo linha 509")
-    print (lista_tuplas)
+   
     i = 0
     while i < len(lista_tuplas):
         chave, valor = lista_tuplas[i]
@@ -519,13 +494,11 @@ def executar_analisador(codigo):
                     lista_tuplas[i + 1] = (proxima_chave, proximo_valor + ', ' + (valor or ""))
             del lista_tuplas[i]
         else:
-            i += 1
+            i += 1  
 
-        
-
-    print("ERROS: ")
-    for erro in lista_erros:
-        print(erro)
+    # print("ERROS: ")
+    # for erro in lista_erros:
+    #     print(erro)
 
 #!============================= MAIN ===================================
 def main():

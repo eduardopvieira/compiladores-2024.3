@@ -153,31 +153,36 @@ def p_declaracao_classe(p):
     """
     declaracao_classe : PALAVRA_CLASS CLASSE tipo_classe_primaria
     """
-# Exibe as propriedades da classe anterior
-    print(f"\nClasse lida: {p[2]}")
-    print("Object Properties:")
-    for op in lista_objectproperty:
-        print(f" - {op}")
-    print("Data Properties:")
-    for dp in lista_dataproperty:
-        print(f" - {dp}")
 
-    # Limpa as listas para a próxima classe
+    lista_classes.append(p[2])
+    
+    for classe, valor in zip(lista_classes, lista_tuplas):
+        print("============================")
+        print(f"\nClasse lida: {classe}")
+        print("============================")
+        if valor is not None:
+            if valor[0] is None and valor[1] is not None:
+                print(f"Tipos: {valor[1]}")
+            elif valor[0] is not None:
+                print(f"Tipos: {valor[0]}")
+            else:
+                print("Tipos: Valor não especificado")
+        else:
+            print("Tipos: Valor não especificado")
+        print("Object Properties:")
+        for op in lista_objectproperty:
+            print(f" - {op}")
+        print("Data Properties:")
+        for dp in lista_dataproperty:
+            print(f" - {dp}")
+
     lista_objectproperty.clear()
     lista_dataproperty.clear()
 
-    # Adiciona a nova classe à lista de classes
-    lista_classes.append("Classe: " + p[2])
 
-    # Limpa a fila de propriedades para a próxima classe
     while fila_propriedades:
         fila_propriedades.pop(0)
 
-
-    # lista_classes.append("Classe: " + p[2])
-
-    # while fila_propriedades:
-    #     fila_propriedades.pop(0)
 
 
 # def p_declaracao_classe_error(p):
@@ -198,7 +203,6 @@ def p_tipo_classe_primaria(p):
     tipo_classe_primaria : declaracao_classe_definida
                          | declaracao_classe_primitiva
     """
-    #p[0] = [p[1]]
 
 
 #!===================== CLASSE PRIMITIVA ================
@@ -297,93 +301,72 @@ def p_declaracao_existencial(p):
                            | PROPRIEDADE ONLY declaracao_classe_axioma_fechamento
                            
                            | PROPRIEDADE SOME NAMESPACE TIPO
-                           | PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
-                           | PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial
-                           | PROPRIEDADE SOME NAMESPACE TIPO ABRE_COLCHETE OPERADORES
-
                            | PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE
+                           
                            | PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO
-                       
+                           | PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO
+                           | PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial
+
+                           | PROPRIEDADE SOME NAMESPACE TIPO ABRE_COLCHETE OPERADORES
+                           | PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial
+                           | PROPRIEDADE PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial
+
+
+                           | PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial
+                           
+                           
+                           | PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
+                           | PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL
+
+                                                      
+                           | PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial
+
+                           
                            | PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
                            
-                           | PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial
-                           | PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO
 
-                           | PROPRIEDADE PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial
-                           | PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial
-                           | PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL
-                           | PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial
     """
-    # Class: ClasseBe
 
-    # SubClassOf: 
-    #     CoreParticipant,
-    #     prop some xsd:integer[>= 10],
-    #     externallyDependsOn some ConditionalCommitment,
-    #     externallyDependsOn some OfferorUnconditionalAgreement
-    #     externallyDependsOn only (ConditionalCommitment or OfferorUnconditionalAgreement)
 
-  # Regra de tamanho 4
     if len(p) == 4:
-        # print(f"{p[1]} e {p[3]} entraram na regra 2 (tamanho 4)")
         lista_objectproperty.append((p[1]))
 
-    # Regra de tamanho 5 (trata cardinalidade e tipo)
     elif len(p) == 5:
-        if p[2] in ["min", "max", "exactly"]:  # Cardinalidade com tipo
-            # print(f"{p[1]} e {p[4]} entraram na regra 3.5 (tamanho 5)")
+        if p[2] in ["min", "max", "exactly"]:
             if p[4] in t_TIPO:
                 lista_dataproperty.append((p[1], p[4]))
             else:
                 lista_objectproperty.append(p[1])
         elif p[3] == "some":
-            # print(f"{p[2]} e {p[4]} entraram na regra 3 (tamanho 5)")
             lista_dataproperty.append((p[2], p[4]))
 
-    # Regra de tamanho 6
     elif len(p) == 6:
-        if p[2] in ["min", "max", "exactly"] and p[5] in t_TIPO:  # Cardinalidade com tipo
-            # print(f"{p[1]} e {p[5]} entraram na regra 6 (tamanho 6)")
+        if p[2] in ["min", "max", "exactly"] and p[5] in t_TIPO:
             lista_dataproperty.append((p[1], p[5]))
         elif p[2] == "some":
-            namespace_tipo = f"{p[3]}{p[4]}"  # Combina namespace e tipo
+            namespace_tipo = f"{p[3]}{p[4]}"
             if namespace_tipo in t_TIPO:
-                # print(f"{p[1]} e {namespace_tipo} entraram na regra 5 (tamanho 6)")
                 lista_dataproperty.append((p[1], namespace_tipo))
             else:
-                # print(f"{p[1]} entrou na regra 6 (tamanho 6)")
                 lista_objectproperty.append(p[1])
 
-    # Regra de tamanho 7
     elif len(p) == 7:
-        namespace_tipo = f"{p[4]}{p[5]}"  # Combina namespace e tipo
+        namespace_tipo = f"{p[4]}{p[5]}" 
         if namespace_tipo in t_TIPO:
-            # print(f"{p[2]} e {namespace_tipo} entraram na regra 7 (tamanho 7)")
             lista_dataproperty.append((p[2], namespace_tipo))
         else:
-            # print(f"{p[2]} entrou na regra 8 (tamanho 7)")
             lista_objectproperty.append(p[2])
+
+    elif len(p) >= 8:
+        if p[4] in ["integer", "int", "long", "nonNegativeInteger", "positiveInteger"]:
+            lista_dataproperty.append((p[1], p[4]))
+        elif len(p) == 10 and p[5] in ["integer", "int", "long", "nonNegativeInteger", "positiveInteger"]:
+            lista_dataproperty.append((p[1], p[5]))
 
         
 
     else:
         print("NAO ENTROU EM NENHUMA REGRA")
-
-    # print("Object Properties:", lista_objectproperty)
-    # print("Data Properties:", lista_dataproperty)
-
-    if len(p) > 3 and p[2] == "some":
-        classe = p[3]
-        if classe in fila_propriedades:
-            fila_propriedades.remove(classe)
-        # else:
-        #     print(f"Erro: a classe {classe} não estava declarada para fechamento.")
-
-    # print("Object Properties:", lista_objectproperty)
-    # print("Data Properties:", lista_dataproperty)
-    print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-    print ("LISTA DATA PROPERTIES BRABO")
-    print(lista_dataproperty)
 
 
     if len(p) > 3 and p[2] == "some":
@@ -474,7 +457,6 @@ def p_classes_or_fechamento(p):
     """   
 
     if p[1]:
-        print(f"{p[1]} ADICIONADO A FILA DE PROPRIEDADES NO INICIO MASSA")
         fila_propriedades.append(p[1])
 
 
@@ -524,9 +506,8 @@ def executar_analisador(codigo):
     print("\n### Análise Sintática ###")
     result = parser.parse(codigo, lexer=lexer)
 
-    # Depurar conteúdo inicial de lista_tuplas
-    print("Conteúdo inicial de lista_tuplas:", lista_tuplas)
-
+    print("AQUI É A LISTA DE TUPLA LA embaixo linha 509")
+    print (lista_tuplas)
     i = 0
     while i < len(lista_tuplas):
         chave, valor = lista_tuplas[i]
@@ -540,23 +521,6 @@ def executar_analisador(codigo):
         else:
             i += 1
 
-    # Depurar conteúdo final de lista_tuplas após manipulação
-    # print("Conteúdo final de lista_tuplas:", lista_tuplas)
-
-    # for chave, valor in zip(lista_classes, lista_tuplas):
-    #     print("")
-    #     print("======================================================")
-    #     print(f"{chave}")
-    #     print("======================================================")
-    #     if valor is not None:
-    #         if valor[0] is None and valor[1] is not None:
-    #             print(f"Tipos: {valor[1]}")
-    #         elif valor[0] is not None:
-    #             print(f"Tipos: {valor[0]}")
-    #         else:
-    #             print("Tipos: Valor não especificado")
-    #     else:
-    #         print("Tipos: Valor não especificado")
         
 
     print("ERROS: ")

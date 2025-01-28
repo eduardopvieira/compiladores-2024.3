@@ -153,12 +153,10 @@ def p_declaracao_classe(p):
     for error in lista_erros:
         print(error)
 
-    print(f" FILA CLASSE PROP {fila_classe_de_propriedades}")
-    print(f" FILA CLASSE ENC {fila_classes_encontradas}")
-    # Loop para verificar cada elemento em lista_de_classes
+    #print(f" FILA CLASSE PROP {fila_classe_de_propriedades}")
+    #print(f" FILA CLASSE ENC {fila_classes_encontradas}")
     for item in fila_classes_encontradas[:]:
         if item in fila_classe_de_propriedades:
-            # Remover o item de ambas as listas
             fila_classes_encontradas.remove(item)
             fila_classe_de_propriedades.remove(item)
 
@@ -198,12 +196,12 @@ def p_tipo_classe_primaria(p):
 
 def p_declaracao_classe_primitiva(p):
     """
-    declaracao_classe_primitiva : SUBCLASSOF continuacao_subclassof caso_disjoint_opcional
-                                | SUBCLASSOF continuacao_subclassof
-                                | SUBCLASSOF caso_disjoint_opcional
+    declaracao_classe_primitiva : SUBCLASSOF continuacao_subclassof
     """
 
     lista_tuplas.append((p[2], "Classe primitiva "))
+
+
 
 #!===================== CASO INDIVIDUALS OPCIONAL ============================
 
@@ -229,27 +227,8 @@ def p_caso_disjoint_opcional_error(p):
                            | DISJOINTCLASSES continuacao_disjoint_opcional INDIVIDUALS error
                            | DISJOINTWITH continuacao_disjoint_opcional INDIVIDUALS error
     """
-    if len(p) == 5:
-        if p[3] == 'error':
-            print("Palavra Individuals Necessaria")
-        elif p[4] == 'error':
-            print("Nome de individuos necessário")
-    else:
-        print("Erro de sintaxe na regra caso_disjoint_opcional")
-
-# def p_caso_disjoint_opcional_error(p):
-#     """
-#     caso_disjoint_opcional : DISJOINTCLASSES continuacao_disjoint_opcional error continuacao_individuals
-#                            | DISJOINTWITH continuacao_disjoint_opcional error continuacao_individuals
-#                            | error continuacao_disjoint_opcional INDIVIDUALS continuacao_individuals
-#     """
 
 
-    # print('chegou no erro caso_disjoint_opcional_error')
-    # lista_erros.append("Linha {}: FALTA UMA PALAVRA INDIVIDUALS.")
-    
-    
-    
 
 def p_continuacao_disjoint_opcional(p):
     """
@@ -257,26 +236,22 @@ def p_continuacao_disjoint_opcional(p):
                                   | CLASSE 
     """
 
-# def p_continuacao_disjoint_opcional_error(p):
-#     """
-#     continuacao_disjoint_opcional : error
-#                                   | CLASSE CARACTERE_ESPECIAL error
-#     """
-#     print('chegou no erro continuacao_disjoint_opcional_error')
-#     lista_erros.append("Linha {}: É necessario colocar uma classe.")
 
 
 def p_continuacao_subclassof(p):
     """continuacao_subclassof :   CLASSE caso_ands
                                 | CLASSE
                                 | declaracao_propriedades
+                                | declaracao_propriedades caso_disjoint_opcional
                                 | CLASSE CARACTERE_ESPECIAL continuacao_subclassof
                                 | caso_ands
                                 | ABRE_PARENT declaracao_propriedades FECHA_PARENT
                                 | ABRE_PARENT declaracao_propriedades FECHA_PARENT AND continuacao_subclassof
-                                | ABRE_PARENT declaracao_propriedades FECHA_PARENT CARACTERE_ESPECIAL continuacao_subclassof         
+                                | ABRE_PARENT declaracao_propriedades FECHA_PARENT CARACTERE_ESPECIAL continuacao_subclassof
+                                | CLASSE caso_disjoint_opcional
+                                | caso_disjoint_opcional
     """
-    # tinha declaracao existencial
+
 
 def p_declaracao_propriedades(p):
    """
@@ -459,7 +434,6 @@ def p_classes_or_fechamento(p):
     else:
         p[0] = f"{p[1]}|{p[3]}" 
 
-    #fila_classe_de_propriedades.append(p[1])
 
 
 def p_classes_or(p):
@@ -513,15 +487,11 @@ def executar_analisador(codigo):
         if chave == valor:
             if i + 1 < len(lista_tuplas):
                 proxima_chave, proximo_valor = lista_tuplas[i + 1]
-                if proximo_valor is not None:  # Verificação para evitar erro
+                if proximo_valor is not None:
                     lista_tuplas[i + 1] = (proxima_chave, proximo_valor + ', ' + (valor or ""))
             del lista_tuplas[i]
         else:
             i += 1  
-
-    # print("ERROS: ")
-    # for erro in lista_erros:
-    #     print(erro)
 
 #!============================= MAIN ===================================
 def main():

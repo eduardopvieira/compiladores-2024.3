@@ -5,9 +5,9 @@ Grammar
 Rule 0     S' -> programa
 Rule 1     programa -> declaracao_classe programa
 Rule 2     programa -> declaracao_classe
-Rule 3     programa -> error programa
-Rule 4     programa -> error
-Rule 5     declaracao_classe -> PALAVRA_CLASS CLASSE tipo_classe_primaria
+Rule 3     declaracao_classe -> PALAVRA_CLASS CLASSE tipo_classe_primaria
+Rule 4     declaracao_classe -> PALAVRA_CLASS error tipo_classe_primaria
+Rule 5     declaracao_classe -> error CLASSE tipo_classe_primaria
 Rule 6     tipo_classe_primaria -> declaracao_classe_definida
 Rule 7     tipo_classe_primaria -> declaracao_classe_primitiva
 Rule 8     declaracao_classe_primitiva -> SUBCLASSOF continuacao_subclassof caso_disjoint_opcional
@@ -96,7 +96,7 @@ ABRE_PARENT          : 25 26 27 52 56 57 58 59 60 61 67 67 68 69 70 71 72 76
 AND                  : 26 52 53 54 55 56 57 58 59 60 61 63 64 65 66 70
 CARACTERE_ESPECIAL   : 12 14 16 20 23 27 36 38 39 40 42 42 43 82
 CARDINALIDADE        : 33 34 41 42 43 44 44
-CLASSE               : 5 19 20 21 23 30 33 36 39 50 51 51 52 53 54 55 56 57 58 59 60 61 67 72 74 77 78 79 80 82 83 84
+CLASSE               : 3 5 19 20 21 23 30 33 36 39 50 51 51 52 53 54 55 56 57 58 59 60 61 67 72 74 77 78 79 80 82 83 84
 COMPARADORES         : 33 34 44
 DISJOINTCLASSES      : 17
 DISJOINTWITH         : 18
@@ -110,7 +110,7 @@ NOME_INDIVIDUO       : 11 12 15 16
 ONLY                 : 31 73
 OPERADORES           : 37 41 42 43 44
 OR                   : 50 69 77 79 80
-PALAVRA_CLASS        : 5
+PALAVRA_CLASS        : 3 4
 PALAVRA_RESERVADA    : 51 74
 PROPRIEDADE          : 30 31 32 33 34 35 35 36 37 38 39 39 40 40 41 42 43 44 67 72 73 74
 SOME                 : 30 32 35 36 37 38 39 40 41 42 43 67
@@ -118,7 +118,7 @@ SUBCLASSOF           : 8 9 10 48
 TIPO                 : 32 34 35 37 38 40 42
 TIPO_NUMERICO        : 41 43 44
 VALUE                : 72
-error                : 3 4 13 14
+error                : 4 5 13 14
 
 Nonterminals, with rules where they appear
 
@@ -143,8 +143,8 @@ declaracao_classe_enumerada : 47
 declaracao_classe_primitiva : 7
 declaracao_existencial : 25 26 27 28 29 36 38 39 40 43 52 53 54 55 56 57 60 61 68 75
 declaracao_propriedades : 22 28
-programa             : 1 3 0
-tipo_classe_primaria : 5
+programa             : 1 0
+tipo_classe_primaria : 3 4 5
 
 Parsing method: LALR
 
@@ -153,12 +153,12 @@ state 0
     (0) S' -> . programa
     (1) programa -> . declaracao_classe programa
     (2) programa -> . declaracao_classe
-    (3) programa -> . error programa
-    (4) programa -> . error
-    (5) declaracao_classe -> . PALAVRA_CLASS CLASSE tipo_classe_primaria
+    (3) declaracao_classe -> . PALAVRA_CLASS CLASSE tipo_classe_primaria
+    (4) declaracao_classe -> . PALAVRA_CLASS error tipo_classe_primaria
+    (5) declaracao_classe -> . error CLASSE tipo_classe_primaria
 
-    error           shift and go to state 3
-    PALAVRA_CLASS   shift and go to state 4
+    PALAVRA_CLASS   shift and go to state 3
+    error           shift and go to state 4
 
     programa                       shift and go to state 1
     declaracao_classe              shift and go to state 2
@@ -175,39 +175,31 @@ state 2
     (2) programa -> declaracao_classe .
     (1) programa -> . declaracao_classe programa
     (2) programa -> . declaracao_classe
-    (3) programa -> . error programa
-    (4) programa -> . error
-    (5) declaracao_classe -> . PALAVRA_CLASS CLASSE tipo_classe_primaria
+    (3) declaracao_classe -> . PALAVRA_CLASS CLASSE tipo_classe_primaria
+    (4) declaracao_classe -> . PALAVRA_CLASS error tipo_classe_primaria
+    (5) declaracao_classe -> . error CLASSE tipo_classe_primaria
 
     $end            reduce using rule 2 (programa -> declaracao_classe .)
-    error           shift and go to state 3
-    PALAVRA_CLASS   shift and go to state 4
+    PALAVRA_CLASS   shift and go to state 3
+    error           shift and go to state 4
 
     declaracao_classe              shift and go to state 2
     programa                       shift and go to state 5
 
 state 3
 
-    (3) programa -> error . programa
-    (4) programa -> error .
-    (1) programa -> . declaracao_classe programa
-    (2) programa -> . declaracao_classe
-    (3) programa -> . error programa
-    (4) programa -> . error
-    (5) declaracao_classe -> . PALAVRA_CLASS CLASSE tipo_classe_primaria
+    (3) declaracao_classe -> PALAVRA_CLASS . CLASSE tipo_classe_primaria
+    (4) declaracao_classe -> PALAVRA_CLASS . error tipo_classe_primaria
 
-    $end            reduce using rule 4 (programa -> error .)
-    error           shift and go to state 3
-    PALAVRA_CLASS   shift and go to state 4
+    CLASSE          shift and go to state 6
+    error           shift and go to state 7
 
-    programa                       shift and go to state 6
-    declaracao_classe              shift and go to state 2
 
 state 4
 
-    (5) declaracao_classe -> PALAVRA_CLASS . CLASSE tipo_classe_primaria
+    (5) declaracao_classe -> error . CLASSE tipo_classe_primaria
 
-    CLASSE          shift and go to state 7
+    CLASSE          shift and go to state 8
 
 
 state 5
@@ -219,14 +211,7 @@ state 5
 
 state 6
 
-    (3) programa -> error programa .
-
-    $end            reduce using rule 3 (programa -> error programa .)
-
-
-state 7
-
-    (5) declaracao_classe -> PALAVRA_CLASS CLASSE . tipo_classe_primaria
+    (3) declaracao_classe -> PALAVRA_CLASS CLASSE . tipo_classe_primaria
     (6) tipo_classe_primaria -> . declaracao_classe_definida
     (7) tipo_classe_primaria -> . declaracao_classe_primitiva
     (45) declaracao_classe_definida -> . EQUIVALENT_TO continuacao_equivalentto caso_individuals_opcional
@@ -266,22 +251,136 @@ state 7
     (43) declaracao_existencial -> . PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial
     (44) declaracao_existencial -> . PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
 
-    EQUIVALENT_TO   shift and go to state 12
-    SUBCLASSOF      shift and go to state 13
-    CLASSE          shift and go to state 8
-    ABRE_PARENT     shift and go to state 17
-    AND             shift and go to state 19
-    PROPRIEDADE     shift and go to state 20
+    EQUIVALENT_TO   shift and go to state 13
+    SUBCLASSOF      shift and go to state 14
+    CLASSE          shift and go to state 9
+    ABRE_PARENT     shift and go to state 18
+    AND             shift and go to state 20
+    PROPRIEDADE     shift and go to state 21
 
-    tipo_classe_primaria           shift and go to state 9
-    declaracao_classe_definida     shift and go to state 10
-    declaracao_classe_primitiva    shift and go to state 11
-    continuacao_subclassof         shift and go to state 14
-    caso_ands                      shift and go to state 15
-    declaracao_propriedades        shift and go to state 16
-    declaracao_existencial         shift and go to state 18
+    tipo_classe_primaria           shift and go to state 10
+    declaracao_classe_definida     shift and go to state 11
+    declaracao_classe_primitiva    shift and go to state 12
+    continuacao_subclassof         shift and go to state 15
+    caso_ands                      shift and go to state 16
+    declaracao_propriedades        shift and go to state 17
+    declaracao_existencial         shift and go to state 19
+
+state 7
+
+    (4) declaracao_classe -> PALAVRA_CLASS error . tipo_classe_primaria
+    (6) tipo_classe_primaria -> . declaracao_classe_definida
+    (7) tipo_classe_primaria -> . declaracao_classe_primitiva
+    (45) declaracao_classe_definida -> . EQUIVALENT_TO continuacao_equivalentto caso_individuals_opcional
+    (46) declaracao_classe_definida -> . EQUIVALENT_TO continuacao_equivalentto
+    (47) declaracao_classe_definida -> . EQUIVALENT_TO declaracao_classe_enumerada
+    (48) declaracao_classe_definida -> . EQUIVALENT_TO continuacao_equivalentto SUBCLASSOF continuacao_subclassof
+    (49) declaracao_classe_definida -> . continuacao_subclassof EQUIVALENT_TO continuacao_equivalentto
+    (8) declaracao_classe_primitiva -> . SUBCLASSOF continuacao_subclassof caso_disjoint_opcional
+    (9) declaracao_classe_primitiva -> . SUBCLASSOF continuacao_subclassof
+    (10) declaracao_classe_primitiva -> . SUBCLASSOF caso_disjoint_opcional
+    (21) continuacao_subclassof -> . CLASSE caso_ands
+    (22) continuacao_subclassof -> . declaracao_propriedades
+    (23) continuacao_subclassof -> . CLASSE CARACTERE_ESPECIAL continuacao_subclassof
+    (24) continuacao_subclassof -> . caso_ands
+    (25) continuacao_subclassof -> . ABRE_PARENT declaracao_existencial FECHA_PARENT
+    (26) continuacao_subclassof -> . ABRE_PARENT declaracao_existencial FECHA_PARENT AND continuacao_subclassof
+    (27) continuacao_subclassof -> . ABRE_PARENT declaracao_existencial FECHA_PARENT CARACTERE_ESPECIAL continuacao_subclassof
+    (28) declaracao_propriedades -> . declaracao_existencial declaracao_propriedades
+    (29) declaracao_propriedades -> . declaracao_existencial
+    (63) caso_ands -> . AND casos_parentese caso_ands
+    (64) caso_ands -> . AND casos_sem_parentese caso_ands
+    (65) caso_ands -> . AND casos_parentese
+    (66) caso_ands -> . AND casos_sem_parentese
+    (30) declaracao_existencial -> . PROPRIEDADE SOME CLASSE
+    (31) declaracao_existencial -> . PROPRIEDADE ONLY declaracao_classe_axioma_fechamento
+    (32) declaracao_existencial -> . PROPRIEDADE SOME NAMESPACE TIPO
+    (33) declaracao_existencial -> . PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE
+    (34) declaracao_existencial -> . PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO
+    (35) declaracao_existencial -> . PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO
+    (36) declaracao_existencial -> . PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial
+    (37) declaracao_existencial -> . PROPRIEDADE SOME NAMESPACE TIPO ABRE_COLCHETE OPERADORES
+    (38) declaracao_existencial -> . PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial
+    (39) declaracao_existencial -> . PROPRIEDADE PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial
+    (40) declaracao_existencial -> . PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial
+    (41) declaracao_existencial -> . PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
+    (42) declaracao_existencial -> . PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL
+    (43) declaracao_existencial -> . PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial
+    (44) declaracao_existencial -> . PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
+
+    EQUIVALENT_TO   shift and go to state 13
+    SUBCLASSOF      shift and go to state 14
+    CLASSE          shift and go to state 9
+    ABRE_PARENT     shift and go to state 18
+    AND             shift and go to state 20
+    PROPRIEDADE     shift and go to state 21
+
+    tipo_classe_primaria           shift and go to state 22
+    declaracao_classe_definida     shift and go to state 11
+    declaracao_classe_primitiva    shift and go to state 12
+    continuacao_subclassof         shift and go to state 15
+    caso_ands                      shift and go to state 16
+    declaracao_propriedades        shift and go to state 17
+    declaracao_existencial         shift and go to state 19
 
 state 8
+
+    (5) declaracao_classe -> error CLASSE . tipo_classe_primaria
+    (6) tipo_classe_primaria -> . declaracao_classe_definida
+    (7) tipo_classe_primaria -> . declaracao_classe_primitiva
+    (45) declaracao_classe_definida -> . EQUIVALENT_TO continuacao_equivalentto caso_individuals_opcional
+    (46) declaracao_classe_definida -> . EQUIVALENT_TO continuacao_equivalentto
+    (47) declaracao_classe_definida -> . EQUIVALENT_TO declaracao_classe_enumerada
+    (48) declaracao_classe_definida -> . EQUIVALENT_TO continuacao_equivalentto SUBCLASSOF continuacao_subclassof
+    (49) declaracao_classe_definida -> . continuacao_subclassof EQUIVALENT_TO continuacao_equivalentto
+    (8) declaracao_classe_primitiva -> . SUBCLASSOF continuacao_subclassof caso_disjoint_opcional
+    (9) declaracao_classe_primitiva -> . SUBCLASSOF continuacao_subclassof
+    (10) declaracao_classe_primitiva -> . SUBCLASSOF caso_disjoint_opcional
+    (21) continuacao_subclassof -> . CLASSE caso_ands
+    (22) continuacao_subclassof -> . declaracao_propriedades
+    (23) continuacao_subclassof -> . CLASSE CARACTERE_ESPECIAL continuacao_subclassof
+    (24) continuacao_subclassof -> . caso_ands
+    (25) continuacao_subclassof -> . ABRE_PARENT declaracao_existencial FECHA_PARENT
+    (26) continuacao_subclassof -> . ABRE_PARENT declaracao_existencial FECHA_PARENT AND continuacao_subclassof
+    (27) continuacao_subclassof -> . ABRE_PARENT declaracao_existencial FECHA_PARENT CARACTERE_ESPECIAL continuacao_subclassof
+    (28) declaracao_propriedades -> . declaracao_existencial declaracao_propriedades
+    (29) declaracao_propriedades -> . declaracao_existencial
+    (63) caso_ands -> . AND casos_parentese caso_ands
+    (64) caso_ands -> . AND casos_sem_parentese caso_ands
+    (65) caso_ands -> . AND casos_parentese
+    (66) caso_ands -> . AND casos_sem_parentese
+    (30) declaracao_existencial -> . PROPRIEDADE SOME CLASSE
+    (31) declaracao_existencial -> . PROPRIEDADE ONLY declaracao_classe_axioma_fechamento
+    (32) declaracao_existencial -> . PROPRIEDADE SOME NAMESPACE TIPO
+    (33) declaracao_existencial -> . PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE
+    (34) declaracao_existencial -> . PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO
+    (35) declaracao_existencial -> . PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO
+    (36) declaracao_existencial -> . PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial
+    (37) declaracao_existencial -> . PROPRIEDADE SOME NAMESPACE TIPO ABRE_COLCHETE OPERADORES
+    (38) declaracao_existencial -> . PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial
+    (39) declaracao_existencial -> . PROPRIEDADE PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial
+    (40) declaracao_existencial -> . PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial
+    (41) declaracao_existencial -> . PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
+    (42) declaracao_existencial -> . PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL
+    (43) declaracao_existencial -> . PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial
+    (44) declaracao_existencial -> . PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
+
+    EQUIVALENT_TO   shift and go to state 13
+    SUBCLASSOF      shift and go to state 14
+    CLASSE          shift and go to state 9
+    ABRE_PARENT     shift and go to state 18
+    AND             shift and go to state 20
+    PROPRIEDADE     shift and go to state 21
+
+    tipo_classe_primaria           shift and go to state 23
+    declaracao_classe_definida     shift and go to state 11
+    declaracao_classe_primitiva    shift and go to state 12
+    continuacao_subclassof         shift and go to state 15
+    caso_ands                      shift and go to state 16
+    declaracao_propriedades        shift and go to state 17
+    declaracao_existencial         shift and go to state 19
+
+state 9
 
     (21) continuacao_subclassof -> CLASSE . caso_ands
     (23) continuacao_subclassof -> CLASSE . CARACTERE_ESPECIAL continuacao_subclassof
@@ -290,39 +389,39 @@ state 8
     (65) caso_ands -> . AND casos_parentese
     (66) caso_ands -> . AND casos_sem_parentese
 
-    CARACTERE_ESPECIAL shift and go to state 22
-    AND             shift and go to state 19
+    CARACTERE_ESPECIAL shift and go to state 25
+    AND             shift and go to state 20
 
-    caso_ands                      shift and go to state 21
-
-state 9
-
-    (5) declaracao_classe -> PALAVRA_CLASS CLASSE tipo_classe_primaria .
-
-    error           reduce using rule 5 (declaracao_classe -> PALAVRA_CLASS CLASSE tipo_classe_primaria .)
-    PALAVRA_CLASS   reduce using rule 5 (declaracao_classe -> PALAVRA_CLASS CLASSE tipo_classe_primaria .)
-    $end            reduce using rule 5 (declaracao_classe -> PALAVRA_CLASS CLASSE tipo_classe_primaria .)
-
+    caso_ands                      shift and go to state 24
 
 state 10
 
-    (6) tipo_classe_primaria -> declaracao_classe_definida .
+    (3) declaracao_classe -> PALAVRA_CLASS CLASSE tipo_classe_primaria .
 
-    error           reduce using rule 6 (tipo_classe_primaria -> declaracao_classe_definida .)
-    PALAVRA_CLASS   reduce using rule 6 (tipo_classe_primaria -> declaracao_classe_definida .)
-    $end            reduce using rule 6 (tipo_classe_primaria -> declaracao_classe_definida .)
+    PALAVRA_CLASS   reduce using rule 3 (declaracao_classe -> PALAVRA_CLASS CLASSE tipo_classe_primaria .)
+    error           reduce using rule 3 (declaracao_classe -> PALAVRA_CLASS CLASSE tipo_classe_primaria .)
+    $end            reduce using rule 3 (declaracao_classe -> PALAVRA_CLASS CLASSE tipo_classe_primaria .)
 
 
 state 11
 
-    (7) tipo_classe_primaria -> declaracao_classe_primitiva .
+    (6) tipo_classe_primaria -> declaracao_classe_definida .
 
-    error           reduce using rule 7 (tipo_classe_primaria -> declaracao_classe_primitiva .)
-    PALAVRA_CLASS   reduce using rule 7 (tipo_classe_primaria -> declaracao_classe_primitiva .)
-    $end            reduce using rule 7 (tipo_classe_primaria -> declaracao_classe_primitiva .)
+    PALAVRA_CLASS   reduce using rule 6 (tipo_classe_primaria -> declaracao_classe_definida .)
+    error           reduce using rule 6 (tipo_classe_primaria -> declaracao_classe_definida .)
+    $end            reduce using rule 6 (tipo_classe_primaria -> declaracao_classe_definida .)
 
 
 state 12
+
+    (7) tipo_classe_primaria -> declaracao_classe_primitiva .
+
+    PALAVRA_CLASS   reduce using rule 7 (tipo_classe_primaria -> declaracao_classe_primitiva .)
+    error           reduce using rule 7 (tipo_classe_primaria -> declaracao_classe_primitiva .)
+    $end            reduce using rule 7 (tipo_classe_primaria -> declaracao_classe_primitiva .)
+
+
+state 13
 
     (45) declaracao_classe_definida -> EQUIVALENT_TO . continuacao_equivalentto caso_individuals_opcional
     (46) declaracao_classe_definida -> EQUIVALENT_TO . continuacao_equivalentto
@@ -342,14 +441,14 @@ state 12
     (61) continuacao_equivalentto -> . CLASSE AND ABRE_PARENT declaracao_existencial FECHA_PARENT continuacao_equivalentto
     (81) declaracao_classe_enumerada -> . ABRE_CHAVE classes_enumeradas FECHA_CHAVE
 
-    CLASSE          shift and go to state 25
-    PALAVRA_RESERVADA shift and go to state 26
-    ABRE_CHAVE      shift and go to state 27
+    CLASSE          shift and go to state 28
+    PALAVRA_RESERVADA shift and go to state 29
+    ABRE_CHAVE      shift and go to state 30
 
-    continuacao_equivalentto       shift and go to state 23
-    declaracao_classe_enumerada    shift and go to state 24
+    continuacao_equivalentto       shift and go to state 26
+    declaracao_classe_enumerada    shift and go to state 27
 
-state 13
+state 14
 
     (8) declaracao_classe_primitiva -> SUBCLASSOF . continuacao_subclassof caso_disjoint_opcional
     (9) declaracao_classe_primitiva -> SUBCLASSOF . continuacao_subclassof
@@ -385,51 +484,51 @@ state 13
     (43) declaracao_existencial -> . PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial
     (44) declaracao_existencial -> . PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
 
-    CLASSE          shift and go to state 8
-    ABRE_PARENT     shift and go to state 17
-    DISJOINTCLASSES shift and go to state 30
-    DISJOINTWITH    shift and go to state 31
-    AND             shift and go to state 19
-    PROPRIEDADE     shift and go to state 20
+    CLASSE          shift and go to state 9
+    ABRE_PARENT     shift and go to state 18
+    DISJOINTCLASSES shift and go to state 33
+    DISJOINTWITH    shift and go to state 34
+    AND             shift and go to state 20
+    PROPRIEDADE     shift and go to state 21
 
-    continuacao_subclassof         shift and go to state 28
-    caso_disjoint_opcional         shift and go to state 29
-    caso_ands                      shift and go to state 15
-    declaracao_propriedades        shift and go to state 16
-    declaracao_existencial         shift and go to state 18
+    continuacao_subclassof         shift and go to state 31
+    caso_disjoint_opcional         shift and go to state 32
+    caso_ands                      shift and go to state 16
+    declaracao_propriedades        shift and go to state 17
+    declaracao_existencial         shift and go to state 19
 
-state 14
+state 15
 
     (49) declaracao_classe_definida -> continuacao_subclassof . EQUIVALENT_TO continuacao_equivalentto
 
-    EQUIVALENT_TO   shift and go to state 32
+    EQUIVALENT_TO   shift and go to state 35
 
 
-state 15
+state 16
 
     (24) continuacao_subclassof -> caso_ands .
 
     EQUIVALENT_TO   reduce using rule 24 (continuacao_subclassof -> caso_ands .)
     DISJOINTCLASSES reduce using rule 24 (continuacao_subclassof -> caso_ands .)
     DISJOINTWITH    reduce using rule 24 (continuacao_subclassof -> caso_ands .)
-    error           reduce using rule 24 (continuacao_subclassof -> caso_ands .)
     PALAVRA_CLASS   reduce using rule 24 (continuacao_subclassof -> caso_ands .)
+    error           reduce using rule 24 (continuacao_subclassof -> caso_ands .)
     $end            reduce using rule 24 (continuacao_subclassof -> caso_ands .)
 
 
-state 16
+state 17
 
     (22) continuacao_subclassof -> declaracao_propriedades .
 
     EQUIVALENT_TO   reduce using rule 22 (continuacao_subclassof -> declaracao_propriedades .)
     DISJOINTCLASSES reduce using rule 22 (continuacao_subclassof -> declaracao_propriedades .)
     DISJOINTWITH    reduce using rule 22 (continuacao_subclassof -> declaracao_propriedades .)
-    error           reduce using rule 22 (continuacao_subclassof -> declaracao_propriedades .)
     PALAVRA_CLASS   reduce using rule 22 (continuacao_subclassof -> declaracao_propriedades .)
+    error           reduce using rule 22 (continuacao_subclassof -> declaracao_propriedades .)
     $end            reduce using rule 22 (continuacao_subclassof -> declaracao_propriedades .)
 
 
-state 17
+state 18
 
     (25) continuacao_subclassof -> ABRE_PARENT . declaracao_existencial FECHA_PARENT
     (26) continuacao_subclassof -> ABRE_PARENT . declaracao_existencial FECHA_PARENT AND continuacao_subclassof
@@ -450,11 +549,11 @@ state 17
     (43) declaracao_existencial -> . PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial
     (44) declaracao_existencial -> . PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
 
-    PROPRIEDADE     shift and go to state 20
+    PROPRIEDADE     shift and go to state 21
 
-    declaracao_existencial         shift and go to state 33
+    declaracao_existencial         shift and go to state 36
 
-state 18
+state 19
 
     (28) declaracao_propriedades -> declaracao_existencial . declaracao_propriedades
     (29) declaracao_propriedades -> declaracao_existencial .
@@ -479,15 +578,15 @@ state 18
     EQUIVALENT_TO   reduce using rule 29 (declaracao_propriedades -> declaracao_existencial .)
     DISJOINTCLASSES reduce using rule 29 (declaracao_propriedades -> declaracao_existencial .)
     DISJOINTWITH    reduce using rule 29 (declaracao_propriedades -> declaracao_existencial .)
-    error           reduce using rule 29 (declaracao_propriedades -> declaracao_existencial .)
     PALAVRA_CLASS   reduce using rule 29 (declaracao_propriedades -> declaracao_existencial .)
+    error           reduce using rule 29 (declaracao_propriedades -> declaracao_existencial .)
     $end            reduce using rule 29 (declaracao_propriedades -> declaracao_existencial .)
-    PROPRIEDADE     shift and go to state 20
+    PROPRIEDADE     shift and go to state 21
 
-    declaracao_existencial         shift and go to state 18
-    declaracao_propriedades        shift and go to state 34
+    declaracao_existencial         shift and go to state 19
+    declaracao_propriedades        shift and go to state 37
 
-state 19
+state 20
 
     (63) caso_ands -> AND . casos_parentese caso_ands
     (64) caso_ands -> AND . casos_sem_parentese caso_ands
@@ -518,14 +617,14 @@ state 19
     (43) declaracao_existencial -> . PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial
     (44) declaracao_existencial -> . PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
 
-    ABRE_PARENT     shift and go to state 37
-    PROPRIEDADE     shift and go to state 38
+    ABRE_PARENT     shift and go to state 40
+    PROPRIEDADE     shift and go to state 41
 
-    casos_parentese                shift and go to state 35
-    casos_sem_parentese            shift and go to state 36
-    declaracao_existencial         shift and go to state 39
+    casos_parentese                shift and go to state 38
+    casos_sem_parentese            shift and go to state 39
+    declaracao_existencial         shift and go to state 42
 
-state 20
+state 21
 
     (30) declaracao_existencial -> PROPRIEDADE . SOME CLASSE
     (31) declaracao_existencial -> PROPRIEDADE . ONLY declaracao_classe_axioma_fechamento
@@ -543,25 +642,43 @@ state 20
     (43) declaracao_existencial -> PROPRIEDADE . SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial
     (44) declaracao_existencial -> PROPRIEDADE . COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
 
-    SOME            shift and go to state 41
-    ONLY            shift and go to state 42
-    COMPARADORES    shift and go to state 43
-    PROPRIEDADE     shift and go to state 40
+    SOME            shift and go to state 44
+    ONLY            shift and go to state 45
+    COMPARADORES    shift and go to state 46
+    PROPRIEDADE     shift and go to state 43
 
 
-state 21
+state 22
+
+    (4) declaracao_classe -> PALAVRA_CLASS error tipo_classe_primaria .
+
+    PALAVRA_CLASS   reduce using rule 4 (declaracao_classe -> PALAVRA_CLASS error tipo_classe_primaria .)
+    error           reduce using rule 4 (declaracao_classe -> PALAVRA_CLASS error tipo_classe_primaria .)
+    $end            reduce using rule 4 (declaracao_classe -> PALAVRA_CLASS error tipo_classe_primaria .)
+
+
+state 23
+
+    (5) declaracao_classe -> error CLASSE tipo_classe_primaria .
+
+    PALAVRA_CLASS   reduce using rule 5 (declaracao_classe -> error CLASSE tipo_classe_primaria .)
+    error           reduce using rule 5 (declaracao_classe -> error CLASSE tipo_classe_primaria .)
+    $end            reduce using rule 5 (declaracao_classe -> error CLASSE tipo_classe_primaria .)
+
+
+state 24
 
     (21) continuacao_subclassof -> CLASSE caso_ands .
 
     EQUIVALENT_TO   reduce using rule 21 (continuacao_subclassof -> CLASSE caso_ands .)
     DISJOINTCLASSES reduce using rule 21 (continuacao_subclassof -> CLASSE caso_ands .)
     DISJOINTWITH    reduce using rule 21 (continuacao_subclassof -> CLASSE caso_ands .)
-    error           reduce using rule 21 (continuacao_subclassof -> CLASSE caso_ands .)
     PALAVRA_CLASS   reduce using rule 21 (continuacao_subclassof -> CLASSE caso_ands .)
+    error           reduce using rule 21 (continuacao_subclassof -> CLASSE caso_ands .)
     $end            reduce using rule 21 (continuacao_subclassof -> CLASSE caso_ands .)
 
 
-state 22
+state 25
 
     (23) continuacao_subclassof -> CLASSE CARACTERE_ESPECIAL . continuacao_subclassof
     (21) continuacao_subclassof -> . CLASSE caso_ands
@@ -593,17 +710,17 @@ state 22
     (43) declaracao_existencial -> . PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial
     (44) declaracao_existencial -> . PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
 
-    CLASSE          shift and go to state 8
-    ABRE_PARENT     shift and go to state 17
-    AND             shift and go to state 19
-    PROPRIEDADE     shift and go to state 20
+    CLASSE          shift and go to state 9
+    ABRE_PARENT     shift and go to state 18
+    AND             shift and go to state 20
+    PROPRIEDADE     shift and go to state 21
 
-    continuacao_subclassof         shift and go to state 44
-    caso_ands                      shift and go to state 15
-    declaracao_propriedades        shift and go to state 16
-    declaracao_existencial         shift and go to state 18
+    continuacao_subclassof         shift and go to state 47
+    caso_ands                      shift and go to state 16
+    declaracao_propriedades        shift and go to state 17
+    declaracao_existencial         shift and go to state 19
 
-state 23
+state 26
 
     (45) declaracao_classe_definida -> EQUIVALENT_TO continuacao_equivalentto . caso_individuals_opcional
     (46) declaracao_classe_definida -> EQUIVALENT_TO continuacao_equivalentto .
@@ -613,24 +730,24 @@ state 23
     (13) caso_individuals_opcional -> . INDIVIDUALS error
     (14) caso_individuals_opcional -> . INDIVIDUALS error CARACTERE_ESPECIAL continuacao_individuals
 
-    error           reduce using rule 46 (declaracao_classe_definida -> EQUIVALENT_TO continuacao_equivalentto .)
     PALAVRA_CLASS   reduce using rule 46 (declaracao_classe_definida -> EQUIVALENT_TO continuacao_equivalentto .)
+    error           reduce using rule 46 (declaracao_classe_definida -> EQUIVALENT_TO continuacao_equivalentto .)
     $end            reduce using rule 46 (declaracao_classe_definida -> EQUIVALENT_TO continuacao_equivalentto .)
-    SUBCLASSOF      shift and go to state 46
-    INDIVIDUALS     shift and go to state 47
+    SUBCLASSOF      shift and go to state 49
+    INDIVIDUALS     shift and go to state 50
 
-    caso_individuals_opcional      shift and go to state 45
+    caso_individuals_opcional      shift and go to state 48
 
-state 24
+state 27
 
     (47) declaracao_classe_definida -> EQUIVALENT_TO declaracao_classe_enumerada .
 
-    error           reduce using rule 47 (declaracao_classe_definida -> EQUIVALENT_TO declaracao_classe_enumerada .)
     PALAVRA_CLASS   reduce using rule 47 (declaracao_classe_definida -> EQUIVALENT_TO declaracao_classe_enumerada .)
+    error           reduce using rule 47 (declaracao_classe_definida -> EQUIVALENT_TO declaracao_classe_enumerada .)
     $end            reduce using rule 47 (declaracao_classe_definida -> EQUIVALENT_TO declaracao_classe_enumerada .)
 
 
-state 25
+state 28
 
     (50) continuacao_equivalentto -> CLASSE . OR declaracao_classe_coberta
     (52) continuacao_equivalentto -> CLASSE . AND ABRE_PARENT declaracao_existencial casos_parentese FECHA_PARENT
@@ -644,72 +761,72 @@ state 25
     (60) continuacao_equivalentto -> CLASSE . AND ABRE_PARENT declaracao_existencial FECHA_PARENT
     (61) continuacao_equivalentto -> CLASSE . AND ABRE_PARENT declaracao_existencial FECHA_PARENT continuacao_equivalentto
 
-    OR              shift and go to state 48
-    AND             shift and go to state 49
+    OR              shift and go to state 51
+    AND             shift and go to state 52
 
 
-state 26
+state 29
 
     (51) continuacao_equivalentto -> PALAVRA_RESERVADA . CLASSE EQUIVALENT_TO CLASSE declaracao_classe_aninhada
 
-    CLASSE          shift and go to state 50
+    CLASSE          shift and go to state 53
 
 
-state 27
+state 30
 
     (81) declaracao_classe_enumerada -> ABRE_CHAVE . classes_enumeradas FECHA_CHAVE
     (82) classes_enumeradas -> . CLASSE CARACTERE_ESPECIAL classes_enumeradas
     (83) classes_enumeradas -> . CLASSE
 
-    CLASSE          shift and go to state 52
+    CLASSE          shift and go to state 55
 
-    classes_enumeradas             shift and go to state 51
+    classes_enumeradas             shift and go to state 54
 
-state 28
+state 31
 
     (8) declaracao_classe_primitiva -> SUBCLASSOF continuacao_subclassof . caso_disjoint_opcional
     (9) declaracao_classe_primitiva -> SUBCLASSOF continuacao_subclassof .
     (17) caso_disjoint_opcional -> . DISJOINTCLASSES continuacao_disjoint_opcional caso_individuals_opcional
     (18) caso_disjoint_opcional -> . DISJOINTWITH continuacao_disjoint_opcional caso_individuals_opcional
 
-    error           reduce using rule 9 (declaracao_classe_primitiva -> SUBCLASSOF continuacao_subclassof .)
     PALAVRA_CLASS   reduce using rule 9 (declaracao_classe_primitiva -> SUBCLASSOF continuacao_subclassof .)
+    error           reduce using rule 9 (declaracao_classe_primitiva -> SUBCLASSOF continuacao_subclassof .)
     $end            reduce using rule 9 (declaracao_classe_primitiva -> SUBCLASSOF continuacao_subclassof .)
-    DISJOINTCLASSES shift and go to state 30
-    DISJOINTWITH    shift and go to state 31
+    DISJOINTCLASSES shift and go to state 33
+    DISJOINTWITH    shift and go to state 34
 
-    caso_disjoint_opcional         shift and go to state 53
+    caso_disjoint_opcional         shift and go to state 56
 
-state 29
+state 32
 
     (10) declaracao_classe_primitiva -> SUBCLASSOF caso_disjoint_opcional .
 
-    error           reduce using rule 10 (declaracao_classe_primitiva -> SUBCLASSOF caso_disjoint_opcional .)
     PALAVRA_CLASS   reduce using rule 10 (declaracao_classe_primitiva -> SUBCLASSOF caso_disjoint_opcional .)
+    error           reduce using rule 10 (declaracao_classe_primitiva -> SUBCLASSOF caso_disjoint_opcional .)
     $end            reduce using rule 10 (declaracao_classe_primitiva -> SUBCLASSOF caso_disjoint_opcional .)
 
 
-state 30
+state 33
 
     (17) caso_disjoint_opcional -> DISJOINTCLASSES . continuacao_disjoint_opcional caso_individuals_opcional
     (19) continuacao_disjoint_opcional -> . CLASSE
     (20) continuacao_disjoint_opcional -> . CLASSE CARACTERE_ESPECIAL continuacao_disjoint_opcional
 
-    CLASSE          shift and go to state 55
+    CLASSE          shift and go to state 58
 
-    continuacao_disjoint_opcional  shift and go to state 54
+    continuacao_disjoint_opcional  shift and go to state 57
 
-state 31
+state 34
 
     (18) caso_disjoint_opcional -> DISJOINTWITH . continuacao_disjoint_opcional caso_individuals_opcional
     (19) continuacao_disjoint_opcional -> . CLASSE
     (20) continuacao_disjoint_opcional -> . CLASSE CARACTERE_ESPECIAL continuacao_disjoint_opcional
 
-    CLASSE          shift and go to state 55
+    CLASSE          shift and go to state 58
 
-    continuacao_disjoint_opcional  shift and go to state 56
+    continuacao_disjoint_opcional  shift and go to state 59
 
-state 32
+state 35
 
     (49) declaracao_classe_definida -> continuacao_subclassof EQUIVALENT_TO . continuacao_equivalentto
     (50) continuacao_equivalentto -> . CLASSE OR declaracao_classe_coberta
@@ -725,33 +842,33 @@ state 32
     (60) continuacao_equivalentto -> . CLASSE AND ABRE_PARENT declaracao_existencial FECHA_PARENT
     (61) continuacao_equivalentto -> . CLASSE AND ABRE_PARENT declaracao_existencial FECHA_PARENT continuacao_equivalentto
 
-    CLASSE          shift and go to state 25
-    PALAVRA_RESERVADA shift and go to state 26
+    CLASSE          shift and go to state 28
+    PALAVRA_RESERVADA shift and go to state 29
 
-    continuacao_equivalentto       shift and go to state 57
+    continuacao_equivalentto       shift and go to state 60
 
-state 33
+state 36
 
     (25) continuacao_subclassof -> ABRE_PARENT declaracao_existencial . FECHA_PARENT
     (26) continuacao_subclassof -> ABRE_PARENT declaracao_existencial . FECHA_PARENT AND continuacao_subclassof
     (27) continuacao_subclassof -> ABRE_PARENT declaracao_existencial . FECHA_PARENT CARACTERE_ESPECIAL continuacao_subclassof
 
-    FECHA_PARENT    shift and go to state 58
+    FECHA_PARENT    shift and go to state 61
 
 
-state 34
+state 37
 
     (28) declaracao_propriedades -> declaracao_existencial declaracao_propriedades .
 
     EQUIVALENT_TO   reduce using rule 28 (declaracao_propriedades -> declaracao_existencial declaracao_propriedades .)
     DISJOINTCLASSES reduce using rule 28 (declaracao_propriedades -> declaracao_existencial declaracao_propriedades .)
     DISJOINTWITH    reduce using rule 28 (declaracao_propriedades -> declaracao_existencial declaracao_propriedades .)
-    error           reduce using rule 28 (declaracao_propriedades -> declaracao_existencial declaracao_propriedades .)
     PALAVRA_CLASS   reduce using rule 28 (declaracao_propriedades -> declaracao_existencial declaracao_propriedades .)
+    error           reduce using rule 28 (declaracao_propriedades -> declaracao_existencial declaracao_propriedades .)
     $end            reduce using rule 28 (declaracao_propriedades -> declaracao_existencial declaracao_propriedades .)
 
 
-state 35
+state 38
 
     (63) caso_ands -> AND casos_parentese . caso_ands
     (65) caso_ands -> AND casos_parentese .
@@ -763,17 +880,17 @@ state 35
     EQUIVALENT_TO   reduce using rule 65 (caso_ands -> AND casos_parentese .)
     DISJOINTCLASSES reduce using rule 65 (caso_ands -> AND casos_parentese .)
     DISJOINTWITH    reduce using rule 65 (caso_ands -> AND casos_parentese .)
-    error           reduce using rule 65 (caso_ands -> AND casos_parentese .)
     PALAVRA_CLASS   reduce using rule 65 (caso_ands -> AND casos_parentese .)
+    error           reduce using rule 65 (caso_ands -> AND casos_parentese .)
     $end            reduce using rule 65 (caso_ands -> AND casos_parentese .)
     FECHA_PARENT    reduce using rule 65 (caso_ands -> AND casos_parentese .)
     SUBCLASSOF      reduce using rule 65 (caso_ands -> AND casos_parentese .)
     INDIVIDUALS     reduce using rule 65 (caso_ands -> AND casos_parentese .)
-    AND             shift and go to state 19
+    AND             shift and go to state 20
 
-    caso_ands                      shift and go to state 59
+    caso_ands                      shift and go to state 62
 
-state 36
+state 39
 
     (64) caso_ands -> AND casos_sem_parentese . caso_ands
     (66) caso_ands -> AND casos_sem_parentese .
@@ -785,17 +902,17 @@ state 36
     EQUIVALENT_TO   reduce using rule 66 (caso_ands -> AND casos_sem_parentese .)
     DISJOINTCLASSES reduce using rule 66 (caso_ands -> AND casos_sem_parentese .)
     DISJOINTWITH    reduce using rule 66 (caso_ands -> AND casos_sem_parentese .)
-    error           reduce using rule 66 (caso_ands -> AND casos_sem_parentese .)
     PALAVRA_CLASS   reduce using rule 66 (caso_ands -> AND casos_sem_parentese .)
+    error           reduce using rule 66 (caso_ands -> AND casos_sem_parentese .)
     $end            reduce using rule 66 (caso_ands -> AND casos_sem_parentese .)
     FECHA_PARENT    reduce using rule 66 (caso_ands -> AND casos_sem_parentese .)
     SUBCLASSOF      reduce using rule 66 (caso_ands -> AND casos_sem_parentese .)
     INDIVIDUALS     reduce using rule 66 (caso_ands -> AND casos_sem_parentese .)
-    AND             shift and go to state 19
+    AND             shift and go to state 20
 
-    caso_ands                      shift and go to state 60
+    caso_ands                      shift and go to state 63
 
-state 37
+state 40
 
     (67) casos_parentese -> ABRE_PARENT . PROPRIEDADE SOME ABRE_PARENT CLASSE classes_or FECHA_PARENT FECHA_PARENT
     (68) casos_parentese -> ABRE_PARENT . declaracao_existencial FECHA_PARENT
@@ -825,13 +942,13 @@ state 37
     (71) casos_parentese -> . ABRE_PARENT casos_parentese FECHA_PARENT
     (72) casos_parentese -> . ABRE_PARENT PROPRIEDADE VALUE CLASSE FECHA_PARENT
 
-    PROPRIEDADE     shift and go to state 61
-    ABRE_PARENT     shift and go to state 37
+    PROPRIEDADE     shift and go to state 64
+    ABRE_PARENT     shift and go to state 40
 
-    declaracao_existencial         shift and go to state 62
-    casos_parentese                shift and go to state 63
+    declaracao_existencial         shift and go to state 65
+    casos_parentese                shift and go to state 66
 
-state 38
+state 41
 
     (73) casos_sem_parentese -> PROPRIEDADE . ONLY casos_parentese
     (74) casos_sem_parentese -> PROPRIEDADE . PALAVRA_RESERVADA CLASSE
@@ -851,14 +968,14 @@ state 38
     (43) declaracao_existencial -> PROPRIEDADE . SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial
     (44) declaracao_existencial -> PROPRIEDADE . COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
 
-    ONLY            shift and go to state 64
-    PALAVRA_RESERVADA shift and go to state 65
-    SOME            shift and go to state 41
-    COMPARADORES    shift and go to state 43
-    PROPRIEDADE     shift and go to state 40
+    ONLY            shift and go to state 67
+    PALAVRA_RESERVADA shift and go to state 68
+    SOME            shift and go to state 44
+    COMPARADORES    shift and go to state 46
+    PROPRIEDADE     shift and go to state 43
 
 
-state 39
+state 42
 
     (75) casos_sem_parentese -> declaracao_existencial .
 
@@ -866,24 +983,24 @@ state 39
     EQUIVALENT_TO   reduce using rule 75 (casos_sem_parentese -> declaracao_existencial .)
     DISJOINTCLASSES reduce using rule 75 (casos_sem_parentese -> declaracao_existencial .)
     DISJOINTWITH    reduce using rule 75 (casos_sem_parentese -> declaracao_existencial .)
-    error           reduce using rule 75 (casos_sem_parentese -> declaracao_existencial .)
     PALAVRA_CLASS   reduce using rule 75 (casos_sem_parentese -> declaracao_existencial .)
+    error           reduce using rule 75 (casos_sem_parentese -> declaracao_existencial .)
     $end            reduce using rule 75 (casos_sem_parentese -> declaracao_existencial .)
     FECHA_PARENT    reduce using rule 75 (casos_sem_parentese -> declaracao_existencial .)
     SUBCLASSOF      reduce using rule 75 (casos_sem_parentese -> declaracao_existencial .)
     INDIVIDUALS     reduce using rule 75 (casos_sem_parentese -> declaracao_existencial .)
 
 
-state 40
+state 43
 
     (35) declaracao_existencial -> PROPRIEDADE PROPRIEDADE . SOME NAMESPACE TIPO
     (39) declaracao_existencial -> PROPRIEDADE PROPRIEDADE . SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial
     (40) declaracao_existencial -> PROPRIEDADE PROPRIEDADE . SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial
 
-    SOME            shift and go to state 66
+    SOME            shift and go to state 69
 
 
-state 41
+state 44
 
     (30) declaracao_existencial -> PROPRIEDADE SOME . CLASSE
     (32) declaracao_existencial -> PROPRIEDADE SOME . NAMESPACE TIPO
@@ -894,50 +1011,50 @@ state 41
     (42) declaracao_existencial -> PROPRIEDADE SOME . NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL
     (43) declaracao_existencial -> PROPRIEDADE SOME . NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial
 
-    CLASSE          shift and go to state 67
-    NAMESPACE       shift and go to state 68
+    CLASSE          shift and go to state 70
+    NAMESPACE       shift and go to state 71
 
 
-state 42
+state 45
 
     (31) declaracao_existencial -> PROPRIEDADE ONLY . declaracao_classe_axioma_fechamento
     (76) declaracao_classe_axioma_fechamento -> . ABRE_PARENT classes_or_fechamento FECHA_PARENT
 
-    ABRE_PARENT     shift and go to state 70
+    ABRE_PARENT     shift and go to state 73
 
-    declaracao_classe_axioma_fechamento shift and go to state 69
+    declaracao_classe_axioma_fechamento shift and go to state 72
 
-state 43
+state 46
 
     (33) declaracao_existencial -> PROPRIEDADE COMPARADORES . CARDINALIDADE CLASSE
     (34) declaracao_existencial -> PROPRIEDADE COMPARADORES . CARDINALIDADE NAMESPACE TIPO
     (44) declaracao_existencial -> PROPRIEDADE COMPARADORES . CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
 
-    CARDINALIDADE   shift and go to state 71
+    CARDINALIDADE   shift and go to state 74
 
 
-state 44
+state 47
 
     (23) continuacao_subclassof -> CLASSE CARACTERE_ESPECIAL continuacao_subclassof .
 
     EQUIVALENT_TO   reduce using rule 23 (continuacao_subclassof -> CLASSE CARACTERE_ESPECIAL continuacao_subclassof .)
     DISJOINTCLASSES reduce using rule 23 (continuacao_subclassof -> CLASSE CARACTERE_ESPECIAL continuacao_subclassof .)
     DISJOINTWITH    reduce using rule 23 (continuacao_subclassof -> CLASSE CARACTERE_ESPECIAL continuacao_subclassof .)
-    error           reduce using rule 23 (continuacao_subclassof -> CLASSE CARACTERE_ESPECIAL continuacao_subclassof .)
     PALAVRA_CLASS   reduce using rule 23 (continuacao_subclassof -> CLASSE CARACTERE_ESPECIAL continuacao_subclassof .)
+    error           reduce using rule 23 (continuacao_subclassof -> CLASSE CARACTERE_ESPECIAL continuacao_subclassof .)
     $end            reduce using rule 23 (continuacao_subclassof -> CLASSE CARACTERE_ESPECIAL continuacao_subclassof .)
 
 
-state 45
+state 48
 
     (45) declaracao_classe_definida -> EQUIVALENT_TO continuacao_equivalentto caso_individuals_opcional .
 
-    error           reduce using rule 45 (declaracao_classe_definida -> EQUIVALENT_TO continuacao_equivalentto caso_individuals_opcional .)
     PALAVRA_CLASS   reduce using rule 45 (declaracao_classe_definida -> EQUIVALENT_TO continuacao_equivalentto caso_individuals_opcional .)
+    error           reduce using rule 45 (declaracao_classe_definida -> EQUIVALENT_TO continuacao_equivalentto caso_individuals_opcional .)
     $end            reduce using rule 45 (declaracao_classe_definida -> EQUIVALENT_TO continuacao_equivalentto caso_individuals_opcional .)
 
 
-state 46
+state 49
 
     (48) declaracao_classe_definida -> EQUIVALENT_TO continuacao_equivalentto SUBCLASSOF . continuacao_subclassof
     (21) continuacao_subclassof -> . CLASSE caso_ands
@@ -969,37 +1086,37 @@ state 46
     (43) declaracao_existencial -> . PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial
     (44) declaracao_existencial -> . PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
 
-    CLASSE          shift and go to state 8
-    ABRE_PARENT     shift and go to state 17
-    AND             shift and go to state 19
-    PROPRIEDADE     shift and go to state 20
+    CLASSE          shift and go to state 9
+    ABRE_PARENT     shift and go to state 18
+    AND             shift and go to state 20
+    PROPRIEDADE     shift and go to state 21
 
-    continuacao_subclassof         shift and go to state 72
-    caso_ands                      shift and go to state 15
-    declaracao_propriedades        shift and go to state 16
-    declaracao_existencial         shift and go to state 18
+    continuacao_subclassof         shift and go to state 75
+    caso_ands                      shift and go to state 16
+    declaracao_propriedades        shift and go to state 17
+    declaracao_existencial         shift and go to state 19
 
-state 47
+state 50
 
     (11) caso_individuals_opcional -> INDIVIDUALS . NOME_INDIVIDUO
     (12) caso_individuals_opcional -> INDIVIDUALS . NOME_INDIVIDUO CARACTERE_ESPECIAL continuacao_individuals
     (13) caso_individuals_opcional -> INDIVIDUALS . error
     (14) caso_individuals_opcional -> INDIVIDUALS . error CARACTERE_ESPECIAL continuacao_individuals
 
-    NOME_INDIVIDUO  shift and go to state 73
-    error           shift and go to state 74
+    NOME_INDIVIDUO  shift and go to state 76
+    error           shift and go to state 77
 
 
-state 48
+state 51
 
     (50) continuacao_equivalentto -> CLASSE OR . declaracao_classe_coberta
     (84) declaracao_classe_coberta -> . CLASSE classes_or
 
-    CLASSE          shift and go to state 75
+    CLASSE          shift and go to state 78
 
-    declaracao_classe_coberta      shift and go to state 76
+    declaracao_classe_coberta      shift and go to state 79
 
-state 49
+state 52
 
     (52) continuacao_equivalentto -> CLASSE AND . ABRE_PARENT declaracao_existencial casos_parentese FECHA_PARENT
     (53) continuacao_equivalentto -> CLASSE AND . declaracao_existencial casos_parentese
@@ -1027,44 +1144,44 @@ state 49
     (43) declaracao_existencial -> . PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial
     (44) declaracao_existencial -> . PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
 
-    ABRE_PARENT     shift and go to state 77
-    PROPRIEDADE     shift and go to state 20
+    ABRE_PARENT     shift and go to state 80
+    PROPRIEDADE     shift and go to state 21
 
-    declaracao_existencial         shift and go to state 78
+    declaracao_existencial         shift and go to state 81
 
-state 50
+state 53
 
     (51) continuacao_equivalentto -> PALAVRA_RESERVADA CLASSE . EQUIVALENT_TO CLASSE declaracao_classe_aninhada
 
-    EQUIVALENT_TO   shift and go to state 79
+    EQUIVALENT_TO   shift and go to state 82
 
 
-state 51
+state 54
 
     (81) declaracao_classe_enumerada -> ABRE_CHAVE classes_enumeradas . FECHA_CHAVE
 
-    FECHA_CHAVE     shift and go to state 80
+    FECHA_CHAVE     shift and go to state 83
 
 
-state 52
+state 55
 
     (82) classes_enumeradas -> CLASSE . CARACTERE_ESPECIAL classes_enumeradas
     (83) classes_enumeradas -> CLASSE .
 
-    CARACTERE_ESPECIAL shift and go to state 81
+    CARACTERE_ESPECIAL shift and go to state 84
     FECHA_CHAVE     reduce using rule 83 (classes_enumeradas -> CLASSE .)
 
 
-state 53
+state 56
 
     (8) declaracao_classe_primitiva -> SUBCLASSOF continuacao_subclassof caso_disjoint_opcional .
 
-    error           reduce using rule 8 (declaracao_classe_primitiva -> SUBCLASSOF continuacao_subclassof caso_disjoint_opcional .)
     PALAVRA_CLASS   reduce using rule 8 (declaracao_classe_primitiva -> SUBCLASSOF continuacao_subclassof caso_disjoint_opcional .)
+    error           reduce using rule 8 (declaracao_classe_primitiva -> SUBCLASSOF continuacao_subclassof caso_disjoint_opcional .)
     $end            reduce using rule 8 (declaracao_classe_primitiva -> SUBCLASSOF continuacao_subclassof caso_disjoint_opcional .)
 
 
-state 54
+state 57
 
     (17) caso_disjoint_opcional -> DISJOINTCLASSES continuacao_disjoint_opcional . caso_individuals_opcional
     (11) caso_individuals_opcional -> . INDIVIDUALS NOME_INDIVIDUO
@@ -1072,20 +1189,20 @@ state 54
     (13) caso_individuals_opcional -> . INDIVIDUALS error
     (14) caso_individuals_opcional -> . INDIVIDUALS error CARACTERE_ESPECIAL continuacao_individuals
 
-    INDIVIDUALS     shift and go to state 47
+    INDIVIDUALS     shift and go to state 50
 
-    caso_individuals_opcional      shift and go to state 82
+    caso_individuals_opcional      shift and go to state 85
 
-state 55
+state 58
 
     (19) continuacao_disjoint_opcional -> CLASSE .
     (20) continuacao_disjoint_opcional -> CLASSE . CARACTERE_ESPECIAL continuacao_disjoint_opcional
 
     INDIVIDUALS     reduce using rule 19 (continuacao_disjoint_opcional -> CLASSE .)
-    CARACTERE_ESPECIAL shift and go to state 83
+    CARACTERE_ESPECIAL shift and go to state 86
 
 
-state 56
+state 59
 
     (18) caso_disjoint_opcional -> DISJOINTWITH continuacao_disjoint_opcional . caso_individuals_opcional
     (11) caso_individuals_opcional -> . INDIVIDUALS NOME_INDIVIDUO
@@ -1093,20 +1210,20 @@ state 56
     (13) caso_individuals_opcional -> . INDIVIDUALS error
     (14) caso_individuals_opcional -> . INDIVIDUALS error CARACTERE_ESPECIAL continuacao_individuals
 
-    INDIVIDUALS     shift and go to state 47
+    INDIVIDUALS     shift and go to state 50
 
-    caso_individuals_opcional      shift and go to state 84
+    caso_individuals_opcional      shift and go to state 87
 
-state 57
+state 60
 
     (49) declaracao_classe_definida -> continuacao_subclassof EQUIVALENT_TO continuacao_equivalentto .
 
-    error           reduce using rule 49 (declaracao_classe_definida -> continuacao_subclassof EQUIVALENT_TO continuacao_equivalentto .)
     PALAVRA_CLASS   reduce using rule 49 (declaracao_classe_definida -> continuacao_subclassof EQUIVALENT_TO continuacao_equivalentto .)
+    error           reduce using rule 49 (declaracao_classe_definida -> continuacao_subclassof EQUIVALENT_TO continuacao_equivalentto .)
     $end            reduce using rule 49 (declaracao_classe_definida -> continuacao_subclassof EQUIVALENT_TO continuacao_equivalentto .)
 
 
-state 58
+state 61
 
     (25) continuacao_subclassof -> ABRE_PARENT declaracao_existencial FECHA_PARENT .
     (26) continuacao_subclassof -> ABRE_PARENT declaracao_existencial FECHA_PARENT . AND continuacao_subclassof
@@ -1115,44 +1232,44 @@ state 58
     EQUIVALENT_TO   reduce using rule 25 (continuacao_subclassof -> ABRE_PARENT declaracao_existencial FECHA_PARENT .)
     DISJOINTCLASSES reduce using rule 25 (continuacao_subclassof -> ABRE_PARENT declaracao_existencial FECHA_PARENT .)
     DISJOINTWITH    reduce using rule 25 (continuacao_subclassof -> ABRE_PARENT declaracao_existencial FECHA_PARENT .)
-    error           reduce using rule 25 (continuacao_subclassof -> ABRE_PARENT declaracao_existencial FECHA_PARENT .)
     PALAVRA_CLASS   reduce using rule 25 (continuacao_subclassof -> ABRE_PARENT declaracao_existencial FECHA_PARENT .)
+    error           reduce using rule 25 (continuacao_subclassof -> ABRE_PARENT declaracao_existencial FECHA_PARENT .)
     $end            reduce using rule 25 (continuacao_subclassof -> ABRE_PARENT declaracao_existencial FECHA_PARENT .)
-    AND             shift and go to state 85
-    CARACTERE_ESPECIAL shift and go to state 86
+    AND             shift and go to state 88
+    CARACTERE_ESPECIAL shift and go to state 89
 
 
-state 59
+state 62
 
     (63) caso_ands -> AND casos_parentese caso_ands .
 
     EQUIVALENT_TO   reduce using rule 63 (caso_ands -> AND casos_parentese caso_ands .)
     DISJOINTCLASSES reduce using rule 63 (caso_ands -> AND casos_parentese caso_ands .)
     DISJOINTWITH    reduce using rule 63 (caso_ands -> AND casos_parentese caso_ands .)
-    error           reduce using rule 63 (caso_ands -> AND casos_parentese caso_ands .)
     PALAVRA_CLASS   reduce using rule 63 (caso_ands -> AND casos_parentese caso_ands .)
+    error           reduce using rule 63 (caso_ands -> AND casos_parentese caso_ands .)
     $end            reduce using rule 63 (caso_ands -> AND casos_parentese caso_ands .)
     FECHA_PARENT    reduce using rule 63 (caso_ands -> AND casos_parentese caso_ands .)
     SUBCLASSOF      reduce using rule 63 (caso_ands -> AND casos_parentese caso_ands .)
     INDIVIDUALS     reduce using rule 63 (caso_ands -> AND casos_parentese caso_ands .)
 
 
-state 60
+state 63
 
     (64) caso_ands -> AND casos_sem_parentese caso_ands .
 
     EQUIVALENT_TO   reduce using rule 64 (caso_ands -> AND casos_sem_parentese caso_ands .)
     DISJOINTCLASSES reduce using rule 64 (caso_ands -> AND casos_sem_parentese caso_ands .)
     DISJOINTWITH    reduce using rule 64 (caso_ands -> AND casos_sem_parentese caso_ands .)
-    error           reduce using rule 64 (caso_ands -> AND casos_sem_parentese caso_ands .)
     PALAVRA_CLASS   reduce using rule 64 (caso_ands -> AND casos_sem_parentese caso_ands .)
+    error           reduce using rule 64 (caso_ands -> AND casos_sem_parentese caso_ands .)
     $end            reduce using rule 64 (caso_ands -> AND casos_sem_parentese caso_ands .)
     FECHA_PARENT    reduce using rule 64 (caso_ands -> AND casos_sem_parentese caso_ands .)
     SUBCLASSOF      reduce using rule 64 (caso_ands -> AND casos_sem_parentese caso_ands .)
     INDIVIDUALS     reduce using rule 64 (caso_ands -> AND casos_sem_parentese caso_ands .)
 
 
-state 61
+state 64
 
     (67) casos_parentese -> ABRE_PARENT PROPRIEDADE . SOME ABRE_PARENT CLASSE classes_or FECHA_PARENT FECHA_PARENT
     (72) casos_parentese -> ABRE_PARENT PROPRIEDADE . VALUE CLASSE FECHA_PARENT
@@ -1172,32 +1289,32 @@ state 61
     (43) declaracao_existencial -> PROPRIEDADE . SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial
     (44) declaracao_existencial -> PROPRIEDADE . COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
 
-    SOME            shift and go to state 87
-    VALUE           shift and go to state 88
-    ONLY            shift and go to state 42
-    COMPARADORES    shift and go to state 43
-    PROPRIEDADE     shift and go to state 40
+    SOME            shift and go to state 90
+    VALUE           shift and go to state 91
+    ONLY            shift and go to state 45
+    COMPARADORES    shift and go to state 46
+    PROPRIEDADE     shift and go to state 43
 
 
-state 62
+state 65
 
     (68) casos_parentese -> ABRE_PARENT declaracao_existencial . FECHA_PARENT
 
-    FECHA_PARENT    shift and go to state 89
+    FECHA_PARENT    shift and go to state 92
 
 
-state 63
+state 66
 
     (69) casos_parentese -> ABRE_PARENT casos_parentese . OR casos_parentese FECHA_PARENT
     (70) casos_parentese -> ABRE_PARENT casos_parentese . AND casos_parentese FECHA_PARENT
     (71) casos_parentese -> ABRE_PARENT casos_parentese . FECHA_PARENT
 
-    OR              shift and go to state 90
-    AND             shift and go to state 92
-    FECHA_PARENT    shift and go to state 91
+    OR              shift and go to state 93
+    AND             shift and go to state 95
+    FECHA_PARENT    shift and go to state 94
 
 
-state 64
+state 67
 
     (73) casos_sem_parentese -> PROPRIEDADE ONLY . casos_parentese
     (31) declaracao_existencial -> PROPRIEDADE ONLY . declaracao_classe_axioma_fechamento
@@ -1209,29 +1326,29 @@ state 64
     (72) casos_parentese -> . ABRE_PARENT PROPRIEDADE VALUE CLASSE FECHA_PARENT
     (76) declaracao_classe_axioma_fechamento -> . ABRE_PARENT classes_or_fechamento FECHA_PARENT
 
-    ABRE_PARENT     shift and go to state 94
+    ABRE_PARENT     shift and go to state 97
 
-    casos_parentese                shift and go to state 93
-    declaracao_classe_axioma_fechamento shift and go to state 69
+    casos_parentese                shift and go to state 96
+    declaracao_classe_axioma_fechamento shift and go to state 72
 
-state 65
+state 68
 
     (74) casos_sem_parentese -> PROPRIEDADE PALAVRA_RESERVADA . CLASSE
 
-    CLASSE          shift and go to state 95
+    CLASSE          shift and go to state 98
 
 
-state 66
+state 69
 
     (35) declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME . NAMESPACE TIPO
     (39) declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME . CLASSE CARACTERE_ESPECIAL declaracao_existencial
     (40) declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME . NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial
 
-    NAMESPACE       shift and go to state 96
-    CLASSE          shift and go to state 97
+    NAMESPACE       shift and go to state 99
+    CLASSE          shift and go to state 100
 
 
-state 67
+state 70
 
     (30) declaracao_existencial -> PROPRIEDADE SOME CLASSE .
     (36) declaracao_existencial -> PROPRIEDADE SOME CLASSE . CARACTERE_ESPECIAL declaracao_existencial
@@ -1240,8 +1357,8 @@ state 67
     EQUIVALENT_TO   reduce using rule 30 (declaracao_existencial -> PROPRIEDADE SOME CLASSE .)
     DISJOINTCLASSES reduce using rule 30 (declaracao_existencial -> PROPRIEDADE SOME CLASSE .)
     DISJOINTWITH    reduce using rule 30 (declaracao_existencial -> PROPRIEDADE SOME CLASSE .)
-    error           reduce using rule 30 (declaracao_existencial -> PROPRIEDADE SOME CLASSE .)
     PALAVRA_CLASS   reduce using rule 30 (declaracao_existencial -> PROPRIEDADE SOME CLASSE .)
+    error           reduce using rule 30 (declaracao_existencial -> PROPRIEDADE SOME CLASSE .)
     $end            reduce using rule 30 (declaracao_existencial -> PROPRIEDADE SOME CLASSE .)
     FECHA_PARENT    reduce using rule 30 (declaracao_existencial -> PROPRIEDADE SOME CLASSE .)
     AND             reduce using rule 30 (declaracao_existencial -> PROPRIEDADE SOME CLASSE .)
@@ -1249,10 +1366,10 @@ state 67
     INDIVIDUALS     reduce using rule 30 (declaracao_existencial -> PROPRIEDADE SOME CLASSE .)
     ABRE_PARENT     reduce using rule 30 (declaracao_existencial -> PROPRIEDADE SOME CLASSE .)
     OR              reduce using rule 30 (declaracao_existencial -> PROPRIEDADE SOME CLASSE .)
-    CARACTERE_ESPECIAL shift and go to state 98
+    CARACTERE_ESPECIAL shift and go to state 101
 
 
-state 68
+state 71
 
     (32) declaracao_existencial -> PROPRIEDADE SOME NAMESPACE . TIPO
     (37) declaracao_existencial -> PROPRIEDADE SOME NAMESPACE . TIPO ABRE_COLCHETE OPERADORES
@@ -1261,11 +1378,11 @@ state 68
     (42) declaracao_existencial -> PROPRIEDADE SOME NAMESPACE . TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL
     (43) declaracao_existencial -> PROPRIEDADE SOME NAMESPACE . TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial
 
-    TIPO            shift and go to state 99
-    TIPO_NUMERICO   shift and go to state 100
+    TIPO            shift and go to state 102
+    TIPO_NUMERICO   shift and go to state 103
 
 
-state 69
+state 72
 
     (31) declaracao_existencial -> PROPRIEDADE ONLY declaracao_classe_axioma_fechamento .
 
@@ -1273,8 +1390,8 @@ state 69
     EQUIVALENT_TO   reduce using rule 31 (declaracao_existencial -> PROPRIEDADE ONLY declaracao_classe_axioma_fechamento .)
     DISJOINTCLASSES reduce using rule 31 (declaracao_existencial -> PROPRIEDADE ONLY declaracao_classe_axioma_fechamento .)
     DISJOINTWITH    reduce using rule 31 (declaracao_existencial -> PROPRIEDADE ONLY declaracao_classe_axioma_fechamento .)
-    error           reduce using rule 31 (declaracao_existencial -> PROPRIEDADE ONLY declaracao_classe_axioma_fechamento .)
     PALAVRA_CLASS   reduce using rule 31 (declaracao_existencial -> PROPRIEDADE ONLY declaracao_classe_axioma_fechamento .)
+    error           reduce using rule 31 (declaracao_existencial -> PROPRIEDADE ONLY declaracao_classe_axioma_fechamento .)
     $end            reduce using rule 31 (declaracao_existencial -> PROPRIEDADE ONLY declaracao_classe_axioma_fechamento .)
     FECHA_PARENT    reduce using rule 31 (declaracao_existencial -> PROPRIEDADE ONLY declaracao_classe_axioma_fechamento .)
     AND             reduce using rule 31 (declaracao_existencial -> PROPRIEDADE ONLY declaracao_classe_axioma_fechamento .)
@@ -1284,79 +1401,79 @@ state 69
     OR              reduce using rule 31 (declaracao_existencial -> PROPRIEDADE ONLY declaracao_classe_axioma_fechamento .)
 
 
-state 70
+state 73
 
     (76) declaracao_classe_axioma_fechamento -> ABRE_PARENT . classes_or_fechamento FECHA_PARENT
     (77) classes_or_fechamento -> . CLASSE OR classes_or_fechamento
     (78) classes_or_fechamento -> . CLASSE
 
-    CLASSE          shift and go to state 102
+    CLASSE          shift and go to state 105
 
-    classes_or_fechamento          shift and go to state 101
+    classes_or_fechamento          shift and go to state 104
 
-state 71
+state 74
 
     (33) declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE . CLASSE
     (34) declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE . NAMESPACE TIPO
     (44) declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE . NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
 
-    CLASSE          shift and go to state 103
-    NAMESPACE       shift and go to state 104
+    CLASSE          shift and go to state 106
+    NAMESPACE       shift and go to state 107
 
 
-state 72
+state 75
 
     (48) declaracao_classe_definida -> EQUIVALENT_TO continuacao_equivalentto SUBCLASSOF continuacao_subclassof .
 
-    error           reduce using rule 48 (declaracao_classe_definida -> EQUIVALENT_TO continuacao_equivalentto SUBCLASSOF continuacao_subclassof .)
     PALAVRA_CLASS   reduce using rule 48 (declaracao_classe_definida -> EQUIVALENT_TO continuacao_equivalentto SUBCLASSOF continuacao_subclassof .)
+    error           reduce using rule 48 (declaracao_classe_definida -> EQUIVALENT_TO continuacao_equivalentto SUBCLASSOF continuacao_subclassof .)
     $end            reduce using rule 48 (declaracao_classe_definida -> EQUIVALENT_TO continuacao_equivalentto SUBCLASSOF continuacao_subclassof .)
 
 
-state 73
+state 76
 
     (11) caso_individuals_opcional -> INDIVIDUALS NOME_INDIVIDUO .
     (12) caso_individuals_opcional -> INDIVIDUALS NOME_INDIVIDUO . CARACTERE_ESPECIAL continuacao_individuals
 
-    error           reduce using rule 11 (caso_individuals_opcional -> INDIVIDUALS NOME_INDIVIDUO .)
     PALAVRA_CLASS   reduce using rule 11 (caso_individuals_opcional -> INDIVIDUALS NOME_INDIVIDUO .)
+    error           reduce using rule 11 (caso_individuals_opcional -> INDIVIDUALS NOME_INDIVIDUO .)
     $end            reduce using rule 11 (caso_individuals_opcional -> INDIVIDUALS NOME_INDIVIDUO .)
-    CARACTERE_ESPECIAL shift and go to state 105
+    CARACTERE_ESPECIAL shift and go to state 108
 
 
-state 74
+state 77
 
     (13) caso_individuals_opcional -> INDIVIDUALS error .
     (14) caso_individuals_opcional -> INDIVIDUALS error . CARACTERE_ESPECIAL continuacao_individuals
 
-    error           reduce using rule 13 (caso_individuals_opcional -> INDIVIDUALS error .)
     PALAVRA_CLASS   reduce using rule 13 (caso_individuals_opcional -> INDIVIDUALS error .)
+    error           reduce using rule 13 (caso_individuals_opcional -> INDIVIDUALS error .)
     $end            reduce using rule 13 (caso_individuals_opcional -> INDIVIDUALS error .)
-    CARACTERE_ESPECIAL shift and go to state 106
+    CARACTERE_ESPECIAL shift and go to state 109
 
 
-state 75
+state 78
 
     (84) declaracao_classe_coberta -> CLASSE . classes_or
     (79) classes_or -> . OR CLASSE classes_or
     (80) classes_or -> . OR CLASSE
 
-    OR              shift and go to state 108
+    OR              shift and go to state 111
 
-    classes_or                     shift and go to state 107
+    classes_or                     shift and go to state 110
 
-state 76
+state 79
 
     (50) continuacao_equivalentto -> CLASSE OR declaracao_classe_coberta .
 
     SUBCLASSOF      reduce using rule 50 (continuacao_equivalentto -> CLASSE OR declaracao_classe_coberta .)
     INDIVIDUALS     reduce using rule 50 (continuacao_equivalentto -> CLASSE OR declaracao_classe_coberta .)
-    error           reduce using rule 50 (continuacao_equivalentto -> CLASSE OR declaracao_classe_coberta .)
     PALAVRA_CLASS   reduce using rule 50 (continuacao_equivalentto -> CLASSE OR declaracao_classe_coberta .)
+    error           reduce using rule 50 (continuacao_equivalentto -> CLASSE OR declaracao_classe_coberta .)
     $end            reduce using rule 50 (continuacao_equivalentto -> CLASSE OR declaracao_classe_coberta .)
 
 
-state 77
+state 80
 
     (52) continuacao_equivalentto -> CLASSE AND ABRE_PARENT . declaracao_existencial casos_parentese FECHA_PARENT
     (56) continuacao_equivalentto -> CLASSE AND ABRE_PARENT . declaracao_existencial classes_or FECHA_PARENT
@@ -1387,13 +1504,13 @@ state 77
     (71) casos_parentese -> . ABRE_PARENT casos_parentese FECHA_PARENT
     (72) casos_parentese -> . ABRE_PARENT PROPRIEDADE VALUE CLASSE FECHA_PARENT
 
-    PROPRIEDADE     shift and go to state 20
-    ABRE_PARENT     shift and go to state 37
+    PROPRIEDADE     shift and go to state 21
+    ABRE_PARENT     shift and go to state 40
 
-    declaracao_existencial         shift and go to state 109
-    casos_parentese                shift and go to state 110
+    declaracao_existencial         shift and go to state 112
+    casos_parentese                shift and go to state 113
 
-state 78
+state 81
 
     (53) continuacao_equivalentto -> CLASSE AND declaracao_existencial . casos_parentese
     (54) continuacao_equivalentto -> CLASSE AND declaracao_existencial . classes_or
@@ -1407,67 +1524,67 @@ state 78
     (79) classes_or -> . OR CLASSE classes_or
     (80) classes_or -> . OR CLASSE
 
-    ABRE_PARENT     shift and go to state 37
-    OR              shift and go to state 108
+    ABRE_PARENT     shift and go to state 40
+    OR              shift and go to state 111
 
-    casos_parentese                shift and go to state 111
-    classes_or                     shift and go to state 112
+    casos_parentese                shift and go to state 114
+    classes_or                     shift and go to state 115
 
-state 79
+state 82
 
     (51) continuacao_equivalentto -> PALAVRA_RESERVADA CLASSE EQUIVALENT_TO . CLASSE declaracao_classe_aninhada
 
-    CLASSE          shift and go to state 113
+    CLASSE          shift and go to state 116
 
 
-state 80
+state 83
 
     (81) declaracao_classe_enumerada -> ABRE_CHAVE classes_enumeradas FECHA_CHAVE .
 
-    error           reduce using rule 81 (declaracao_classe_enumerada -> ABRE_CHAVE classes_enumeradas FECHA_CHAVE .)
     PALAVRA_CLASS   reduce using rule 81 (declaracao_classe_enumerada -> ABRE_CHAVE classes_enumeradas FECHA_CHAVE .)
+    error           reduce using rule 81 (declaracao_classe_enumerada -> ABRE_CHAVE classes_enumeradas FECHA_CHAVE .)
     $end            reduce using rule 81 (declaracao_classe_enumerada -> ABRE_CHAVE classes_enumeradas FECHA_CHAVE .)
 
 
-state 81
+state 84
 
     (82) classes_enumeradas -> CLASSE CARACTERE_ESPECIAL . classes_enumeradas
     (82) classes_enumeradas -> . CLASSE CARACTERE_ESPECIAL classes_enumeradas
     (83) classes_enumeradas -> . CLASSE
 
-    CLASSE          shift and go to state 52
+    CLASSE          shift and go to state 55
 
-    classes_enumeradas             shift and go to state 114
+    classes_enumeradas             shift and go to state 117
 
-state 82
+state 85
 
     (17) caso_disjoint_opcional -> DISJOINTCLASSES continuacao_disjoint_opcional caso_individuals_opcional .
 
-    error           reduce using rule 17 (caso_disjoint_opcional -> DISJOINTCLASSES continuacao_disjoint_opcional caso_individuals_opcional .)
     PALAVRA_CLASS   reduce using rule 17 (caso_disjoint_opcional -> DISJOINTCLASSES continuacao_disjoint_opcional caso_individuals_opcional .)
+    error           reduce using rule 17 (caso_disjoint_opcional -> DISJOINTCLASSES continuacao_disjoint_opcional caso_individuals_opcional .)
     $end            reduce using rule 17 (caso_disjoint_opcional -> DISJOINTCLASSES continuacao_disjoint_opcional caso_individuals_opcional .)
 
 
-state 83
+state 86
 
     (20) continuacao_disjoint_opcional -> CLASSE CARACTERE_ESPECIAL . continuacao_disjoint_opcional
     (19) continuacao_disjoint_opcional -> . CLASSE
     (20) continuacao_disjoint_opcional -> . CLASSE CARACTERE_ESPECIAL continuacao_disjoint_opcional
 
-    CLASSE          shift and go to state 55
+    CLASSE          shift and go to state 58
 
-    continuacao_disjoint_opcional  shift and go to state 115
+    continuacao_disjoint_opcional  shift and go to state 118
 
-state 84
+state 87
 
     (18) caso_disjoint_opcional -> DISJOINTWITH continuacao_disjoint_opcional caso_individuals_opcional .
 
-    error           reduce using rule 18 (caso_disjoint_opcional -> DISJOINTWITH continuacao_disjoint_opcional caso_individuals_opcional .)
     PALAVRA_CLASS   reduce using rule 18 (caso_disjoint_opcional -> DISJOINTWITH continuacao_disjoint_opcional caso_individuals_opcional .)
+    error           reduce using rule 18 (caso_disjoint_opcional -> DISJOINTWITH continuacao_disjoint_opcional caso_individuals_opcional .)
     $end            reduce using rule 18 (caso_disjoint_opcional -> DISJOINTWITH continuacao_disjoint_opcional caso_individuals_opcional .)
 
 
-state 85
+state 88
 
     (26) continuacao_subclassof -> ABRE_PARENT declaracao_existencial FECHA_PARENT AND . continuacao_subclassof
     (21) continuacao_subclassof -> . CLASSE caso_ands
@@ -1499,17 +1616,17 @@ state 85
     (43) declaracao_existencial -> . PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial
     (44) declaracao_existencial -> . PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
 
-    CLASSE          shift and go to state 8
-    ABRE_PARENT     shift and go to state 17
-    AND             shift and go to state 19
-    PROPRIEDADE     shift and go to state 20
+    CLASSE          shift and go to state 9
+    ABRE_PARENT     shift and go to state 18
+    AND             shift and go to state 20
+    PROPRIEDADE     shift and go to state 21
 
-    declaracao_existencial         shift and go to state 18
-    continuacao_subclassof         shift and go to state 116
-    caso_ands                      shift and go to state 15
-    declaracao_propriedades        shift and go to state 16
+    declaracao_existencial         shift and go to state 19
+    continuacao_subclassof         shift and go to state 119
+    caso_ands                      shift and go to state 16
+    declaracao_propriedades        shift and go to state 17
 
-state 86
+state 89
 
     (27) continuacao_subclassof -> ABRE_PARENT declaracao_existencial FECHA_PARENT CARACTERE_ESPECIAL . continuacao_subclassof
     (21) continuacao_subclassof -> . CLASSE caso_ands
@@ -1541,17 +1658,17 @@ state 86
     (43) declaracao_existencial -> . PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial
     (44) declaracao_existencial -> . PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
 
-    CLASSE          shift and go to state 8
-    ABRE_PARENT     shift and go to state 17
-    AND             shift and go to state 19
-    PROPRIEDADE     shift and go to state 20
+    CLASSE          shift and go to state 9
+    ABRE_PARENT     shift and go to state 18
+    AND             shift and go to state 20
+    PROPRIEDADE     shift and go to state 21
 
-    declaracao_existencial         shift and go to state 18
-    continuacao_subclassof         shift and go to state 117
-    caso_ands                      shift and go to state 15
-    declaracao_propriedades        shift and go to state 16
+    declaracao_existencial         shift and go to state 19
+    continuacao_subclassof         shift and go to state 120
+    caso_ands                      shift and go to state 16
+    declaracao_propriedades        shift and go to state 17
 
-state 87
+state 90
 
     (67) casos_parentese -> ABRE_PARENT PROPRIEDADE SOME . ABRE_PARENT CLASSE classes_or FECHA_PARENT FECHA_PARENT
     (30) declaracao_existencial -> PROPRIEDADE SOME . CLASSE
@@ -1563,19 +1680,19 @@ state 87
     (42) declaracao_existencial -> PROPRIEDADE SOME . NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL
     (43) declaracao_existencial -> PROPRIEDADE SOME . NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial
 
-    ABRE_PARENT     shift and go to state 118
-    CLASSE          shift and go to state 67
-    NAMESPACE       shift and go to state 68
+    ABRE_PARENT     shift and go to state 121
+    CLASSE          shift and go to state 70
+    NAMESPACE       shift and go to state 71
 
 
-state 88
+state 91
 
     (72) casos_parentese -> ABRE_PARENT PROPRIEDADE VALUE . CLASSE FECHA_PARENT
 
-    CLASSE          shift and go to state 119
+    CLASSE          shift and go to state 122
 
 
-state 89
+state 92
 
     (68) casos_parentese -> ABRE_PARENT declaracao_existencial FECHA_PARENT .
 
@@ -1583,8 +1700,8 @@ state 89
     EQUIVALENT_TO   reduce using rule 68 (casos_parentese -> ABRE_PARENT declaracao_existencial FECHA_PARENT .)
     DISJOINTCLASSES reduce using rule 68 (casos_parentese -> ABRE_PARENT declaracao_existencial FECHA_PARENT .)
     DISJOINTWITH    reduce using rule 68 (casos_parentese -> ABRE_PARENT declaracao_existencial FECHA_PARENT .)
-    error           reduce using rule 68 (casos_parentese -> ABRE_PARENT declaracao_existencial FECHA_PARENT .)
     PALAVRA_CLASS   reduce using rule 68 (casos_parentese -> ABRE_PARENT declaracao_existencial FECHA_PARENT .)
+    error           reduce using rule 68 (casos_parentese -> ABRE_PARENT declaracao_existencial FECHA_PARENT .)
     $end            reduce using rule 68 (casos_parentese -> ABRE_PARENT declaracao_existencial FECHA_PARENT .)
     FECHA_PARENT    reduce using rule 68 (casos_parentese -> ABRE_PARENT declaracao_existencial FECHA_PARENT .)
     SUBCLASSOF      reduce using rule 68 (casos_parentese -> ABRE_PARENT declaracao_existencial FECHA_PARENT .)
@@ -1592,7 +1709,7 @@ state 89
     OR              reduce using rule 68 (casos_parentese -> ABRE_PARENT declaracao_existencial FECHA_PARENT .)
 
 
-state 90
+state 93
 
     (69) casos_parentese -> ABRE_PARENT casos_parentese OR . casos_parentese FECHA_PARENT
     (67) casos_parentese -> . ABRE_PARENT PROPRIEDADE SOME ABRE_PARENT CLASSE classes_or FECHA_PARENT FECHA_PARENT
@@ -1602,11 +1719,11 @@ state 90
     (71) casos_parentese -> . ABRE_PARENT casos_parentese FECHA_PARENT
     (72) casos_parentese -> . ABRE_PARENT PROPRIEDADE VALUE CLASSE FECHA_PARENT
 
-    ABRE_PARENT     shift and go to state 37
+    ABRE_PARENT     shift and go to state 40
 
-    casos_parentese                shift and go to state 120
+    casos_parentese                shift and go to state 123
 
-state 91
+state 94
 
     (71) casos_parentese -> ABRE_PARENT casos_parentese FECHA_PARENT .
 
@@ -1614,8 +1731,8 @@ state 91
     EQUIVALENT_TO   reduce using rule 71 (casos_parentese -> ABRE_PARENT casos_parentese FECHA_PARENT .)
     DISJOINTCLASSES reduce using rule 71 (casos_parentese -> ABRE_PARENT casos_parentese FECHA_PARENT .)
     DISJOINTWITH    reduce using rule 71 (casos_parentese -> ABRE_PARENT casos_parentese FECHA_PARENT .)
-    error           reduce using rule 71 (casos_parentese -> ABRE_PARENT casos_parentese FECHA_PARENT .)
     PALAVRA_CLASS   reduce using rule 71 (casos_parentese -> ABRE_PARENT casos_parentese FECHA_PARENT .)
+    error           reduce using rule 71 (casos_parentese -> ABRE_PARENT casos_parentese FECHA_PARENT .)
     $end            reduce using rule 71 (casos_parentese -> ABRE_PARENT casos_parentese FECHA_PARENT .)
     FECHA_PARENT    reduce using rule 71 (casos_parentese -> ABRE_PARENT casos_parentese FECHA_PARENT .)
     SUBCLASSOF      reduce using rule 71 (casos_parentese -> ABRE_PARENT casos_parentese FECHA_PARENT .)
@@ -1623,7 +1740,7 @@ state 91
     OR              reduce using rule 71 (casos_parentese -> ABRE_PARENT casos_parentese FECHA_PARENT .)
 
 
-state 92
+state 95
 
     (70) casos_parentese -> ABRE_PARENT casos_parentese AND . casos_parentese FECHA_PARENT
     (67) casos_parentese -> . ABRE_PARENT PROPRIEDADE SOME ABRE_PARENT CLASSE classes_or FECHA_PARENT FECHA_PARENT
@@ -1633,11 +1750,11 @@ state 92
     (71) casos_parentese -> . ABRE_PARENT casos_parentese FECHA_PARENT
     (72) casos_parentese -> . ABRE_PARENT PROPRIEDADE VALUE CLASSE FECHA_PARENT
 
-    ABRE_PARENT     shift and go to state 37
+    ABRE_PARENT     shift and go to state 40
 
-    casos_parentese                shift and go to state 121
+    casos_parentese                shift and go to state 124
 
-state 93
+state 96
 
     (73) casos_sem_parentese -> PROPRIEDADE ONLY casos_parentese .
 
@@ -1645,15 +1762,15 @@ state 93
     EQUIVALENT_TO   reduce using rule 73 (casos_sem_parentese -> PROPRIEDADE ONLY casos_parentese .)
     DISJOINTCLASSES reduce using rule 73 (casos_sem_parentese -> PROPRIEDADE ONLY casos_parentese .)
     DISJOINTWITH    reduce using rule 73 (casos_sem_parentese -> PROPRIEDADE ONLY casos_parentese .)
-    error           reduce using rule 73 (casos_sem_parentese -> PROPRIEDADE ONLY casos_parentese .)
     PALAVRA_CLASS   reduce using rule 73 (casos_sem_parentese -> PROPRIEDADE ONLY casos_parentese .)
+    error           reduce using rule 73 (casos_sem_parentese -> PROPRIEDADE ONLY casos_parentese .)
     $end            reduce using rule 73 (casos_sem_parentese -> PROPRIEDADE ONLY casos_parentese .)
     FECHA_PARENT    reduce using rule 73 (casos_sem_parentese -> PROPRIEDADE ONLY casos_parentese .)
     SUBCLASSOF      reduce using rule 73 (casos_sem_parentese -> PROPRIEDADE ONLY casos_parentese .)
     INDIVIDUALS     reduce using rule 73 (casos_sem_parentese -> PROPRIEDADE ONLY casos_parentese .)
 
 
-state 94
+state 97
 
     (67) casos_parentese -> ABRE_PARENT . PROPRIEDADE SOME ABRE_PARENT CLASSE classes_or FECHA_PARENT FECHA_PARENT
     (68) casos_parentese -> ABRE_PARENT . declaracao_existencial FECHA_PARENT
@@ -1686,15 +1803,15 @@ state 94
     (77) classes_or_fechamento -> . CLASSE OR classes_or_fechamento
     (78) classes_or_fechamento -> . CLASSE
 
-    PROPRIEDADE     shift and go to state 61
-    ABRE_PARENT     shift and go to state 37
-    CLASSE          shift and go to state 102
+    PROPRIEDADE     shift and go to state 64
+    ABRE_PARENT     shift and go to state 40
+    CLASSE          shift and go to state 105
 
-    declaracao_existencial         shift and go to state 62
-    casos_parentese                shift and go to state 63
-    classes_or_fechamento          shift and go to state 101
+    declaracao_existencial         shift and go to state 65
+    casos_parentese                shift and go to state 66
+    classes_or_fechamento          shift and go to state 104
 
-state 95
+state 98
 
     (74) casos_sem_parentese -> PROPRIEDADE PALAVRA_RESERVADA CLASSE .
 
@@ -1702,30 +1819,30 @@ state 95
     EQUIVALENT_TO   reduce using rule 74 (casos_sem_parentese -> PROPRIEDADE PALAVRA_RESERVADA CLASSE .)
     DISJOINTCLASSES reduce using rule 74 (casos_sem_parentese -> PROPRIEDADE PALAVRA_RESERVADA CLASSE .)
     DISJOINTWITH    reduce using rule 74 (casos_sem_parentese -> PROPRIEDADE PALAVRA_RESERVADA CLASSE .)
-    error           reduce using rule 74 (casos_sem_parentese -> PROPRIEDADE PALAVRA_RESERVADA CLASSE .)
     PALAVRA_CLASS   reduce using rule 74 (casos_sem_parentese -> PROPRIEDADE PALAVRA_RESERVADA CLASSE .)
+    error           reduce using rule 74 (casos_sem_parentese -> PROPRIEDADE PALAVRA_RESERVADA CLASSE .)
     $end            reduce using rule 74 (casos_sem_parentese -> PROPRIEDADE PALAVRA_RESERVADA CLASSE .)
     FECHA_PARENT    reduce using rule 74 (casos_sem_parentese -> PROPRIEDADE PALAVRA_RESERVADA CLASSE .)
     SUBCLASSOF      reduce using rule 74 (casos_sem_parentese -> PROPRIEDADE PALAVRA_RESERVADA CLASSE .)
     INDIVIDUALS     reduce using rule 74 (casos_sem_parentese -> PROPRIEDADE PALAVRA_RESERVADA CLASSE .)
 
 
-state 96
+state 99
 
     (35) declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME NAMESPACE . TIPO
     (40) declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME NAMESPACE . TIPO CARACTERE_ESPECIAL declaracao_existencial
 
-    TIPO            shift and go to state 122
+    TIPO            shift and go to state 125
 
 
-state 97
+state 100
 
     (39) declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME CLASSE . CARACTERE_ESPECIAL declaracao_existencial
 
-    CARACTERE_ESPECIAL shift and go to state 123
+    CARACTERE_ESPECIAL shift and go to state 126
 
 
-state 98
+state 101
 
     (36) declaracao_existencial -> PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL . declaracao_existencial
     (30) declaracao_existencial -> . PROPRIEDADE SOME CLASSE
@@ -1744,11 +1861,11 @@ state 98
     (43) declaracao_existencial -> . PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial
     (44) declaracao_existencial -> . PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
 
-    PROPRIEDADE     shift and go to state 20
+    PROPRIEDADE     shift and go to state 21
 
-    declaracao_existencial         shift and go to state 124
+    declaracao_existencial         shift and go to state 127
 
-state 99
+state 102
 
     (32) declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO .
     (37) declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO . ABRE_COLCHETE OPERADORES
@@ -1759,8 +1876,8 @@ state 99
     EQUIVALENT_TO   reduce using rule 32 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO .)
     DISJOINTCLASSES reduce using rule 32 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO .)
     DISJOINTWITH    reduce using rule 32 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO .)
-    error           reduce using rule 32 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO .)
     PALAVRA_CLASS   reduce using rule 32 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO .)
+    error           reduce using rule 32 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO .)
     $end            reduce using rule 32 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO .)
     FECHA_PARENT    reduce using rule 32 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO .)
     AND             reduce using rule 32 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO .)
@@ -1768,35 +1885,35 @@ state 99
     INDIVIDUALS     reduce using rule 32 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO .)
     ABRE_PARENT     reduce using rule 32 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO .)
     OR              reduce using rule 32 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO .)
-    ABRE_COLCHETE   shift and go to state 125
-    CARACTERE_ESPECIAL shift and go to state 126
+    ABRE_COLCHETE   shift and go to state 128
+    CARACTERE_ESPECIAL shift and go to state 129
 
 
-state 100
+state 103
 
     (41) declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO . ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
     (43) declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO . ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial
 
-    ABRE_COLCHETE   shift and go to state 127
+    ABRE_COLCHETE   shift and go to state 130
 
 
-state 101
+state 104
 
     (76) declaracao_classe_axioma_fechamento -> ABRE_PARENT classes_or_fechamento . FECHA_PARENT
 
-    FECHA_PARENT    shift and go to state 128
+    FECHA_PARENT    shift and go to state 131
 
 
-state 102
+state 105
 
     (77) classes_or_fechamento -> CLASSE . OR classes_or_fechamento
     (78) classes_or_fechamento -> CLASSE .
 
-    OR              shift and go to state 129
+    OR              shift and go to state 132
     FECHA_PARENT    reduce using rule 78 (classes_or_fechamento -> CLASSE .)
 
 
-state 103
+state 106
 
     (33) declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE .
 
@@ -1804,8 +1921,8 @@ state 103
     EQUIVALENT_TO   reduce using rule 33 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE .)
     DISJOINTCLASSES reduce using rule 33 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE .)
     DISJOINTWITH    reduce using rule 33 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE .)
-    error           reduce using rule 33 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE .)
     PALAVRA_CLASS   reduce using rule 33 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE .)
+    error           reduce using rule 33 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE .)
     $end            reduce using rule 33 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE .)
     FECHA_PARENT    reduce using rule 33 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE .)
     AND             reduce using rule 33 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE .)
@@ -1815,55 +1932,55 @@ state 103
     OR              reduce using rule 33 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE .)
 
 
-state 104
+state 107
 
     (34) declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE . TIPO
     (44) declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE . TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
 
-    TIPO            shift and go to state 130
-    TIPO_NUMERICO   shift and go to state 131
+    TIPO            shift and go to state 133
+    TIPO_NUMERICO   shift and go to state 134
 
 
-state 105
+state 108
 
     (12) caso_individuals_opcional -> INDIVIDUALS NOME_INDIVIDUO CARACTERE_ESPECIAL . continuacao_individuals
     (15) continuacao_individuals -> . NOME_INDIVIDUO
     (16) continuacao_individuals -> . NOME_INDIVIDUO CARACTERE_ESPECIAL continuacao_individuals
 
-    NOME_INDIVIDUO  shift and go to state 132
+    NOME_INDIVIDUO  shift and go to state 135
 
-    continuacao_individuals        shift and go to state 133
+    continuacao_individuals        shift and go to state 136
 
-state 106
+state 109
 
     (14) caso_individuals_opcional -> INDIVIDUALS error CARACTERE_ESPECIAL . continuacao_individuals
     (15) continuacao_individuals -> . NOME_INDIVIDUO
     (16) continuacao_individuals -> . NOME_INDIVIDUO CARACTERE_ESPECIAL continuacao_individuals
 
-    NOME_INDIVIDUO  shift and go to state 132
+    NOME_INDIVIDUO  shift and go to state 135
 
-    continuacao_individuals        shift and go to state 134
+    continuacao_individuals        shift and go to state 137
 
-state 107
+state 110
 
     (84) declaracao_classe_coberta -> CLASSE classes_or .
 
     SUBCLASSOF      reduce using rule 84 (declaracao_classe_coberta -> CLASSE classes_or .)
     INDIVIDUALS     reduce using rule 84 (declaracao_classe_coberta -> CLASSE classes_or .)
-    error           reduce using rule 84 (declaracao_classe_coberta -> CLASSE classes_or .)
     PALAVRA_CLASS   reduce using rule 84 (declaracao_classe_coberta -> CLASSE classes_or .)
+    error           reduce using rule 84 (declaracao_classe_coberta -> CLASSE classes_or .)
     $end            reduce using rule 84 (declaracao_classe_coberta -> CLASSE classes_or .)
 
 
-state 108
+state 111
 
     (79) classes_or -> OR . CLASSE classes_or
     (80) classes_or -> OR . CLASSE
 
-    CLASSE          shift and go to state 135
+    CLASSE          shift and go to state 138
 
 
-state 109
+state 112
 
     (52) continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial . casos_parentese FECHA_PARENT
     (56) continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial . classes_or FECHA_PARENT
@@ -1879,14 +1996,14 @@ state 109
     (79) classes_or -> . OR CLASSE classes_or
     (80) classes_or -> . OR CLASSE
 
-    FECHA_PARENT    shift and go to state 137
-    ABRE_PARENT     shift and go to state 37
-    OR              shift and go to state 108
+    FECHA_PARENT    shift and go to state 140
+    ABRE_PARENT     shift and go to state 40
+    OR              shift and go to state 111
 
-    casos_parentese                shift and go to state 136
-    classes_or                     shift and go to state 138
+    casos_parentese                shift and go to state 139
+    classes_or                     shift and go to state 141
 
-state 110
+state 113
 
     (58) continuacao_equivalentto -> CLASSE AND ABRE_PARENT casos_parentese . declaracao_classe_aninhada FECHA_PARENT
     (59) continuacao_equivalentto -> CLASSE AND ABRE_PARENT casos_parentese . declaracao_classe_aninhada FECHA_PARENT caso_ands
@@ -1896,23 +2013,23 @@ state 110
     (65) caso_ands -> . AND casos_parentese
     (66) caso_ands -> . AND casos_sem_parentese
 
-    AND             shift and go to state 19
+    AND             shift and go to state 20
 
-    declaracao_classe_aninhada     shift and go to state 139
-    caso_ands                      shift and go to state 140
+    declaracao_classe_aninhada     shift and go to state 142
+    caso_ands                      shift and go to state 143
 
-state 111
+state 114
 
     (53) continuacao_equivalentto -> CLASSE AND declaracao_existencial casos_parentese .
 
     SUBCLASSOF      reduce using rule 53 (continuacao_equivalentto -> CLASSE AND declaracao_existencial casos_parentese .)
     INDIVIDUALS     reduce using rule 53 (continuacao_equivalentto -> CLASSE AND declaracao_existencial casos_parentese .)
-    error           reduce using rule 53 (continuacao_equivalentto -> CLASSE AND declaracao_existencial casos_parentese .)
     PALAVRA_CLASS   reduce using rule 53 (continuacao_equivalentto -> CLASSE AND declaracao_existencial casos_parentese .)
+    error           reduce using rule 53 (continuacao_equivalentto -> CLASSE AND declaracao_existencial casos_parentese .)
     $end            reduce using rule 53 (continuacao_equivalentto -> CLASSE AND declaracao_existencial casos_parentese .)
 
 
-state 112
+state 115
 
     (54) continuacao_equivalentto -> CLASSE AND declaracao_existencial classes_or .
     (55) continuacao_equivalentto -> CLASSE AND declaracao_existencial classes_or . caso_ands
@@ -1923,14 +2040,14 @@ state 112
 
     SUBCLASSOF      reduce using rule 54 (continuacao_equivalentto -> CLASSE AND declaracao_existencial classes_or .)
     INDIVIDUALS     reduce using rule 54 (continuacao_equivalentto -> CLASSE AND declaracao_existencial classes_or .)
-    error           reduce using rule 54 (continuacao_equivalentto -> CLASSE AND declaracao_existencial classes_or .)
     PALAVRA_CLASS   reduce using rule 54 (continuacao_equivalentto -> CLASSE AND declaracao_existencial classes_or .)
+    error           reduce using rule 54 (continuacao_equivalentto -> CLASSE AND declaracao_existencial classes_or .)
     $end            reduce using rule 54 (continuacao_equivalentto -> CLASSE AND declaracao_existencial classes_or .)
-    AND             shift and go to state 19
+    AND             shift and go to state 20
 
-    caso_ands                      shift and go to state 141
+    caso_ands                      shift and go to state 144
 
-state 113
+state 116
 
     (51) continuacao_equivalentto -> PALAVRA_RESERVADA CLASSE EQUIVALENT_TO CLASSE . declaracao_classe_aninhada
     (62) declaracao_classe_aninhada -> . caso_ands
@@ -1939,78 +2056,78 @@ state 113
     (65) caso_ands -> . AND casos_parentese
     (66) caso_ands -> . AND casos_sem_parentese
 
-    AND             shift and go to state 19
+    AND             shift and go to state 20
 
-    declaracao_classe_aninhada     shift and go to state 142
-    caso_ands                      shift and go to state 140
+    declaracao_classe_aninhada     shift and go to state 145
+    caso_ands                      shift and go to state 143
 
-state 114
+state 117
 
     (82) classes_enumeradas -> CLASSE CARACTERE_ESPECIAL classes_enumeradas .
 
     FECHA_CHAVE     reduce using rule 82 (classes_enumeradas -> CLASSE CARACTERE_ESPECIAL classes_enumeradas .)
 
 
-state 115
+state 118
 
     (20) continuacao_disjoint_opcional -> CLASSE CARACTERE_ESPECIAL continuacao_disjoint_opcional .
 
     INDIVIDUALS     reduce using rule 20 (continuacao_disjoint_opcional -> CLASSE CARACTERE_ESPECIAL continuacao_disjoint_opcional .)
 
 
-state 116
+state 119
 
     (26) continuacao_subclassof -> ABRE_PARENT declaracao_existencial FECHA_PARENT AND continuacao_subclassof .
 
     EQUIVALENT_TO   reduce using rule 26 (continuacao_subclassof -> ABRE_PARENT declaracao_existencial FECHA_PARENT AND continuacao_subclassof .)
     DISJOINTCLASSES reduce using rule 26 (continuacao_subclassof -> ABRE_PARENT declaracao_existencial FECHA_PARENT AND continuacao_subclassof .)
     DISJOINTWITH    reduce using rule 26 (continuacao_subclassof -> ABRE_PARENT declaracao_existencial FECHA_PARENT AND continuacao_subclassof .)
-    error           reduce using rule 26 (continuacao_subclassof -> ABRE_PARENT declaracao_existencial FECHA_PARENT AND continuacao_subclassof .)
     PALAVRA_CLASS   reduce using rule 26 (continuacao_subclassof -> ABRE_PARENT declaracao_existencial FECHA_PARENT AND continuacao_subclassof .)
+    error           reduce using rule 26 (continuacao_subclassof -> ABRE_PARENT declaracao_existencial FECHA_PARENT AND continuacao_subclassof .)
     $end            reduce using rule 26 (continuacao_subclassof -> ABRE_PARENT declaracao_existencial FECHA_PARENT AND continuacao_subclassof .)
 
 
-state 117
+state 120
 
     (27) continuacao_subclassof -> ABRE_PARENT declaracao_existencial FECHA_PARENT CARACTERE_ESPECIAL continuacao_subclassof .
 
     EQUIVALENT_TO   reduce using rule 27 (continuacao_subclassof -> ABRE_PARENT declaracao_existencial FECHA_PARENT CARACTERE_ESPECIAL continuacao_subclassof .)
     DISJOINTCLASSES reduce using rule 27 (continuacao_subclassof -> ABRE_PARENT declaracao_existencial FECHA_PARENT CARACTERE_ESPECIAL continuacao_subclassof .)
     DISJOINTWITH    reduce using rule 27 (continuacao_subclassof -> ABRE_PARENT declaracao_existencial FECHA_PARENT CARACTERE_ESPECIAL continuacao_subclassof .)
-    error           reduce using rule 27 (continuacao_subclassof -> ABRE_PARENT declaracao_existencial FECHA_PARENT CARACTERE_ESPECIAL continuacao_subclassof .)
     PALAVRA_CLASS   reduce using rule 27 (continuacao_subclassof -> ABRE_PARENT declaracao_existencial FECHA_PARENT CARACTERE_ESPECIAL continuacao_subclassof .)
+    error           reduce using rule 27 (continuacao_subclassof -> ABRE_PARENT declaracao_existencial FECHA_PARENT CARACTERE_ESPECIAL continuacao_subclassof .)
     $end            reduce using rule 27 (continuacao_subclassof -> ABRE_PARENT declaracao_existencial FECHA_PARENT CARACTERE_ESPECIAL continuacao_subclassof .)
-
-
-state 118
-
-    (67) casos_parentese -> ABRE_PARENT PROPRIEDADE SOME ABRE_PARENT . CLASSE classes_or FECHA_PARENT FECHA_PARENT
-
-    CLASSE          shift and go to state 143
-
-
-state 119
-
-    (72) casos_parentese -> ABRE_PARENT PROPRIEDADE VALUE CLASSE . FECHA_PARENT
-
-    FECHA_PARENT    shift and go to state 144
-
-
-state 120
-
-    (69) casos_parentese -> ABRE_PARENT casos_parentese OR casos_parentese . FECHA_PARENT
-
-    FECHA_PARENT    shift and go to state 145
 
 
 state 121
 
-    (70) casos_parentese -> ABRE_PARENT casos_parentese AND casos_parentese . FECHA_PARENT
+    (67) casos_parentese -> ABRE_PARENT PROPRIEDADE SOME ABRE_PARENT . CLASSE classes_or FECHA_PARENT FECHA_PARENT
 
-    FECHA_PARENT    shift and go to state 146
+    CLASSE          shift and go to state 146
 
 
 state 122
+
+    (72) casos_parentese -> ABRE_PARENT PROPRIEDADE VALUE CLASSE . FECHA_PARENT
+
+    FECHA_PARENT    shift and go to state 147
+
+
+state 123
+
+    (69) casos_parentese -> ABRE_PARENT casos_parentese OR casos_parentese . FECHA_PARENT
+
+    FECHA_PARENT    shift and go to state 148
+
+
+state 124
+
+    (70) casos_parentese -> ABRE_PARENT casos_parentese AND casos_parentese . FECHA_PARENT
+
+    FECHA_PARENT    shift and go to state 149
+
+
+state 125
 
     (35) declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO .
     (40) declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO . CARACTERE_ESPECIAL declaracao_existencial
@@ -2019,8 +2136,8 @@ state 122
     EQUIVALENT_TO   reduce using rule 35 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO .)
     DISJOINTCLASSES reduce using rule 35 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO .)
     DISJOINTWITH    reduce using rule 35 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO .)
-    error           reduce using rule 35 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO .)
     PALAVRA_CLASS   reduce using rule 35 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO .)
+    error           reduce using rule 35 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO .)
     $end            reduce using rule 35 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO .)
     FECHA_PARENT    reduce using rule 35 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO .)
     AND             reduce using rule 35 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO .)
@@ -2028,10 +2145,10 @@ state 122
     INDIVIDUALS     reduce using rule 35 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO .)
     ABRE_PARENT     reduce using rule 35 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO .)
     OR              reduce using rule 35 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO .)
-    CARACTERE_ESPECIAL shift and go to state 147
+    CARACTERE_ESPECIAL shift and go to state 150
 
 
-state 123
+state 126
 
     (39) declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL . declaracao_existencial
     (30) declaracao_existencial -> . PROPRIEDADE SOME CLASSE
@@ -2050,11 +2167,11 @@ state 123
     (43) declaracao_existencial -> . PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial
     (44) declaracao_existencial -> . PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
 
-    PROPRIEDADE     shift and go to state 20
+    PROPRIEDADE     shift and go to state 21
 
-    declaracao_existencial         shift and go to state 148
+    declaracao_existencial         shift and go to state 151
 
-state 124
+state 127
 
     (36) declaracao_existencial -> PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial .
 
@@ -2062,8 +2179,8 @@ state 124
     EQUIVALENT_TO   reduce using rule 36 (declaracao_existencial -> PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial .)
     DISJOINTCLASSES reduce using rule 36 (declaracao_existencial -> PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial .)
     DISJOINTWITH    reduce using rule 36 (declaracao_existencial -> PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial .)
-    error           reduce using rule 36 (declaracao_existencial -> PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial .)
     PALAVRA_CLASS   reduce using rule 36 (declaracao_existencial -> PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial .)
+    error           reduce using rule 36 (declaracao_existencial -> PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial .)
     $end            reduce using rule 36 (declaracao_existencial -> PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial .)
     FECHA_PARENT    reduce using rule 36 (declaracao_existencial -> PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial .)
     AND             reduce using rule 36 (declaracao_existencial -> PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial .)
@@ -2073,14 +2190,14 @@ state 124
     OR              reduce using rule 36 (declaracao_existencial -> PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial .)
 
 
-state 125
+state 128
 
     (37) declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO ABRE_COLCHETE . OPERADORES
 
-    OPERADORES      shift and go to state 149
+    OPERADORES      shift and go to state 152
 
 
-state 126
+state 129
 
     (38) declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL . declaracao_existencial
     (42) declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL . OPERADORES CARDINALIDADE CARACTERE_ESPECIAL
@@ -2100,20 +2217,20 @@ state 126
     (43) declaracao_existencial -> . PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial
     (44) declaracao_existencial -> . PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
 
-    OPERADORES      shift and go to state 151
-    PROPRIEDADE     shift and go to state 20
+    OPERADORES      shift and go to state 154
+    PROPRIEDADE     shift and go to state 21
 
-    declaracao_existencial         shift and go to state 150
+    declaracao_existencial         shift and go to state 153
 
-state 127
+state 130
 
     (41) declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE . OPERADORES CARDINALIDADE FECHA_COLCHETE
     (43) declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE . OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial
 
-    OPERADORES      shift and go to state 152
+    OPERADORES      shift and go to state 155
 
 
-state 128
+state 131
 
     (76) declaracao_classe_axioma_fechamento -> ABRE_PARENT classes_or_fechamento FECHA_PARENT .
 
@@ -2121,8 +2238,8 @@ state 128
     EQUIVALENT_TO   reduce using rule 76 (declaracao_classe_axioma_fechamento -> ABRE_PARENT classes_or_fechamento FECHA_PARENT .)
     DISJOINTCLASSES reduce using rule 76 (declaracao_classe_axioma_fechamento -> ABRE_PARENT classes_or_fechamento FECHA_PARENT .)
     DISJOINTWITH    reduce using rule 76 (declaracao_classe_axioma_fechamento -> ABRE_PARENT classes_or_fechamento FECHA_PARENT .)
-    error           reduce using rule 76 (declaracao_classe_axioma_fechamento -> ABRE_PARENT classes_or_fechamento FECHA_PARENT .)
     PALAVRA_CLASS   reduce using rule 76 (declaracao_classe_axioma_fechamento -> ABRE_PARENT classes_or_fechamento FECHA_PARENT .)
+    error           reduce using rule 76 (declaracao_classe_axioma_fechamento -> ABRE_PARENT classes_or_fechamento FECHA_PARENT .)
     $end            reduce using rule 76 (declaracao_classe_axioma_fechamento -> ABRE_PARENT classes_or_fechamento FECHA_PARENT .)
     FECHA_PARENT    reduce using rule 76 (declaracao_classe_axioma_fechamento -> ABRE_PARENT classes_or_fechamento FECHA_PARENT .)
     ABRE_PARENT     reduce using rule 76 (declaracao_classe_axioma_fechamento -> ABRE_PARENT classes_or_fechamento FECHA_PARENT .)
@@ -2132,17 +2249,17 @@ state 128
     INDIVIDUALS     reduce using rule 76 (declaracao_classe_axioma_fechamento -> ABRE_PARENT classes_or_fechamento FECHA_PARENT .)
 
 
-state 129
+state 132
 
     (77) classes_or_fechamento -> CLASSE OR . classes_or_fechamento
     (77) classes_or_fechamento -> . CLASSE OR classes_or_fechamento
     (78) classes_or_fechamento -> . CLASSE
 
-    CLASSE          shift and go to state 102
+    CLASSE          shift and go to state 105
 
-    classes_or_fechamento          shift and go to state 153
+    classes_or_fechamento          shift and go to state 156
 
-state 130
+state 133
 
     (34) declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO .
 
@@ -2150,8 +2267,8 @@ state 130
     EQUIVALENT_TO   reduce using rule 34 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO .)
     DISJOINTCLASSES reduce using rule 34 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO .)
     DISJOINTWITH    reduce using rule 34 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO .)
-    error           reduce using rule 34 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO .)
     PALAVRA_CLASS   reduce using rule 34 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO .)
+    error           reduce using rule 34 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO .)
     $end            reduce using rule 34 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO .)
     FECHA_PARENT    reduce using rule 34 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO .)
     AND             reduce using rule 34 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO .)
@@ -2161,43 +2278,43 @@ state 130
     OR              reduce using rule 34 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO .)
 
 
-state 131
+state 134
 
     (44) declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO . ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
 
-    ABRE_COLCHETE   shift and go to state 154
+    ABRE_COLCHETE   shift and go to state 157
 
 
-state 132
+state 135
 
     (15) continuacao_individuals -> NOME_INDIVIDUO .
     (16) continuacao_individuals -> NOME_INDIVIDUO . CARACTERE_ESPECIAL continuacao_individuals
 
-    error           reduce using rule 15 (continuacao_individuals -> NOME_INDIVIDUO .)
     PALAVRA_CLASS   reduce using rule 15 (continuacao_individuals -> NOME_INDIVIDUO .)
+    error           reduce using rule 15 (continuacao_individuals -> NOME_INDIVIDUO .)
     $end            reduce using rule 15 (continuacao_individuals -> NOME_INDIVIDUO .)
-    CARACTERE_ESPECIAL shift and go to state 155
+    CARACTERE_ESPECIAL shift and go to state 158
 
 
-state 133
+state 136
 
     (12) caso_individuals_opcional -> INDIVIDUALS NOME_INDIVIDUO CARACTERE_ESPECIAL continuacao_individuals .
 
-    error           reduce using rule 12 (caso_individuals_opcional -> INDIVIDUALS NOME_INDIVIDUO CARACTERE_ESPECIAL continuacao_individuals .)
     PALAVRA_CLASS   reduce using rule 12 (caso_individuals_opcional -> INDIVIDUALS NOME_INDIVIDUO CARACTERE_ESPECIAL continuacao_individuals .)
+    error           reduce using rule 12 (caso_individuals_opcional -> INDIVIDUALS NOME_INDIVIDUO CARACTERE_ESPECIAL continuacao_individuals .)
     $end            reduce using rule 12 (caso_individuals_opcional -> INDIVIDUALS NOME_INDIVIDUO CARACTERE_ESPECIAL continuacao_individuals .)
 
 
-state 134
+state 137
 
     (14) caso_individuals_opcional -> INDIVIDUALS error CARACTERE_ESPECIAL continuacao_individuals .
 
-    error           reduce using rule 14 (caso_individuals_opcional -> INDIVIDUALS error CARACTERE_ESPECIAL continuacao_individuals .)
     PALAVRA_CLASS   reduce using rule 14 (caso_individuals_opcional -> INDIVIDUALS error CARACTERE_ESPECIAL continuacao_individuals .)
+    error           reduce using rule 14 (caso_individuals_opcional -> INDIVIDUALS error CARACTERE_ESPECIAL continuacao_individuals .)
     $end            reduce using rule 14 (caso_individuals_opcional -> INDIVIDUALS error CARACTERE_ESPECIAL continuacao_individuals .)
 
 
-state 135
+state 138
 
     (79) classes_or -> OR CLASSE . classes_or
     (80) classes_or -> OR CLASSE .
@@ -2206,23 +2323,23 @@ state 135
 
     SUBCLASSOF      reduce using rule 80 (classes_or -> OR CLASSE .)
     INDIVIDUALS     reduce using rule 80 (classes_or -> OR CLASSE .)
-    error           reduce using rule 80 (classes_or -> OR CLASSE .)
     PALAVRA_CLASS   reduce using rule 80 (classes_or -> OR CLASSE .)
+    error           reduce using rule 80 (classes_or -> OR CLASSE .)
     $end            reduce using rule 80 (classes_or -> OR CLASSE .)
     AND             reduce using rule 80 (classes_or -> OR CLASSE .)
     FECHA_PARENT    reduce using rule 80 (classes_or -> OR CLASSE .)
-    OR              shift and go to state 108
+    OR              shift and go to state 111
 
-    classes_or                     shift and go to state 156
+    classes_or                     shift and go to state 159
 
-state 136
+state 139
 
     (52) continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial casos_parentese . FECHA_PARENT
 
-    FECHA_PARENT    shift and go to state 157
+    FECHA_PARENT    shift and go to state 160
 
 
-state 137
+state 140
 
     (60) continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial FECHA_PARENT .
     (61) continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial FECHA_PARENT . continuacao_equivalentto
@@ -2241,75 +2358,75 @@ state 137
 
     SUBCLASSOF      reduce using rule 60 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial FECHA_PARENT .)
     INDIVIDUALS     reduce using rule 60 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial FECHA_PARENT .)
-    error           reduce using rule 60 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial FECHA_PARENT .)
     PALAVRA_CLASS   reduce using rule 60 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial FECHA_PARENT .)
+    error           reduce using rule 60 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial FECHA_PARENT .)
     $end            reduce using rule 60 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial FECHA_PARENT .)
-    CLASSE          shift and go to state 25
-    PALAVRA_RESERVADA shift and go to state 26
+    CLASSE          shift and go to state 28
+    PALAVRA_RESERVADA shift and go to state 29
 
-    continuacao_equivalentto       shift and go to state 158
+    continuacao_equivalentto       shift and go to state 161
 
-state 138
+state 141
 
     (56) continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial classes_or . FECHA_PARENT
     (57) continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial classes_or . FECHA_PARENT caso_ands
 
-    FECHA_PARENT    shift and go to state 159
+    FECHA_PARENT    shift and go to state 162
 
 
-state 139
+state 142
 
     (58) continuacao_equivalentto -> CLASSE AND ABRE_PARENT casos_parentese declaracao_classe_aninhada . FECHA_PARENT
     (59) continuacao_equivalentto -> CLASSE AND ABRE_PARENT casos_parentese declaracao_classe_aninhada . FECHA_PARENT caso_ands
 
-    FECHA_PARENT    shift and go to state 160
+    FECHA_PARENT    shift and go to state 163
 
 
-state 140
+state 143
 
     (62) declaracao_classe_aninhada -> caso_ands .
 
     FECHA_PARENT    reduce using rule 62 (declaracao_classe_aninhada -> caso_ands .)
     SUBCLASSOF      reduce using rule 62 (declaracao_classe_aninhada -> caso_ands .)
     INDIVIDUALS     reduce using rule 62 (declaracao_classe_aninhada -> caso_ands .)
-    error           reduce using rule 62 (declaracao_classe_aninhada -> caso_ands .)
     PALAVRA_CLASS   reduce using rule 62 (declaracao_classe_aninhada -> caso_ands .)
+    error           reduce using rule 62 (declaracao_classe_aninhada -> caso_ands .)
     $end            reduce using rule 62 (declaracao_classe_aninhada -> caso_ands .)
 
 
-state 141
+state 144
 
     (55) continuacao_equivalentto -> CLASSE AND declaracao_existencial classes_or caso_ands .
 
     SUBCLASSOF      reduce using rule 55 (continuacao_equivalentto -> CLASSE AND declaracao_existencial classes_or caso_ands .)
     INDIVIDUALS     reduce using rule 55 (continuacao_equivalentto -> CLASSE AND declaracao_existencial classes_or caso_ands .)
-    error           reduce using rule 55 (continuacao_equivalentto -> CLASSE AND declaracao_existencial classes_or caso_ands .)
     PALAVRA_CLASS   reduce using rule 55 (continuacao_equivalentto -> CLASSE AND declaracao_existencial classes_or caso_ands .)
+    error           reduce using rule 55 (continuacao_equivalentto -> CLASSE AND declaracao_existencial classes_or caso_ands .)
     $end            reduce using rule 55 (continuacao_equivalentto -> CLASSE AND declaracao_existencial classes_or caso_ands .)
 
 
-state 142
+state 145
 
     (51) continuacao_equivalentto -> PALAVRA_RESERVADA CLASSE EQUIVALENT_TO CLASSE declaracao_classe_aninhada .
 
     SUBCLASSOF      reduce using rule 51 (continuacao_equivalentto -> PALAVRA_RESERVADA CLASSE EQUIVALENT_TO CLASSE declaracao_classe_aninhada .)
     INDIVIDUALS     reduce using rule 51 (continuacao_equivalentto -> PALAVRA_RESERVADA CLASSE EQUIVALENT_TO CLASSE declaracao_classe_aninhada .)
-    error           reduce using rule 51 (continuacao_equivalentto -> PALAVRA_RESERVADA CLASSE EQUIVALENT_TO CLASSE declaracao_classe_aninhada .)
     PALAVRA_CLASS   reduce using rule 51 (continuacao_equivalentto -> PALAVRA_RESERVADA CLASSE EQUIVALENT_TO CLASSE declaracao_classe_aninhada .)
+    error           reduce using rule 51 (continuacao_equivalentto -> PALAVRA_RESERVADA CLASSE EQUIVALENT_TO CLASSE declaracao_classe_aninhada .)
     $end            reduce using rule 51 (continuacao_equivalentto -> PALAVRA_RESERVADA CLASSE EQUIVALENT_TO CLASSE declaracao_classe_aninhada .)
 
 
-state 143
+state 146
 
     (67) casos_parentese -> ABRE_PARENT PROPRIEDADE SOME ABRE_PARENT CLASSE . classes_or FECHA_PARENT FECHA_PARENT
     (79) classes_or -> . OR CLASSE classes_or
     (80) classes_or -> . OR CLASSE
 
-    OR              shift and go to state 108
+    OR              shift and go to state 111
 
-    classes_or                     shift and go to state 161
+    classes_or                     shift and go to state 164
 
-state 144
+state 147
 
     (72) casos_parentese -> ABRE_PARENT PROPRIEDADE VALUE CLASSE FECHA_PARENT .
 
@@ -2317,8 +2434,8 @@ state 144
     EQUIVALENT_TO   reduce using rule 72 (casos_parentese -> ABRE_PARENT PROPRIEDADE VALUE CLASSE FECHA_PARENT .)
     DISJOINTCLASSES reduce using rule 72 (casos_parentese -> ABRE_PARENT PROPRIEDADE VALUE CLASSE FECHA_PARENT .)
     DISJOINTWITH    reduce using rule 72 (casos_parentese -> ABRE_PARENT PROPRIEDADE VALUE CLASSE FECHA_PARENT .)
-    error           reduce using rule 72 (casos_parentese -> ABRE_PARENT PROPRIEDADE VALUE CLASSE FECHA_PARENT .)
     PALAVRA_CLASS   reduce using rule 72 (casos_parentese -> ABRE_PARENT PROPRIEDADE VALUE CLASSE FECHA_PARENT .)
+    error           reduce using rule 72 (casos_parentese -> ABRE_PARENT PROPRIEDADE VALUE CLASSE FECHA_PARENT .)
     $end            reduce using rule 72 (casos_parentese -> ABRE_PARENT PROPRIEDADE VALUE CLASSE FECHA_PARENT .)
     FECHA_PARENT    reduce using rule 72 (casos_parentese -> ABRE_PARENT PROPRIEDADE VALUE CLASSE FECHA_PARENT .)
     SUBCLASSOF      reduce using rule 72 (casos_parentese -> ABRE_PARENT PROPRIEDADE VALUE CLASSE FECHA_PARENT .)
@@ -2326,7 +2443,7 @@ state 144
     OR              reduce using rule 72 (casos_parentese -> ABRE_PARENT PROPRIEDADE VALUE CLASSE FECHA_PARENT .)
 
 
-state 145
+state 148
 
     (69) casos_parentese -> ABRE_PARENT casos_parentese OR casos_parentese FECHA_PARENT .
 
@@ -2334,8 +2451,8 @@ state 145
     EQUIVALENT_TO   reduce using rule 69 (casos_parentese -> ABRE_PARENT casos_parentese OR casos_parentese FECHA_PARENT .)
     DISJOINTCLASSES reduce using rule 69 (casos_parentese -> ABRE_PARENT casos_parentese OR casos_parentese FECHA_PARENT .)
     DISJOINTWITH    reduce using rule 69 (casos_parentese -> ABRE_PARENT casos_parentese OR casos_parentese FECHA_PARENT .)
-    error           reduce using rule 69 (casos_parentese -> ABRE_PARENT casos_parentese OR casos_parentese FECHA_PARENT .)
     PALAVRA_CLASS   reduce using rule 69 (casos_parentese -> ABRE_PARENT casos_parentese OR casos_parentese FECHA_PARENT .)
+    error           reduce using rule 69 (casos_parentese -> ABRE_PARENT casos_parentese OR casos_parentese FECHA_PARENT .)
     $end            reduce using rule 69 (casos_parentese -> ABRE_PARENT casos_parentese OR casos_parentese FECHA_PARENT .)
     FECHA_PARENT    reduce using rule 69 (casos_parentese -> ABRE_PARENT casos_parentese OR casos_parentese FECHA_PARENT .)
     SUBCLASSOF      reduce using rule 69 (casos_parentese -> ABRE_PARENT casos_parentese OR casos_parentese FECHA_PARENT .)
@@ -2343,7 +2460,7 @@ state 145
     OR              reduce using rule 69 (casos_parentese -> ABRE_PARENT casos_parentese OR casos_parentese FECHA_PARENT .)
 
 
-state 146
+state 149
 
     (70) casos_parentese -> ABRE_PARENT casos_parentese AND casos_parentese FECHA_PARENT .
 
@@ -2351,8 +2468,8 @@ state 146
     EQUIVALENT_TO   reduce using rule 70 (casos_parentese -> ABRE_PARENT casos_parentese AND casos_parentese FECHA_PARENT .)
     DISJOINTCLASSES reduce using rule 70 (casos_parentese -> ABRE_PARENT casos_parentese AND casos_parentese FECHA_PARENT .)
     DISJOINTWITH    reduce using rule 70 (casos_parentese -> ABRE_PARENT casos_parentese AND casos_parentese FECHA_PARENT .)
-    error           reduce using rule 70 (casos_parentese -> ABRE_PARENT casos_parentese AND casos_parentese FECHA_PARENT .)
     PALAVRA_CLASS   reduce using rule 70 (casos_parentese -> ABRE_PARENT casos_parentese AND casos_parentese FECHA_PARENT .)
+    error           reduce using rule 70 (casos_parentese -> ABRE_PARENT casos_parentese AND casos_parentese FECHA_PARENT .)
     $end            reduce using rule 70 (casos_parentese -> ABRE_PARENT casos_parentese AND casos_parentese FECHA_PARENT .)
     FECHA_PARENT    reduce using rule 70 (casos_parentese -> ABRE_PARENT casos_parentese AND casos_parentese FECHA_PARENT .)
     SUBCLASSOF      reduce using rule 70 (casos_parentese -> ABRE_PARENT casos_parentese AND casos_parentese FECHA_PARENT .)
@@ -2360,7 +2477,7 @@ state 146
     OR              reduce using rule 70 (casos_parentese -> ABRE_PARENT casos_parentese AND casos_parentese FECHA_PARENT .)
 
 
-state 147
+state 150
 
     (40) declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL . declaracao_existencial
     (30) declaracao_existencial -> . PROPRIEDADE SOME CLASSE
@@ -2379,11 +2496,11 @@ state 147
     (43) declaracao_existencial -> . PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial
     (44) declaracao_existencial -> . PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
 
-    PROPRIEDADE     shift and go to state 20
+    PROPRIEDADE     shift and go to state 21
 
-    declaracao_existencial         shift and go to state 162
+    declaracao_existencial         shift and go to state 165
 
-state 148
+state 151
 
     (39) declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial .
 
@@ -2391,8 +2508,8 @@ state 148
     EQUIVALENT_TO   reduce using rule 39 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial .)
     DISJOINTCLASSES reduce using rule 39 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial .)
     DISJOINTWITH    reduce using rule 39 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial .)
-    error           reduce using rule 39 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial .)
     PALAVRA_CLASS   reduce using rule 39 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial .)
+    error           reduce using rule 39 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial .)
     $end            reduce using rule 39 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial .)
     FECHA_PARENT    reduce using rule 39 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial .)
     AND             reduce using rule 39 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial .)
@@ -2402,7 +2519,7 @@ state 148
     OR              reduce using rule 39 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial .)
 
 
-state 149
+state 152
 
     (37) declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO ABRE_COLCHETE OPERADORES .
 
@@ -2410,8 +2527,8 @@ state 149
     EQUIVALENT_TO   reduce using rule 37 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO ABRE_COLCHETE OPERADORES .)
     DISJOINTCLASSES reduce using rule 37 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO ABRE_COLCHETE OPERADORES .)
     DISJOINTWITH    reduce using rule 37 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO ABRE_COLCHETE OPERADORES .)
-    error           reduce using rule 37 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO ABRE_COLCHETE OPERADORES .)
     PALAVRA_CLASS   reduce using rule 37 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO ABRE_COLCHETE OPERADORES .)
+    error           reduce using rule 37 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO ABRE_COLCHETE OPERADORES .)
     $end            reduce using rule 37 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO ABRE_COLCHETE OPERADORES .)
     FECHA_PARENT    reduce using rule 37 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO ABRE_COLCHETE OPERADORES .)
     AND             reduce using rule 37 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO ABRE_COLCHETE OPERADORES .)
@@ -2421,7 +2538,7 @@ state 149
     OR              reduce using rule 37 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO ABRE_COLCHETE OPERADORES .)
 
 
-state 150
+state 153
 
     (38) declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial .
 
@@ -2429,8 +2546,8 @@ state 150
     EQUIVALENT_TO   reduce using rule 38 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial .)
     DISJOINTCLASSES reduce using rule 38 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial .)
     DISJOINTWITH    reduce using rule 38 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial .)
-    error           reduce using rule 38 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial .)
     PALAVRA_CLASS   reduce using rule 38 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial .)
+    error           reduce using rule 38 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial .)
     $end            reduce using rule 38 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial .)
     FECHA_PARENT    reduce using rule 38 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial .)
     AND             reduce using rule 38 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial .)
@@ -2440,81 +2557,81 @@ state 150
     OR              reduce using rule 38 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial .)
 
 
-state 151
+state 154
 
     (42) declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES . CARDINALIDADE CARACTERE_ESPECIAL
 
-    CARDINALIDADE   shift and go to state 163
+    CARDINALIDADE   shift and go to state 166
 
 
-state 152
+state 155
 
     (41) declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES . CARDINALIDADE FECHA_COLCHETE
     (43) declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES . CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial
 
-    CARDINALIDADE   shift and go to state 164
+    CARDINALIDADE   shift and go to state 167
 
 
-state 153
+state 156
 
     (77) classes_or_fechamento -> CLASSE OR classes_or_fechamento .
 
     FECHA_PARENT    reduce using rule 77 (classes_or_fechamento -> CLASSE OR classes_or_fechamento .)
 
 
-state 154
+state 157
 
     (44) declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE . OPERADORES CARDINALIDADE FECHA_COLCHETE
 
-    OPERADORES      shift and go to state 165
+    OPERADORES      shift and go to state 168
 
 
-state 155
+state 158
 
     (16) continuacao_individuals -> NOME_INDIVIDUO CARACTERE_ESPECIAL . continuacao_individuals
     (15) continuacao_individuals -> . NOME_INDIVIDUO
     (16) continuacao_individuals -> . NOME_INDIVIDUO CARACTERE_ESPECIAL continuacao_individuals
 
-    NOME_INDIVIDUO  shift and go to state 132
+    NOME_INDIVIDUO  shift and go to state 135
 
-    continuacao_individuals        shift and go to state 166
+    continuacao_individuals        shift and go to state 169
 
-state 156
+state 159
 
     (79) classes_or -> OR CLASSE classes_or .
 
     SUBCLASSOF      reduce using rule 79 (classes_or -> OR CLASSE classes_or .)
     INDIVIDUALS     reduce using rule 79 (classes_or -> OR CLASSE classes_or .)
-    error           reduce using rule 79 (classes_or -> OR CLASSE classes_or .)
     PALAVRA_CLASS   reduce using rule 79 (classes_or -> OR CLASSE classes_or .)
+    error           reduce using rule 79 (classes_or -> OR CLASSE classes_or .)
     $end            reduce using rule 79 (classes_or -> OR CLASSE classes_or .)
     AND             reduce using rule 79 (classes_or -> OR CLASSE classes_or .)
     FECHA_PARENT    reduce using rule 79 (classes_or -> OR CLASSE classes_or .)
 
 
-state 157
+state 160
 
     (52) continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial casos_parentese FECHA_PARENT .
 
     SUBCLASSOF      reduce using rule 52 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial casos_parentese FECHA_PARENT .)
     INDIVIDUALS     reduce using rule 52 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial casos_parentese FECHA_PARENT .)
-    error           reduce using rule 52 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial casos_parentese FECHA_PARENT .)
     PALAVRA_CLASS   reduce using rule 52 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial casos_parentese FECHA_PARENT .)
+    error           reduce using rule 52 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial casos_parentese FECHA_PARENT .)
     $end            reduce using rule 52 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial casos_parentese FECHA_PARENT .)
 
 
-state 158
+state 161
 
     (61) continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial FECHA_PARENT continuacao_equivalentto .
 
     SUBCLASSOF      reduce using rule 61 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial FECHA_PARENT continuacao_equivalentto .)
     INDIVIDUALS     reduce using rule 61 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial FECHA_PARENT continuacao_equivalentto .)
-    error           reduce using rule 61 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial FECHA_PARENT continuacao_equivalentto .)
     PALAVRA_CLASS   reduce using rule 61 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial FECHA_PARENT continuacao_equivalentto .)
+    error           reduce using rule 61 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial FECHA_PARENT continuacao_equivalentto .)
     $end            reduce using rule 61 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial FECHA_PARENT continuacao_equivalentto .)
 
 
-state 159
+state 162
 
     (56) continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial classes_or FECHA_PARENT .
     (57) continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial classes_or FECHA_PARENT . caso_ands
@@ -2525,14 +2642,14 @@ state 159
 
     SUBCLASSOF      reduce using rule 56 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial classes_or FECHA_PARENT .)
     INDIVIDUALS     reduce using rule 56 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial classes_or FECHA_PARENT .)
-    error           reduce using rule 56 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial classes_or FECHA_PARENT .)
     PALAVRA_CLASS   reduce using rule 56 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial classes_or FECHA_PARENT .)
+    error           reduce using rule 56 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial classes_or FECHA_PARENT .)
     $end            reduce using rule 56 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial classes_or FECHA_PARENT .)
-    AND             shift and go to state 19
+    AND             shift and go to state 20
 
-    caso_ands                      shift and go to state 167
+    caso_ands                      shift and go to state 170
 
-state 160
+state 163
 
     (58) continuacao_equivalentto -> CLASSE AND ABRE_PARENT casos_parentese declaracao_classe_aninhada FECHA_PARENT .
     (59) continuacao_equivalentto -> CLASSE AND ABRE_PARENT casos_parentese declaracao_classe_aninhada FECHA_PARENT . caso_ands
@@ -2543,21 +2660,21 @@ state 160
 
     SUBCLASSOF      reduce using rule 58 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT casos_parentese declaracao_classe_aninhada FECHA_PARENT .)
     INDIVIDUALS     reduce using rule 58 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT casos_parentese declaracao_classe_aninhada FECHA_PARENT .)
-    error           reduce using rule 58 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT casos_parentese declaracao_classe_aninhada FECHA_PARENT .)
     PALAVRA_CLASS   reduce using rule 58 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT casos_parentese declaracao_classe_aninhada FECHA_PARENT .)
+    error           reduce using rule 58 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT casos_parentese declaracao_classe_aninhada FECHA_PARENT .)
     $end            reduce using rule 58 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT casos_parentese declaracao_classe_aninhada FECHA_PARENT .)
-    AND             shift and go to state 19
+    AND             shift and go to state 20
 
-    caso_ands                      shift and go to state 168
+    caso_ands                      shift and go to state 171
 
-state 161
+state 164
 
     (67) casos_parentese -> ABRE_PARENT PROPRIEDADE SOME ABRE_PARENT CLASSE classes_or . FECHA_PARENT FECHA_PARENT
 
-    FECHA_PARENT    shift and go to state 169
+    FECHA_PARENT    shift and go to state 172
 
 
-state 162
+state 165
 
     (40) declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial .
 
@@ -2565,8 +2682,8 @@ state 162
     EQUIVALENT_TO   reduce using rule 40 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial .)
     DISJOINTCLASSES reduce using rule 40 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial .)
     DISJOINTWITH    reduce using rule 40 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial .)
-    error           reduce using rule 40 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial .)
     PALAVRA_CLASS   reduce using rule 40 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial .)
+    error           reduce using rule 40 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial .)
     $end            reduce using rule 40 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial .)
     FECHA_PARENT    reduce using rule 40 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial .)
     AND             reduce using rule 40 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial .)
@@ -2576,67 +2693,67 @@ state 162
     OR              reduce using rule 40 (declaracao_existencial -> PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial .)
 
 
-state 163
+state 166
 
     (42) declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE . CARACTERE_ESPECIAL
 
-    CARACTERE_ESPECIAL shift and go to state 170
+    CARACTERE_ESPECIAL shift and go to state 173
 
 
-state 164
+state 167
 
     (41) declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE . FECHA_COLCHETE
     (43) declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE . FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial
 
-    FECHA_COLCHETE  shift and go to state 171
+    FECHA_COLCHETE  shift and go to state 174
 
 
-state 165
+state 168
 
     (44) declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES . CARDINALIDADE FECHA_COLCHETE
 
-    CARDINALIDADE   shift and go to state 172
+    CARDINALIDADE   shift and go to state 175
 
 
-state 166
+state 169
 
     (16) continuacao_individuals -> NOME_INDIVIDUO CARACTERE_ESPECIAL continuacao_individuals .
 
-    error           reduce using rule 16 (continuacao_individuals -> NOME_INDIVIDUO CARACTERE_ESPECIAL continuacao_individuals .)
     PALAVRA_CLASS   reduce using rule 16 (continuacao_individuals -> NOME_INDIVIDUO CARACTERE_ESPECIAL continuacao_individuals .)
+    error           reduce using rule 16 (continuacao_individuals -> NOME_INDIVIDUO CARACTERE_ESPECIAL continuacao_individuals .)
     $end            reduce using rule 16 (continuacao_individuals -> NOME_INDIVIDUO CARACTERE_ESPECIAL continuacao_individuals .)
 
 
-state 167
+state 170
 
     (57) continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial classes_or FECHA_PARENT caso_ands .
 
     SUBCLASSOF      reduce using rule 57 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial classes_or FECHA_PARENT caso_ands .)
     INDIVIDUALS     reduce using rule 57 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial classes_or FECHA_PARENT caso_ands .)
-    error           reduce using rule 57 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial classes_or FECHA_PARENT caso_ands .)
     PALAVRA_CLASS   reduce using rule 57 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial classes_or FECHA_PARENT caso_ands .)
+    error           reduce using rule 57 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial classes_or FECHA_PARENT caso_ands .)
     $end            reduce using rule 57 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT declaracao_existencial classes_or FECHA_PARENT caso_ands .)
 
 
-state 168
+state 171
 
     (59) continuacao_equivalentto -> CLASSE AND ABRE_PARENT casos_parentese declaracao_classe_aninhada FECHA_PARENT caso_ands .
 
     SUBCLASSOF      reduce using rule 59 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT casos_parentese declaracao_classe_aninhada FECHA_PARENT caso_ands .)
     INDIVIDUALS     reduce using rule 59 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT casos_parentese declaracao_classe_aninhada FECHA_PARENT caso_ands .)
-    error           reduce using rule 59 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT casos_parentese declaracao_classe_aninhada FECHA_PARENT caso_ands .)
     PALAVRA_CLASS   reduce using rule 59 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT casos_parentese declaracao_classe_aninhada FECHA_PARENT caso_ands .)
+    error           reduce using rule 59 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT casos_parentese declaracao_classe_aninhada FECHA_PARENT caso_ands .)
     $end            reduce using rule 59 (continuacao_equivalentto -> CLASSE AND ABRE_PARENT casos_parentese declaracao_classe_aninhada FECHA_PARENT caso_ands .)
 
 
-state 169
+state 172
 
     (67) casos_parentese -> ABRE_PARENT PROPRIEDADE SOME ABRE_PARENT CLASSE classes_or FECHA_PARENT . FECHA_PARENT
 
-    FECHA_PARENT    shift and go to state 173
+    FECHA_PARENT    shift and go to state 176
 
 
-state 170
+state 173
 
     (42) declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL .
 
@@ -2644,8 +2761,8 @@ state 170
     EQUIVALENT_TO   reduce using rule 42 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL .)
     DISJOINTCLASSES reduce using rule 42 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL .)
     DISJOINTWITH    reduce using rule 42 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL .)
-    error           reduce using rule 42 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL .)
     PALAVRA_CLASS   reduce using rule 42 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL .)
+    error           reduce using rule 42 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL .)
     $end            reduce using rule 42 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL .)
     FECHA_PARENT    reduce using rule 42 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL .)
     AND             reduce using rule 42 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL .)
@@ -2655,7 +2772,7 @@ state 170
     OR              reduce using rule 42 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL .)
 
 
-state 171
+state 174
 
     (41) declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE .
     (43) declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE . CARACTERE_ESPECIAL declaracao_existencial
@@ -2664,8 +2781,8 @@ state 171
     EQUIVALENT_TO   reduce using rule 41 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE .)
     DISJOINTCLASSES reduce using rule 41 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE .)
     DISJOINTWITH    reduce using rule 41 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE .)
-    error           reduce using rule 41 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE .)
     PALAVRA_CLASS   reduce using rule 41 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE .)
+    error           reduce using rule 41 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE .)
     $end            reduce using rule 41 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE .)
     FECHA_PARENT    reduce using rule 41 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE .)
     AND             reduce using rule 41 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE .)
@@ -2673,17 +2790,17 @@ state 171
     INDIVIDUALS     reduce using rule 41 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE .)
     ABRE_PARENT     reduce using rule 41 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE .)
     OR              reduce using rule 41 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE .)
-    CARACTERE_ESPECIAL shift and go to state 174
+    CARACTERE_ESPECIAL shift and go to state 177
 
 
-state 172
+state 175
 
     (44) declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE . FECHA_COLCHETE
 
-    FECHA_COLCHETE  shift and go to state 175
+    FECHA_COLCHETE  shift and go to state 178
 
 
-state 173
+state 176
 
     (67) casos_parentese -> ABRE_PARENT PROPRIEDADE SOME ABRE_PARENT CLASSE classes_or FECHA_PARENT FECHA_PARENT .
 
@@ -2691,8 +2808,8 @@ state 173
     EQUIVALENT_TO   reduce using rule 67 (casos_parentese -> ABRE_PARENT PROPRIEDADE SOME ABRE_PARENT CLASSE classes_or FECHA_PARENT FECHA_PARENT .)
     DISJOINTCLASSES reduce using rule 67 (casos_parentese -> ABRE_PARENT PROPRIEDADE SOME ABRE_PARENT CLASSE classes_or FECHA_PARENT FECHA_PARENT .)
     DISJOINTWITH    reduce using rule 67 (casos_parentese -> ABRE_PARENT PROPRIEDADE SOME ABRE_PARENT CLASSE classes_or FECHA_PARENT FECHA_PARENT .)
-    error           reduce using rule 67 (casos_parentese -> ABRE_PARENT PROPRIEDADE SOME ABRE_PARENT CLASSE classes_or FECHA_PARENT FECHA_PARENT .)
     PALAVRA_CLASS   reduce using rule 67 (casos_parentese -> ABRE_PARENT PROPRIEDADE SOME ABRE_PARENT CLASSE classes_or FECHA_PARENT FECHA_PARENT .)
+    error           reduce using rule 67 (casos_parentese -> ABRE_PARENT PROPRIEDADE SOME ABRE_PARENT CLASSE classes_or FECHA_PARENT FECHA_PARENT .)
     $end            reduce using rule 67 (casos_parentese -> ABRE_PARENT PROPRIEDADE SOME ABRE_PARENT CLASSE classes_or FECHA_PARENT FECHA_PARENT .)
     FECHA_PARENT    reduce using rule 67 (casos_parentese -> ABRE_PARENT PROPRIEDADE SOME ABRE_PARENT CLASSE classes_or FECHA_PARENT FECHA_PARENT .)
     SUBCLASSOF      reduce using rule 67 (casos_parentese -> ABRE_PARENT PROPRIEDADE SOME ABRE_PARENT CLASSE classes_or FECHA_PARENT FECHA_PARENT .)
@@ -2700,7 +2817,7 @@ state 173
     OR              reduce using rule 67 (casos_parentese -> ABRE_PARENT PROPRIEDADE SOME ABRE_PARENT CLASSE classes_or FECHA_PARENT FECHA_PARENT .)
 
 
-state 174
+state 177
 
     (43) declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL . declaracao_existencial
     (30) declaracao_existencial -> . PROPRIEDADE SOME CLASSE
@@ -2719,11 +2836,11 @@ state 174
     (43) declaracao_existencial -> . PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial
     (44) declaracao_existencial -> . PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
 
-    PROPRIEDADE     shift and go to state 20
+    PROPRIEDADE     shift and go to state 21
 
-    declaracao_existencial         shift and go to state 176
+    declaracao_existencial         shift and go to state 179
 
-state 175
+state 178
 
     (44) declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE .
 
@@ -2731,8 +2848,8 @@ state 175
     EQUIVALENT_TO   reduce using rule 44 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE .)
     DISJOINTCLASSES reduce using rule 44 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE .)
     DISJOINTWITH    reduce using rule 44 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE .)
-    error           reduce using rule 44 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE .)
     PALAVRA_CLASS   reduce using rule 44 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE .)
+    error           reduce using rule 44 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE .)
     $end            reduce using rule 44 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE .)
     FECHA_PARENT    reduce using rule 44 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE .)
     AND             reduce using rule 44 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE .)
@@ -2742,7 +2859,7 @@ state 175
     OR              reduce using rule 44 (declaracao_existencial -> PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE .)
 
 
-state 176
+state 179
 
     (43) declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial .
 
@@ -2750,8 +2867,8 @@ state 176
     EQUIVALENT_TO   reduce using rule 43 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial .)
     DISJOINTCLASSES reduce using rule 43 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial .)
     DISJOINTWITH    reduce using rule 43 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial .)
-    error           reduce using rule 43 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial .)
     PALAVRA_CLASS   reduce using rule 43 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial .)
+    error           reduce using rule 43 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial .)
     $end            reduce using rule 43 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial .)
     FECHA_PARENT    reduce using rule 43 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial .)
     AND             reduce using rule 43 (declaracao_existencial -> PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial .)

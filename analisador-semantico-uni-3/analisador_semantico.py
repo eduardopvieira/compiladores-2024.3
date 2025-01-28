@@ -15,17 +15,16 @@ tokens = [
 
 
 lista_tuplas = []
-lista_classes = []
 lista_erros = []
-lista_classes_fechamento = []
 
 lista_dataproperty = []
 lista_objectproperty = []
 
 tabela_simbolos = TabelaSimbolos()
 
+fila_classe_de_propriedades = []
 fila_propriedades = []
-
+fila_classes = []
 
 #!========================== FUNÇÃO AUXILIAR DE PALAVRAS RESERVADAS ==========================
 def t_SUBCLASSOF(t):
@@ -121,20 +120,12 @@ lexer = lex.lex()
 def p_programa(p):
     """programa : declaracao_classe programa
                 | declaracao_classe"""
-    
-def p_programa_error(p):
-    """
-    programa : error programa
-             | error
-    """
-    lista_erros.append("Linha {}:  A CLASSE NÃO FOI DECLARADA CORRETAMENTE")
 
 def p_declaracao_classe(p):
     """
     declaracao_classe : PALAVRA_CLASS CLASSE tipo_classe_primaria
     """
     
-    lista_classes.append(p[2])
    
     print("============================")
     print(f"\nClasse lida: {p[2]}")
@@ -160,28 +151,43 @@ def p_declaracao_classe(p):
     for dp in lista_dataproperty:
         print(f" - {dp}")
     print("ERROS: ")
+    for error in lista_erros:
+        print(error)
+
+    print(f"EU SOU FILA CLASSE {fila_classes}")
+    print(f"EU SOU FILA PROPRIEDADE {fila_propriedades}")
+    print(f"EU SOU FILA CLASSES DE PROPRIEDADE {fila_classe_de_propriedades}")
+
     
+    while fila_classes:
+        classe = fila_classes.pop(0)  # Remove a primeira classe da fila de classes
+        if classe in fila_classe_de_propriedades:
+            fila_classe_de_propriedades.remove(classe)
+
+    if fila_classe_de_propriedades:
+        print(f"As seguintes classes não estavam declaradas para fechamento: {fila_classe_de_propriedades}")    
+
+
     lista_dataproperty.clear()
     lista_objectproperty.clear()
 
-    while fila_propriedades:
-        fila_propriedades.pop(0)
+    while fila_classe_de_propriedades:
+        fila_classe_de_propriedades.pop(0)
 
     lista_tuplas.clear()
 
 
-# def p_declaracao_classe_error(p):
-#     """
-#     declaracao_classe : PALAVRA_CLASS error tipo_classe_primaria
-#                       | error CLASSE tipo_classe_primaria        
-    
-#     """
-#     if p.slice[2].type == 'error':
-#         lista_erros.append(f"Linha {p.lineno(2)}: Escreva o nome da classe.")
-#     elif p.slice[1].type == 'error':
-#         lista_erros.append(f"Linha {p.lineno(1)}: É necessária a palavra reservada 'Class'.")
-#     else:
-#         lista_erros.append(f"Linha {p.lineno(1)}: Erro na declaração da classe.")
+def p_declaracao_classe_error(p):
+    """
+    declaracao_classe : PALAVRA_CLASS error tipo_classe_primaria
+                      | error CLASSE tipo_classe_primaria        
+    """
+    if p.slice[1].type == 'error':
+        print(f"Linha {p.lineno(1)}: É necessária a palavra reservada 'Class'.")
+    elif p.slice[2].type == 'error':
+        print(f"Linha {p.lineno(2)}: Escreva o nome da classe.")
+    else:
+        print(f"Linha {p.lineno(1)}: Erro na declaração da classe.")
 
 def p_tipo_classe_primaria(p):
     """
@@ -307,6 +313,14 @@ def p_declaracao_existencial(p):
                            
 
     """
+    if len(p) == 6 and p[2] == 'some' and isinstance(p[3], str):  # p[0] PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL recursao
+        fila_classes.append(p[3])
+        fila_propriedades.append(p[1])
+
+    if len(p) == 7 and p[3] == 'some' and isinstance(p[4], str):  # p[0] PROPRIEDADE PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL recursao
+        fila_classes.append(p[4])
+        fila_propriedades.append(p[2])
+
 
     if len(p) == 4:
         lista_objectproperty.append((p[1]))
@@ -342,20 +356,9 @@ def p_declaracao_existencial(p):
             lista_dataproperty.append((p[1], p[4]))
         elif len(p) == 10 and p[5] in ["integer", "int", "long", "nonNegativeInteger", "positiveInteger"]:
             lista_dataproperty.append((p[1], p[5]))
-
-        
-
     else:
         print("NAO ENTROU EM NENHUMA REGRA")
-
-
-    if len(p) > 3 and p[2] == "some":
-        classe = p[3]
-        if classe in fila_propriedades:
-            fila_propriedades.remove(classe)
-        # else:
-        #     print(f"Erro: a classe {classe} não estava declarada para fechamento.")
-
+    
 
 #!==================== CLASSE DEFINIDA ==================
 
@@ -423,7 +426,7 @@ def p_declaracao_classe_axioma_fechamento(p):
     declaracao_classe_axioma_fechamento : ABRE_PARENT classes_or_fechamento FECHA_PARENT
                                         
     """
-    lista_tuplas.append(("fechamento", "fechamento"))
+    lista_tuplas.append(("Fechamento", "Fechamento"))
 
 
 def p_classes_or_fechamento(p):
@@ -432,8 +435,9 @@ def p_classes_or_fechamento(p):
                           | CLASSE
     """   
 
-    if p[1]:
-        fila_propriedades.append(p[1])
+   
+    # print(f"ADICIONANDO CLASSE {p[1]} NA FILA DE PROPRIEDADES")
+    fila_classe_de_propriedades.append(p[1])
 
 
 def p_classes_or(p):
@@ -469,9 +473,9 @@ def p_declaracao_classe_coberta(p):
 def p_error(p):
     if p:
         linha_erro = p.lineno
-        print(f"Erro sintático: token inesperado '{p.value}' do tipo '{p.type}' na linha {linha_erro}")
+        print(f"Erro: token inesperado '{p.value}' do tipo '{p.type}' na linha {linha_erro}")
     else:
-        print("Erro sintático: fim inesperado do arquivo")
+        print("Erro: fim inesperado do arquivo")
 
 
 parser = yacc.yacc(debug=True)

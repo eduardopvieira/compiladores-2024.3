@@ -1,25 +1,8 @@
-
 Class: ClasseBe
 
     SubClassOf: 
         CoreParticipant,
         prop some xsd:integer[>= 10],
         propriedadeee some ConditionalCommitment,
-        propriedadeee some OfferorUnconditionalAgreement
+        eduardo some OfferorUnconditionalAgreement,
         propriedadeee only (ConditionalCommitment or OfferorUnconditionalAgreement)
-
-    
-Class: DataCustomer
-
-        
-    SubClassOf: 
-        CoreParticipant,
-        externallyDependsOn some ConditionalCommitment,
-        externallyDependsOn some OfferorUnconditionalAgreement,
-        participatedIn some Offer,
-        calls some DataOperation,
-        inheresIn some ConditionalClaim,
-        inheresIn some OffereeUnconditionalAgreement,
-        mediates some EconomicOffering,
-        mediates some InvokeDataOperation,
-        mediates some MetadataRetrival

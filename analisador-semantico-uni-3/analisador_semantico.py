@@ -23,8 +23,7 @@ lista_objectproperty = []
 tabela_simbolos = TabelaSimbolos()
 
 fila_classe_de_propriedades = []
-fila_propriedades = []
-fila_classes = []
+fila_classes_encontradas = []
 
 #!========================== FUNÇÃO AUXILIAR DE PALAVRAS RESERVADAS ==========================
 def t_SUBCLASSOF(t):
@@ -127,8 +126,8 @@ def p_declaracao_classe(p):
     """
     
    
-    print("============================")
-    print(f"\nClasse lida: {p[2]}")
+    print("============================\n")
+    print(f"Classe lida: {p[2]}")
     print("============================")   
     
     for valor in lista_tuplas:
@@ -154,18 +153,18 @@ def p_declaracao_classe(p):
     for error in lista_erros:
         print(error)
 
-    print(f"EU SOU FILA CLASSE {fila_classes}")
-    print(f"EU SOU FILA PROPRIEDADE {fila_propriedades}")
-    print(f"EU SOU FILA CLASSES DE PROPRIEDADE {fila_classe_de_propriedades}")
-
-    
-    while fila_classes:
-        classe = fila_classes.pop(0)  # Remove a primeira classe da fila de classes
-        if classe in fila_classe_de_propriedades:
-            fila_classe_de_propriedades.remove(classe)
+    print(f" FILA CLASSE PROP {fila_classe_de_propriedades}")
+    print(f" FILA CLASSE ENC {fila_classes_encontradas}")
+    # Loop para verificar cada elemento em lista_de_classes
+    for item in fila_classes_encontradas[:]:
+        if item in fila_classe_de_propriedades:
+            # Remover o item de ambas as listas
+            fila_classes_encontradas.remove(item)
+            fila_classe_de_propriedades.remove(item)
 
     if fila_classe_de_propriedades:
-        print(f"As seguintes classes não estavam declaradas para fechamento: {fila_classe_de_propriedades}")    
+         for item in fila_classe_de_propriedades:
+            print(f"A Classe \"{item[1]}\" não foi encontrada para o fechamento da propriedade \"{item[0]}\"")
 
 
     lista_dataproperty.clear()
@@ -175,7 +174,7 @@ def p_declaracao_classe(p):
         fila_classe_de_propriedades.pop(0)
 
     lista_tuplas.clear()
-
+    fila_classes_encontradas.clear()
 
 def p_declaracao_classe_error(p):
     """
@@ -208,20 +207,6 @@ def p_declaracao_classe_primitiva(p):
 
 #!===================== CASO INDIVIDUALS OPCIONAL ============================
 
-def p_caso_individuals_opcional(p):
-    """
-    caso_individuals_opcional : INDIVIDUALS NOME_INDIVIDUO
-                              | INDIVIDUALS NOME_INDIVIDUO CARACTERE_ESPECIAL continuacao_individuals
-    """
-
-def p_caso_individuals_opcional_error(p):
-    """
-    caso_individuals_opcional : INDIVIDUALS error
-                              | INDIVIDUALS error CARACTERE_ESPECIAL continuacao_individuals
-    """
-    if p:
-        lista_erros.append("Linha {}: Coloque um individuo valido.")
-
 
 def p_continuacao_individuals(p):
     """
@@ -233,28 +218,43 @@ def p_continuacao_individuals(p):
 
 def p_caso_disjoint_opcional(p):
     """
-    caso_disjoint_opcional : DISJOINTCLASSES continuacao_disjoint_opcional caso_individuals_opcional
-                           | DISJOINTWITH continuacao_disjoint_opcional caso_individuals_opcional
+    caso_disjoint_opcional : DISJOINTCLASSES continuacao_disjoint_opcional INDIVIDUALS continuacao_individuals
+                           | DISJOINTWITH continuacao_disjoint_opcional INDIVIDUALS continuacao_individuals
     """
+
+def p_caso_disjoint_opcional_error(p):
+    """
+    caso_disjoint_opcional : DISJOINTCLASSES continuacao_disjoint_opcional error continuacao_individuals
+                           | DISJOINTWITH continuacao_disjoint_opcional error continuacao_individuals
+                           | DISJOINTCLASSES continuacao_disjoint_opcional INDIVIDUALS error
+                           | DISJOINTWITH continuacao_disjoint_opcional INDIVIDUALS error
+    """
+    if len(p) == 5:
+        if p[3] == 'error':
+            print("Palavra Individuals Necessaria")
+        elif p[4] == 'error':
+            print("Nome de individuos necessário")
+    else:
+        print("Erro de sintaxe na regra caso_disjoint_opcional")
 
 # def p_caso_disjoint_opcional_error(p):
 #     """
-#     caso_disjoint_opcional : DISJOINTCLASSES continuacao_disjoint_opcional error
-#                            | DISJOINTWITH continuacao_disjoint_opcional error
-#                            | error continuacao_disjoint_opcional caso_individuals_opcional
+#     caso_disjoint_opcional : DISJOINTCLASSES continuacao_disjoint_opcional error continuacao_individuals
+#                            | DISJOINTWITH continuacao_disjoint_opcional error continuacao_individuals
+#                            | error continuacao_disjoint_opcional INDIVIDUALS continuacao_individuals
 #     """
-#     print('Erro em "caso_disjoint_opcional"')
+
+
+    # print('chegou no erro caso_disjoint_opcional_error')
+    # lista_erros.append("Linha {}: FALTA UMA PALAVRA INDIVIDUALS.")
     
-#     if len(p) > 1 and isinstance(p[1], str):
-#         lista_erros.append("É necessário declarar classes.")
-#     else:
-#         lista_erros.append("É necessário colocar a palavra-chave DisjointClasses ou DisjointWith.")
+    
     
 
 def p_continuacao_disjoint_opcional(p):
     """
-    continuacao_disjoint_opcional : CLASSE
-                                  | CLASSE CARACTERE_ESPECIAL continuacao_disjoint_opcional
+    continuacao_disjoint_opcional : CLASSE CARACTERE_ESPECIAL continuacao_disjoint_opcional
+                                  | CLASSE 
     """
 
 # def p_continuacao_disjoint_opcional_error(p):
@@ -268,13 +268,15 @@ def p_continuacao_disjoint_opcional(p):
 
 def p_continuacao_subclassof(p):
     """continuacao_subclassof :   CLASSE caso_ands
+                                | CLASSE
                                 | declaracao_propriedades
                                 | CLASSE CARACTERE_ESPECIAL continuacao_subclassof
                                 | caso_ands
-                                | ABRE_PARENT declaracao_existencial FECHA_PARENT
-                                | ABRE_PARENT declaracao_existencial FECHA_PARENT AND continuacao_subclassof
-                                | ABRE_PARENT declaracao_existencial FECHA_PARENT CARACTERE_ESPECIAL continuacao_subclassof                     
+                                | ABRE_PARENT declaracao_propriedades FECHA_PARENT
+                                | ABRE_PARENT declaracao_propriedades FECHA_PARENT AND continuacao_subclassof
+                                | ABRE_PARENT declaracao_propriedades FECHA_PARENT CARACTERE_ESPECIAL continuacao_subclassof         
     """
+    # tinha declaracao existencial
 
 def p_declaracao_propriedades(p):
    """
@@ -285,10 +287,15 @@ def p_declaracao_propriedades(p):
 def p_declaracao_existencial(p):
     """""""""
     declaracao_existencial : PROPRIEDADE SOME CLASSE
-                           | PROPRIEDADE ONLY declaracao_classe_axioma_fechamento
+                           | PROPRIEDADE ONLY ABRE_PARENT declaracao_classe_axioma_fechamento FECHA_PARENT
+                           | PROPRIEDADE ONLY CLASSE
+                           | PROPRIEDADE ONLY CLASSE CARACTERE_ESPECIAL declaracao_existencial
                            
                            | PROPRIEDADE SOME NAMESPACE TIPO
                            | PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE
+                           | PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE CARACTERE_ESPECIAL declaracao_existencial
+                           | PROPRIEDADE PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE
+                           | PROPRIEDADE PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE CARACTERE_ESPECIAL declaracao_existencial
                            
                            | PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO
                            | PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO
@@ -311,15 +318,25 @@ def p_declaracao_existencial(p):
                            
                            | PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
                            
-
     """
+    
+    if len(p) == 4 and p[2] == 'some':
+        fila_classes_encontradas.append([p[1], p[3]])
+    
     if len(p) == 6 and p[2] == 'some' and isinstance(p[3], str):  # p[0] PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL recursao
-        fila_classes.append(p[3])
-        fila_propriedades.append(p[1])
+        fila_classes_encontradas.append([p[1], p[3]])
 
     if len(p) == 7 and p[3] == 'some' and isinstance(p[4], str):  # p[0] PROPRIEDADE PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL recursao
-        fila_classes.append(p[4])
-        fila_propriedades.append(p[2])
+        fila_classes_encontradas.append([p[2], p[4]])
+
+    if p[2] == 'only' and p[3] == '(':
+        if p[4]:
+            classes = p[4].split("|")
+
+            for classe in classes:
+                if classe != '(' and classe != ')':
+                    fila_classe_de_propriedades.append([p[1], classe])
+
 
 
     if len(p) == 4:
@@ -364,7 +381,7 @@ def p_declaracao_existencial(p):
 
 def p_declaracao_classe_definida(p):
     """
-    declaracao_classe_definida : EQUIVALENT_TO continuacao_equivalentto caso_individuals_opcional
+    declaracao_classe_definida : EQUIVALENT_TO continuacao_equivalentto INDIVIDUALS continuacao_individuals
                                | EQUIVALENT_TO continuacao_equivalentto
                                | EQUIVALENT_TO declaracao_classe_enumerada
                                | EQUIVALENT_TO continuacao_equivalentto SUBCLASSOF continuacao_subclassof
@@ -379,21 +396,23 @@ def p_continuacao_equivalentto(p):
                                  | PALAVRA_RESERVADA CLASSE EQUIVALENT_TO CLASSE declaracao_classe_aninhada 
                                  | CLASSE AND ABRE_PARENT declaracao_existencial casos_parentese FECHA_PARENT
                                  | CLASSE AND declaracao_existencial casos_parentese 
-                                 | CLASSE AND declaracao_existencial classes_or 
+                                 | CLASSE AND declaracao_existencial classes_or
+                                 | CLASSE AND declaracao_existencial caso_ands
                                  | CLASSE AND declaracao_existencial classes_or caso_ands
                                  | CLASSE AND ABRE_PARENT declaracao_existencial classes_or FECHA_PARENT 
                                  | CLASSE AND ABRE_PARENT declaracao_existencial classes_or FECHA_PARENT caso_ands
                                  | CLASSE AND ABRE_PARENT casos_parentese declaracao_classe_aninhada FECHA_PARENT
                                  | CLASSE AND ABRE_PARENT casos_parentese declaracao_classe_aninhada FECHA_PARENT caso_ands
-                                 | CLASSE AND ABRE_PARENT declaracao_existencial FECHA_PARENT 
                                  | CLASSE AND ABRE_PARENT declaracao_existencial FECHA_PARENT continuacao_equivalentto
+                                 | CLASSE AND ABRE_PARENT declaracao_existencial FECHA_PARENT 
+                                 | CLASSE AND ABRE_PARENT declaracao_existencial FECHA_PARENT caso_ands
     """
 
 def p_declaracao_classe_aninhada(p):
     """
     declaracao_classe_aninhada : caso_ands
     """
-    lista_tuplas.append("aninhada", "aninhada")
+    lista_tuplas.append(("Aninhada", "Aninhada"))
 def p_caso_ands(p):
     """
     caso_ands : AND casos_parentese caso_ands
@@ -423,11 +442,11 @@ def p_casos_sem_parentese(p):
 
 def p_declaracao_classe_axioma_fechamento(p):
     """
-    declaracao_classe_axioma_fechamento : ABRE_PARENT classes_or_fechamento FECHA_PARENT
+    declaracao_classe_axioma_fechamento :  classes_or_fechamento 
                                         
     """
     lista_tuplas.append(("Fechamento", "Fechamento"))
-
+    p[0] = p[1]
 
 def p_classes_or_fechamento(p):
     """
@@ -435,9 +454,12 @@ def p_classes_or_fechamento(p):
                           | CLASSE
     """   
 
-   
-    # print(f"ADICIONANDO CLASSE {p[1]} NA FILA DE PROPRIEDADES")
-    fila_classe_de_propriedades.append(p[1])
+    if len(p) == 2:
+        p[0] = p[1]
+    else:
+        p[0] = f"{p[1]}|{p[3]}" 
+
+    #fila_classe_de_propriedades.append(p[1])
 
 
 def p_classes_or(p):
@@ -452,7 +474,7 @@ def p_declaracao_classe_enumerada(p):
     """
     declaracao_classe_enumerada : ABRE_CHAVE classes_enumeradas FECHA_CHAVE
     """
-    lista_tuplas.append(("enumerada", "enumerada"))
+    lista_tuplas.append(("Enumerada", "Enumerada"))
 
 def p_classes_enumeradas(p):
     """
@@ -466,7 +488,7 @@ def p_declaracao_classe_coberta(p):
     """
     declaracao_classe_coberta : CLASSE classes_or 
     """
-    lista_tuplas.append( "coberta", "coberta")
+    lista_tuplas.append(("Coberta", "Coberta"))
     
 #!============================= EXECUTAVEL ===================================
 
@@ -482,11 +504,8 @@ parser = yacc.yacc(debug=True)
 
 def executar_analisador(codigo):
     lexer.input(codigo)
-
-    print("\n### Análise Sintática ###")
     result = parser.parse(codigo, lexer=lexer)
 
-   
     i = 0
     while i < len(lista_tuplas):
         chave, valor = lista_tuplas[i]

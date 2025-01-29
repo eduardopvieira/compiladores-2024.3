@@ -1,0 +1,160 @@
+ANÁLISE DA PRECEDÊNCIA DOS OPERADORES
+
+Class: DataCustomer
+
+    DisjointWith: 
+        DataSupplier
+    
+    Individuals:
+        Eduardo10
+        
+    SubClassOf: 
+        CoreParticipant,
+        externallyDependsOn some ConditionalCommitment,
+        externallyDependsOn some OfferorUnconditionalAgreement,
+        participatedIn some Offer,
+        calls some DataOperation,
+        inheresIn some ConditionalClaim,
+        inheresIn some OffereeUnconditionalAgreement,
+        mediates some EconomicOffering,
+        mediates some InvokeDataOperation,
+        mediates some MetadataRetrival
+  
+Nao aceito
+
+Class: DataCustomer
+
+        
+    SubClassOf: 
+        CoreParticipant,
+        externallyDependsOn some ConditionalCommitment,
+        externallyDependsOn some OfferorUnconditionalAgreement,
+        participatedIn some Offer,
+        calls some DataOperation,
+        inheresIn some ConditionalClaim,
+        inheresIn some OffereeUnconditionalAgreement,
+        mediates some EconomicOffering,
+        mediates some InvokeDataOperation,
+        mediates some MetadataRetrival
+    
+    DisjointWith: 
+        DataSupplier
+    
+Como seria aceito: 
+
+Class: DataCustomer
+
+    SubClassOf: 
+        CoreParticipant,
+        externallyDependsOn some ConditionalCommitment,
+        externallyDependsOn some OfferorUnconditionalAgreement,
+        participatedIn some Offer,
+        calls some DataOperation,
+        inheresIn some ConditionalClaim,
+        inheresIn some OffereeUnconditionalAgreement,
+        mediates some EconomicOffering,
+        mediates some InvokeDataOperation,
+        mediates some MetadataRetrival
+    
+    DisjointWith: 
+        DataSupplier
+    
+    Individuals:
+        Eduardo10
+
+
+EXEMPLO COM AXIOMAS : 
+
+Class: EconomicAgreement
+
+        
+    EquivalentTo: 
+        Relator
+         and ((composedBy some OffereeUnconditionalAgreement)
+         and (composedBy some OfferorUnconditionalAgreement))
+         and (historicallyDependsOn only EconomicOffering)
+         and (composedBy only (OffereeUnconditionalAgreement or OfferorUnconditionalAgreement))
+         and (historicallyDependsOn min 1 EconomicOffering)
+    
+
+ Class: EconomicOffering
+
+        
+    EquivalentTo: 
+        Relator
+         and ((composedBy some ConditionalClaim)
+         and (composedBy some ConditionalCommitment))
+         and (mediates only (DataCustomer or DataSupplier))
+         and (wasCreatedIn only Offer)
+         and (composedBy only (ConditionalClaim or ConditionalCommitment))
+         and (mediates min 1 DataCustomer)
+         and (mediates min 1 DataSupplier)
+         and (wasCreatedIn exactly 1 Offer)
+
+
+COERSÃO:
+
+Class: HighCaloriePizza 
+ 
+      EquivalentTo:  
+          Pizza 
+            and (hasCaloricContent some xsd:integer[>= 400]) 
+ 
+Class: LowCaloriePizza 
+ 
+      EquivalentTo:  
+          Pizza 
+            and (hasCaloricContent some xsd:integer[< 400]) 
+
+
+Class: HighCaloriePizza 
+ 
+      EquivalentTo:  
+          Pizza 
+            and (hasCaloricContent some xsd:string[>= 400]) 
+
+Class: HighCaloriePizza 
+ 
+      EquivalentTo:  
+          Pizza 
+            and (hasCaloricContent some xsd:string) 
+
+
+SOBRECARREGAMENTO DATAPROPERTIE: 
+
+
+Class: Customer 
+ 
+    EquivalentTo: 
+        Person 
+         and (purchasedPizza some Pizza) 
+         and (hasPhone some xsd:string) 
+ 
+
+ 
+Class: Customer 
+ 
+    EquivalentTo: 
+        Person 
+         and (purchasedPizza some Pizza) 
+         and (hasEduardo some xsd:integer[>400]) 
+ 
+
+
+
+
+ 
+Class: Customer 
+ 
+    EquivalentTo: 
+        Person 
+         and (purchasedPizza some Pizza) 
+         and (hasPhone some xsd:string) 
+
+  
+Class: EvaluationFacility 
+         
+    SubClassOf:  
+        IntermediaryParticipant, 
+        emitsReport some EvaluationReport, 
+        mediates some EvaluationAct 

@@ -214,7 +214,7 @@ def p_caso_disjoint_opcional(p):
                            | DISJOINTS continuacao_disjoint_opcional
     """
     if len(p) == 3:
-        lista_erros.append(f"Linha {p.lineno(1)}:Palavra \"Individuals\" obrigatória após DisjointWith ou DisjointClasses.")
+        print(f"Linha {p.lineno(1)}:Palavra \"Individuals\" obrigatória após DisjointWith ou DisjointClasses.")
 
 
 def p_caso_disjoint_opcional_error(p):
@@ -262,38 +262,33 @@ def p_declaracao_propriedades(p):
        
 def p_declaracao_existencial(p):
     """""""""
-    declaracao_existencial : PROPRIEDADE SOME CLASSE
-                           | PROPRIEDADE ONLY ABRE_PARENT declaracao_classe_axioma_fechamento FECHA_PARENT
-                           | PROPRIEDADE ONLY CLASSE
-                           | PROPRIEDADE ONLY CLASSE CARACTERE_ESPECIAL declaracao_existencial
-                           
-                           | PROPRIEDADE SOME NAMESPACE TIPO
-                           | PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE
-                           | PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE CARACTERE_ESPECIAL declaracao_existencial
-                           | PROPRIEDADE PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE
-                           | PROPRIEDADE PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE CARACTERE_ESPECIAL declaracao_existencial
-                           
+    declaracao_existencial : PROPRIEDADE SOME NAMESPACE TIPO
                            | PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO
-                           | PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO
-                           | PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial
-
                            | PROPRIEDADE SOME NAMESPACE TIPO ABRE_COLCHETE OPERADORES
                            | PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial
-                           | PROPRIEDADE PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial
-
-
+                           | PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO
                            | PROPRIEDADE PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL declaracao_existencial
-                           
-                           
-                           | PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
                            | PROPRIEDADE SOME NAMESPACE TIPO CARACTERE_ESPECIAL OPERADORES CARDINALIDADE CARACTERE_ESPECIAL
-
-                                                      
+                           | PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
                            | PROPRIEDADE SOME NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE CARACTERE_ESPECIAL declaracao_existencial
-
-                           
                            | PROPRIEDADE COMPARADORES CARDINALIDADE NAMESPACE TIPO_NUMERICO ABRE_COLCHETE OPERADORES CARDINALIDADE FECHA_COLCHETE
                            
+                           
+                           | PROPRIEDADE ONLY CLASSE
+                           | PROPRIEDADE ONLY ABRE_PARENT declaracao_classe_axioma_fechamento FECHA_PARENT
+                           | PROPRIEDADE ONLY CLASSE CARACTERE_ESPECIAL declaracao_existencial
+                           
+                           | PROPRIEDADE SOME CLASSE
+                           
+                           | PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE
+
+                           | PROPRIEDADE PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE
+                           | PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial
+
+                           | PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE CARACTERE_ESPECIAL declaracao_existencial
+                           | PROPRIEDADE PROPRIEDADE SOME CLASSE CARACTERE_ESPECIAL declaracao_existencial
+
+                           | PROPRIEDADE PROPRIEDADE COMPARADORES CARDINALIDADE CLASSE CARACTERE_ESPECIAL declaracao_existencial
     """
     
     if len(p) == 4 and p[2] == 'some':
@@ -316,16 +311,16 @@ def p_declaracao_existencial(p):
 
 
     if len(p) == 4:
-        lista_objectproperty.append((p[1]))
+        lista_objectproperty.append((p[1], p[3]))
 
     elif len(p) == 5:
         if p[2] in ["min", "max", "exactly"]:
             if p[4] in t_TIPO:
                 lista_dataproperty.append((p[1], p[4]))
             else:
-                lista_objectproperty.append(p[1])
-        elif p[3] == "some":
-            lista_dataproperty.append((p[2], p[4]))
+                lista_objectproperty.append((p[1], p[4]))
+        elif p[2] == "some":
+            lista_dataproperty.append((p[1], p[4]))
 
     elif len(p) == 6:
         if p[2] in ["min", "max", "exactly"] and p[5] in t_TIPO:
@@ -335,22 +330,27 @@ def p_declaracao_existencial(p):
             if namespace_tipo in t_TIPO:
                 lista_dataproperty.append((p[1], namespace_tipo))
             else:
-                lista_objectproperty.append(p[1])
+                lista_objectproperty.append((p[1], p[3]))
+        elif p[3] in ["min", "max", "exactly"]:
+            lista_objectproperty.append((p[2], p[5]))
 
     elif len(p) == 7:
         namespace_tipo = f"{p[4]}{p[5]}" 
         if namespace_tipo in t_TIPO:
             lista_dataproperty.append((p[2], namespace_tipo))
+        elif p[3] == "some":
+            lista_objectproperty.append((p[2], p[4]))
         else:
-            lista_objectproperty.append(p[2])
+            lista_objectproperty.append((p[1], p[4]))
+
 
     elif len(p) >= 8:
         if p[4] in ["integer", "int", "long", "nonNegativeInteger", "positiveInteger"]:
             lista_dataproperty.append((p[1], p[4]))
         elif len(p) == 10 and p[5] in ["integer", "int", "long", "nonNegativeInteger", "positiveInteger"]:
             lista_dataproperty.append((p[1], p[5]))
-    else:
-        print("NAO ENTROU EM NENHUMA REGRA")
+        elif p[3] in ["min", "max", "exactly"]:
+            lista_objectproperty.append((p[2], p[5]))
     
 
 #!==================== CLASSE DEFINIDA ==================

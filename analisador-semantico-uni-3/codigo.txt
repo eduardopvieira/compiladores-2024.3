@@ -1,28 +1,15 @@
-Class: Activity
-   
-    DisjointWith:
-        Oi
+Class: Evaluated
+
+         DisjointWith:
+        Classe
 
     Individuals:
-        Oi1     
-
+        Oi1, Oi2
+    
     EquivalentTo: 
-    Event
-        and (participatedIn some Activity)
-        and (participatedIn some Resource)
-        and (participatedIn min 1 DataCustomer)
-        and (participatedIn min 1 DataSupplier)
-        and (participatedIn min 2 Actor)
-        and (composedBy exactly 1 CounterpartContribution)
-        and (composedBy exactly 1 OferedContribution)
- 
-
+        BrokerServiceProvider or Connector or CoreParticipant
+    
     SubClassOf: 
         FunctionalComplex,
-        participatedIn some DataExchange
-
-    DisjointWith:
-        Oi
-
-    Individuals:
-        Oi1        
+        propriedade some Classe,
+        propriedadee some xsd:integer[==10]

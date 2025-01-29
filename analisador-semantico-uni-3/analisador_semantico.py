@@ -1,14 +1,13 @@
 import ply.lex as lex
 import ply.yacc as yacc
-import re
+import sys
 
-from tabela_de_simbolos import TabelaSimbolos
 
 #!======================================
 #! DEFINIÇÕES DO LEXER
 #!======================================
 tokens = [
-    "SUBCLASSOF", "EQUIVALENT_TO", "INDIVIDUALS", "DISJOINTCLASSES", "DISJOINTWITH", "COMPARADORES", "NOME_INDIVIDUO", "PALAVRA_RESERVADA", "CLASSE",
+    "SUBCLASSOF", "EQUIVALENT_TO", "INDIVIDUALS", "DISJOINTS", "COMPARADORES", "NOME_INDIVIDUO", "PALAVRA_RESERVADA", "CLASSE",
     "NAMESPACE", "TIPO", "PROPRIEDADE", "CARACTERE_ESPECIAL", "OPERADORES", "CARDINALIDADE", "ABRE_PARENT", "FECHA_PARENT", "ABRE_CHAVE", "FECHA_CHAVE",
     "OR", "AND", "SOME", "ONLY", "VALUE", "PALAVRA_CLASS", "ABRE_COLCHETE", "FECHA_COLCHETE" , "TIPO_NUMERICO"
 ]
@@ -20,12 +19,15 @@ lista_erros = []
 lista_dataproperty = []
 lista_objectproperty = []
 
-tabela_simbolos = TabelaSimbolos()
 
 fila_classe_de_propriedades = []
 fila_classes_encontradas = []
 
 #!========================== FUNÇÃO AUXILIAR DE PALAVRAS RESERVADAS ==========================
+def t_DISJOINTS(t):
+    r'DisjointClasses:|DisjointWith:'
+    return t
+
 def t_SUBCLASSOF(t):
     r'SubClassOf:'
     return t
@@ -36,10 +38,6 @@ def t_PALAVRA_CLASS(t):
 
 def t_INDIVIDUALS(t):
     r'Individuals:'
-    return t
-
-def t_DISJOINTCLASSES(t):
-    r'DisjointClasses:'
     return t
 
 def t_EQUIVALENT_TO(t):
@@ -66,10 +64,6 @@ def t_NAMESPACE(t):
     r'[a-z]{3,4}:'
     return t
 
-def t_DISJOINTWITH(t):
-    r'DisjointWith:'
-    return t
-
 def t_COMPARADORES(t):
     r'min|exactly|max'
     return t
@@ -81,6 +75,8 @@ def t_VALUE(t):
 def t_TIPO_NUMERICO(t):
     r'integer|int|long|nonNegativeInteger|positiveInteger'
     return t
+
+
 
 #!======================== REGEX GENERICOS =====================
 
@@ -107,9 +103,6 @@ def t_newline(t):
 def t_error(t):
     erro = f"Erro léxico: token não reconhecido perto de '{t.value[:10]}'\n"
     print(erro)
-    with open("erros_lexicos.txt", "a") as log_file:
-        log_file.write(erro)
-    t.lexer.skip(1)
 
 #INSTANCIANDO O LEXER
 lexer = lex.lex()
@@ -182,7 +175,7 @@ def p_declaracao_classe_error(p):
     if p.slice[1].type == 'error':
         print(f"Linha {p.lineno(1)}: É necessária a palavra reservada 'Class'.")
     elif p.slice[2].type == 'error':
-        print(f"Linha {p.lineno(2)}: Escreva o nome da classe.")
+        print(f"Linha {p.lineno(2)}: A classe deve começar com SubClassOf ou EquivalentTo.")
     else:
         print(f"Linha {p.lineno(1)}: Erro na declaração da classe.")
 
@@ -191,6 +184,7 @@ def p_tipo_classe_primaria(p):
     tipo_classe_primaria : declaracao_classe_definida
                          | declaracao_classe_primitiva
     """
+
 
 #!===================== CLASSE PRIMITIVA ================
 
@@ -216,18 +210,21 @@ def p_continuacao_individuals(p):
 
 def p_caso_disjoint_opcional(p):
     """
-    caso_disjoint_opcional : DISJOINTCLASSES continuacao_disjoint_opcional INDIVIDUALS continuacao_individuals
-                           | DISJOINTWITH continuacao_disjoint_opcional INDIVIDUALS continuacao_individuals
+    caso_disjoint_opcional : DISJOINTS continuacao_disjoint_opcional INDIVIDUALS continuacao_individuals
     """
 
 def p_caso_disjoint_opcional_error(p):
     """
-    caso_disjoint_opcional : DISJOINTCLASSES continuacao_disjoint_opcional error continuacao_individuals
-                           | DISJOINTWITH continuacao_disjoint_opcional error continuacao_individuals
-                           | DISJOINTCLASSES continuacao_disjoint_opcional INDIVIDUALS error
-                           | DISJOINTWITH continuacao_disjoint_opcional INDIVIDUALS error
+    caso_disjoint_opcional : error continuacao_disjoint_opcional INDIVIDUALS continuacao_individuals
+                           | DISJOINTS continuacao_disjoint_opcional error continuacao_individuals
+                           | DISJOINTS continuacao_disjoint_opcional INDIVIDUALS error
     """
-
+    if p.slice[1].type == 'error':
+        print(f"Linha {p.lineno(1)}: Deve começar com DisjointClasses ou DisjointWith.")
+    elif p.slice[3].type == 'error':
+        print(f"Linha {p.lineno(2)}: Palavra \"Individuals\" obrigatória após DisjointWith ou DisjointClasses.")
+    elif p.slice[4].type == 'error':
+        print(f"Linha {p.lineno(3)}: Erro na declaração dos individuos.")
 
 
 def p_continuacao_disjoint_opcional(p):
@@ -356,11 +353,10 @@ def p_declaracao_existencial(p):
 
 def p_declaracao_classe_definida(p):
     """
-    declaracao_classe_definida : EQUIVALENT_TO continuacao_equivalentto INDIVIDUALS continuacao_individuals
+    declaracao_classe_definida : EQUIVALENT_TO continuacao_equivalentto caso_disjoint_opcional
                                | EQUIVALENT_TO continuacao_equivalentto
                                | EQUIVALENT_TO declaracao_classe_enumerada
                                | EQUIVALENT_TO continuacao_equivalentto SUBCLASSOF continuacao_subclassof
-                               | continuacao_subclassof EQUIVALENT_TO continuacao_equivalentto
     """
 
     lista_tuplas.append((p[2], "Classe definida"))
@@ -370,7 +366,8 @@ def p_continuacao_equivalentto(p):
         continuacao_equivalentto : CLASSE OR declaracao_classe_coberta
                                  | PALAVRA_RESERVADA CLASSE EQUIVALENT_TO CLASSE declaracao_classe_aninhada 
                                  | CLASSE AND ABRE_PARENT declaracao_existencial casos_parentese FECHA_PARENT
-                                 | CLASSE AND declaracao_existencial casos_parentese 
+                                 | CLASSE AND declaracao_existencial casos_parentese
+                                 | CLASSE AND declaracao_existencial
                                  | CLASSE AND declaracao_existencial classes_or
                                  | CLASSE AND declaracao_existencial caso_ands
                                  | CLASSE AND declaracao_existencial classes_or caso_ands

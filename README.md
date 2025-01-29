@@ -24,7 +24,9 @@ Inicie o VSCode.
 
 Abra o Projeto no VSCode, navegue até a pasta onde você clonou o repositório e selecione-a. Para executar o projeto, é **necessário** estar dentro da pasta "analisador-semantico-uni-3".
 
-O arquivo principal analisador_semantico.py faz a leitura do arquivo "codigo.txt" que contem o código que será analisado. Certifique-se que o arquivo codigo.txt tem o conteudo que deseja analisar. 
+O arquivo principal analisador_semantico.py faz a leitura do arquivo "codigo.txt" que contem o código que será analisado. Certifique-se que o arquivo codigo.txt tem o conteudo que deseja analisar.
+
+Os arquivos parser.out e parsertab.py são gerados automaticamente pelo PLY, portanto, não é necessário mexer em nenhum deles.
 
 Após essas verificações, execute o arquivo analisador_semantico.py.
 

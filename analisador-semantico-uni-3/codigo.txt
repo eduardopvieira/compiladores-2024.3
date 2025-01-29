@@ -151,7 +151,50 @@ Class: DataCustomer
     
     DisjointWith: 
         DataSupplier
-    
-    
+
+
 Class: DataExchange
 
+        
+    EquivalentTo: 
+        Event
+         and (participatedIn some Activity)
+         and (participatedIn some Resource)
+         and (participatedIn min 1 DataCustomer)
+         and (participatedIn some xsd:string )
+         and (participatedIn min 2 Actor)
+         and (composedBy exactly 1 CounterpartContribution)
+         and (composedBy exactly 1 OfferedContribution)
+
+Class: EconomicAgreement
+
+        
+    EquivalentTo: 
+        Relator
+         and ((composedBy some OffereeUnconditionalAgreement)
+         and (composedBy some OfferorUnconditionalAgreement))
+         and (historicallyDependsOn only EconomicOffering)
+         and (composedBy only (OffereeUnconditionalAgreement or OfferorUnconditionalAgreement))
+         and (historicallyDependsOn min 1 EconomicOffering)
+    
+
+ Class: EconomicOffering
+
+        
+    EquivalentTo: 
+        Relator
+         and ((composedBy some ConditionalClaim)
+         and (composedBy some ConditionalCommitment))
+         and (mediates only (DataCustomer or DataSupplier))
+         and (wasCreatedIn only Offer)
+         and (composedBy only (ConditionalClaim or ConditionalCommitment))
+         and (mediates min 1 DataCustomer)
+         and (mediates min 1 DataSupplier)
+         and (wasCreatedIn exactly 1 Offer)
+
+
+Class: LowCaloriePizza 
+
+    EquivalentTo: 
+        Pizza  
+            and (hasCaloricContent some xsd:integer[>=300])

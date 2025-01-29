@@ -1,36 +1,12 @@
-# Analisador Sintático e Léxico com PLY
+# Analisador Semântico com PLY
 
-Este projeto implementa um analisador léxico e sintático em Python utilizando a biblioteca [PLY (Python Lex-Yacc)](http://www.dabeaz.com/ply/). O analisador é responsável por reconhecer e validar a sintaxe de uma linguagem específica, estruturada com classes, propriedades, axiomas e outras entidades.
+Este projeto implementa um analisador semântico em Python utilizando a biblioteca [PLY (Python Lex-Yacc)](http://www.dabeaz.com/ply/). O analisador é responsável por reconhecer e validar a sintaxe de uma linguagem específica, estruturada com classes, propriedades, axiomas e outras entidades.
 
 ## Funcionalidades
 
 - **Análise Léxica:** Identifica tokens como palavras reservadas, classes, propriedades, operadores e caracteres especiais.
 - **Análise Sintática:** Processa as regras gramaticais e valida a sintaxe de classes definidas e primitivas, além de construções complexas como hierarquias de classes especializadas (enumerada, axioma de fechamento, aninhada e coberta).
-
-## Estrutura do Código
-
-- **Lexer:** Define os tokens utilizando expressões regulares. Exemplos de tokens:
-  - `SUBCLASSOF`, `EQUIVALENT_TO`, `AND`, `OR`
-  - Identificadores como `CLASSE`, `NOME_INDIVIDUO` e `PROPRIEDADE`
-- **Parser:** Implementa as regras gramaticais da linguagem utilizando produções como:
-  - Declaração de classes primitivas e definidas
-  - Conjuntos de disjunção e indivíduos
-  - Expressões complexas com axiomas de fechamento e tipos secundarios ...
-
-## Principais Tokens
-
-| Token              | Descrição                                                    |
-|--------------------|------------------------------------------------------------|
-| `SUBCLASSOF`       | Define uma relação de subclasse entre classes                |
-| `EQUIVALENT_TO`    | Declara classes equivalentes                                 |
-| `INDIVIDUALS`      | Lista indivíduos de uma classe                               |
-| `DISJOINTCLASSES`  | Declara classes disjuntas                                    |
-| `NOME_INDIVIDUO`   | Identificador de indivíduos                                  |
-| `CLASSE`           | Identificador de classes                                    |
-| `PROPRIEDADE`      | Define propriedades de classe ou relação                    |
-| `AND`, `OR`, `SOME`| Conectivos lógicos                                           |
-
-
+- **Análise Semântica:** Identifica se as palavras e propriedades estão nos locais correspondentes para que o código faça sentido.
 
 
 ## Como executar 
@@ -39,40 +15,47 @@ Recomendado o uso de uma IDE como o VSCode para facilitar a visualização das s
 
 No GitHub, acesse o repositório que deseja clonar e clone o repositorio na branch alternative-main-2. Para isso, copie o código:
 ```bash
-git clone https://github.com/eduardopvieira/compiladores-2024.3.git -b alternative-main-2 --single-branch
+git clone https://github.com/eduardopvieira/compiladores-2024.3.git
 ```
 Se ainda não tem o VSCode instalado, baixe e instale a partir do site oficial: 
 https://code.visualstudio.com/.
 
 Inicie o VSCode.
 
-Abra o Projeto no VSCode, navegue até a pasta onde você clonou o repositório e selecione-a: 
+Abra o Projeto no VSCode, navegue até a pasta onde você clonou o repositório e selecione-a. Para executar o projeto, é **necessário** estar dentro da pasta "analisador-semantico-uni-3".
 
-O arquivo principal analisador_sintatico.py faz a leitura de um arquivo txt que contem a linguagem que irá ser analisada,
-certifique-se que o arquivo codigo.txt tem o conteudo que deseja analisar. 
+O arquivo principal analisador_semantico.py faz a leitura do arquivo "codigo.txt" que contem o código que será analisado. Certifique-se que o arquivo codigo.txt tem o conteudo que deseja analisar. 
 
-Após essas verificações execute o arquivo analisador_sintatico.py.
+Após essas verificações, execute o arquivo analisador_semantico.py.
 
 ## Observação: 
-Caso queira rodar mais de uma vez o programa é recomendado excluir o terminal anterior e executar novamente o arquivo analisador_sintatico para que a saida seja correta.
+Caso queira rodar mais de uma vez o programa é recomendado excluir o terminal anterior e executar novamente o arquivo analisador_semantico para que a saida seja correta.
 A saida pode sofrer distorções caso executada mais de uma vez no mesmo terminal (possivelmente por conta da lib ply). 
 
+## Exemplo de entrada esperada: 
+
+    Class: Customer 
+    EquivalentTo: 
+        Person 
+         and (purchasedPizza some Pizza) 
+         and (hasPhone some xsd:string) 
+
+
 ## Exemplo de saída esperada: 
-"
-...
 
-Classe: IntermediaryParticipant | Tipos: Classe primitiva
+    Classe lida: Customer
+    ============================
+    Tipos: Classe definida
+    
+    Object Properties:
+    ('purchasedPizza', 'Pizza')
+    
+    Data Properties:
+    ('hasPhone', 'string')
+    
+    ERROS:
 
-Classe: InvokeDataOperation | Tipos: Classe primitiva , fechamento
-
-Classe: Metadata | Tipos: Classe primitiva , fechamento
-
-Classe: Offer | Tipos: Classe definida
-
-...
-"
-
-Onde é descrito a classe, Tipo principal e derivações. 
+Nesse exemplo, como não há erros, 'ERROS:' não está sucedido por nada.
 
 ## Requisitos
 

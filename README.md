@@ -26,10 +26,10 @@ Abra o Projeto no VSCode, navegue até a pasta onde você clonou o repositório 
 
 O arquivo principal analisador_semantico.py faz a leitura do arquivo "codigo.txt" que contem o código que será analisado. Certifique-se que o arquivo codigo.txt tem o conteudo que deseja analisar. 
 
-Após essas verificações execute o arquivo analisador_semantico.py.
+Após essas verificações, execute o arquivo analisador_semantico.py.
 
 ## Observação: 
-Caso queira rodar mais de uma vez o programa é recomendado excluir o terminal anterior e executar novamente o arquivo analisador_sintatico para que a saida seja correta.
+Caso queira rodar mais de uma vez o programa é recomendado excluir o terminal anterior e executar novamente o arquivo analisador_semantico para que a saida seja correta.
 A saida pode sofrer distorções caso executada mais de uma vez no mesmo terminal (possivelmente por conta da lib ply). 
 
 ## Exemplo de entrada esperada: 

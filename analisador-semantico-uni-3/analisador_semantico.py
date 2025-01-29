@@ -211,20 +211,24 @@ def p_continuacao_individuals(p):
 def p_caso_disjoint_opcional(p):
     """
     caso_disjoint_opcional : DISJOINTS continuacao_disjoint_opcional INDIVIDUALS continuacao_individuals
+                           | DISJOINTS continuacao_disjoint_opcional
     """
+    if len(p) == 3:
+        lista_erros.append(f"Linha {p.lineno(1)}:Palavra \"Individuals\" obrigatória após DisjointWith ou DisjointClasses.")
+
 
 def p_caso_disjoint_opcional_error(p):
     """
     caso_disjoint_opcional : error continuacao_disjoint_opcional INDIVIDUALS continuacao_individuals
-                           | DISJOINTS continuacao_disjoint_opcional error continuacao_individuals
+                           | DISJOINTS continuacao_disjoint_opcional error
                            | DISJOINTS continuacao_disjoint_opcional INDIVIDUALS error
     """
     if p.slice[1].type == 'error':
         print(f"Linha {p.lineno(1)}: Deve começar com DisjointClasses ou DisjointWith.")
     elif p.slice[3].type == 'error':
-        print(f"Linha {p.lineno(2)}: Palavra \"Individuals\" obrigatória após DisjointWith ou DisjointClasses.")
+        print(f"Linha {p.lineno(3)}: Palavra \"Individuals\" obrigatória após DisjointWith ou DisjointClasses.")
     elif p.slice[4].type == 'error':
-        print(f"Linha {p.lineno(3)}: Erro na declaração dos individuos.")
+        print(f"Linha {p.lineno(4)}: Erro na declaração dos individuos.")
 
 
 def p_continuacao_disjoint_opcional(p):

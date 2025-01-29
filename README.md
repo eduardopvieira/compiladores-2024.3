@@ -13,7 +13,7 @@ Este projeto implementa um analisador semântico em Python utilizando a bibliote
 
 Recomendado o uso de uma IDE como o VSCode para facilitar a visualização das saídas:
 
-No GitHub, acesse o repositório que deseja clonar e clone o repositorio na branch alternative-main-2. Para isso, copie o código:
+No GitHub, acesse o repositório que deseja clonar e clone o repositório na branch alternative-main-2. Para isso, copie o código:
 ```bash
 git clone https://github.com/eduardopvieira/compiladores-2024.3.git
 ```
@@ -24,15 +24,15 @@ Inicie o VSCode.
 
 Abra o Projeto no VSCode, navegue até a pasta onde você clonou o repositório e selecione-a. Para executar o projeto, é **necessário** estar dentro da pasta "analisador-semantico-uni-3".
 
-O arquivo principal analisador_semantico.py faz a leitura do arquivo "codigo.txt" que contem o código que será analisado. Certifique-se que o arquivo codigo.txt tem o conteudo que deseja analisar.
+O arquivo principal analisador_semantico.py faz a leitura do arquivo "codigo.txt" que contém o código que será analisado. Certifique-se que o arquivo codigo.txt tem o conteudo que deseja analisar.
 
 Os arquivos parser.out e parsertab.py são gerados automaticamente pelo PLY, portanto, não é necessário mexer em nenhum deles.
 
 Após essas verificações, execute o arquivo analisador_semantico.py.
 
 ## Observação: 
-Caso queira rodar mais de uma vez o programa é recomendado excluir o terminal anterior e executar novamente o arquivo analisador_semantico para que a saida seja correta.
-A saida pode sofrer distorções caso executada mais de uma vez no mesmo terminal (possivelmente por conta da lib ply). 
+Caso queira rodar mais de uma vez o programa, é recomendável excluir o terminal anterior e executar novamente o arquivo analisador_semantico para que a saida seja correta.
+A saída pode sofrer distorções caso executada mais de uma vez no mesmo terminal (possivelmente por conta da lib ply). 
 
 ## Exemplo de entrada esperada: 
 
